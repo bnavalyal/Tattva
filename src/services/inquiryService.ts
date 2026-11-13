@@ -1,4 +1,4 @@
-import {
+﻿import {
   InquiryGenerationRequest,
   InquiryGenerationResponse,
   LearningObjectiveId,
@@ -24,8 +24,8 @@ export const LEARNING_OBJECTIVES: LearningObjectiveMeta[] = [
     shortLabel: 'First Principles',
     description: 'Break mechanisms down to foundational truths, invariants, and causal steps.',
     accentColor: '#52796f',
-    badgeBg: 'bg-indigo-50 text-indigo-700 border-indigo-200',
-    badgeText: 'text-indigo-700',
+    badgeBg: 'bg-[#d4af37]/12 text-[#d4af37] border-[#d4af37]/30',
+    badgeText: 'text-[#d4af37]',
   },
   {
     id: 'deep-research',
@@ -33,8 +33,8 @@ export const LEARNING_OBJECTIVES: LearningObjectiveMeta[] = [
     shortLabel: 'Deep Research',
     description: 'Surface formal tradeoffs, edge cases, benchmarks, and primary literature.',
     accentColor: '#0284c7',
-    badgeBg: 'bg-sky-50 text-sky-700 border-sky-200',
-    badgeText: 'text-sky-700',
+    badgeBg: 'bg-[#c87d55]/14 text-[#c87d55] border-[#c87d55]/30',
+    badgeText: 'text-[#c87d55]',
   },
   {
     id: 'topic-backstory',
@@ -51,8 +51,8 @@ export const LEARNING_OBJECTIVES: LearningObjectiveMeta[] = [
     shortLabel: 'Cross-Topic',
     description: 'Bridge concepts across disciplines—from computing and math to biology and design.',
     accentColor: '#059669',
-    badgeBg: 'bg-emerald-50 text-emerald-700 border-emerald-200',
-    badgeText: 'text-emerald-700',
+    badgeBg: 'bg-[#f59e0b]/14 text-[#f59e0b] border-[#f59e0b]/30',
+    badgeText: 'text-[#f59e0b]',
   },
   {
     id: 'exam-prep',

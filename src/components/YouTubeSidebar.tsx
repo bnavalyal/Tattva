@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import {
   Award,
   ChevronRight,
@@ -49,13 +49,13 @@ export const YouTubeSidebar: React.FC<YouTubeSidebarProps> = ({
     {
       id: 'tattva200',
       label: 'Tattva 200',
-      icon: <Layers className="w-4 h-4 shrink-0 text-[#c59a67]" />,
+      icon: <Layers className="w-4 h-4 shrink-0 text-[#d4af37]" />,
       badge: '200',
     },
     {
       id: 'create',
       label: 'New Inquiry',
-      icon: <PlusCircle className="w-4 h-4 shrink-0 text-[#c59a67]" />,
+      icon: <PlusCircle className="w-4 h-4 shrink-0 text-[#d4af37]" />,
       badge: '+1.0',
     },
     {
@@ -78,21 +78,21 @@ export const YouTubeSidebar: React.FC<YouTubeSidebarProps> = ({
     {
       id: 'profile',
       label: 'Stamina Ledger',
-      icon: <Award className="w-4 h-4 shrink-0 text-[#a3e635]" />,
+      icon: <Award className="w-4 h-4 shrink-0 text-[#d4af37]" />,
     },
   ];
 
   const engineeringCategories = [
-    { name: 'AIML', label: 'AI & Machine Learning', icon: <Sparkles className="w-3.5 h-3.5 text-[#a3e635]" /> },
-    { name: 'Cybersecurity', label: 'Cybersecurity & Defense', icon: <Shield className="w-3.5 h-3.5 text-teal-400" /> },
-    { name: 'AIDS', label: 'AI & Data Science', icon: <Database className="w-3.5 h-3.5 text-sky-400" /> },
-    { name: 'Computer Science', label: 'Computer Science Core', icon: <Cpu className="w-3.5 h-3.5 text-[#c59a67]" /> },
+    { name: 'AIML', label: 'AI & Machine Learning', icon: <Sparkles className="w-3.5 h-3.5 text-[#a8896c]" /> },
+    { name: 'Cybersecurity', label: 'Cybersecurity & Defense', icon: <Shield className="w-3.5 h-3.5 text-[#a8896c]" /> },
+    { name: 'AIDS', label: 'AI & Data Science', icon: <Database className="w-3.5 h-3.5 text-[#a8896c]" /> },
+    { name: 'Computer Science', label: 'Computer Science Core', icon: <Cpu className="w-3.5 h-3.5 text-[#a8896c]" /> },
   ];
 
   return (
     <aside
       aria-label="Sidebar navigation"
-      className={`shrink-0 border-r border-white/10 bg-[#0b0d0f] flex flex-col transition-all duration-200 z-30 select-none text-slate-300 ${
+      className={`shrink-0 border-r border-white/10 bg-[#12100e] flex flex-col transition-all duration-200 z-30 select-none text-slate-300 ${
         collapsed ? 'w-[68px]' : 'w-56 xl:w-60'
       }`}
     >
@@ -113,12 +113,12 @@ export const YouTubeSidebar: React.FC<YouTubeSidebarProps> = ({
                     : 'flex-row justify-between px-3 py-2 gap-2.5 text-xs font-semibold'
                 } ${
                   isActive
-                    ? 'bg-[#181b22] text-white border border-white/15 shadow-xs'
+                    ? 'bg-[#181512] text-white border border-white/15 shadow-xs'
                     : 'text-slate-400 hover:bg-white/5 hover:text-white'
                 }`}
               >
                 <div className={`flex items-center gap-2.5 ${collapsed ? 'flex-col' : ''}`}>
-                  <span className={isActive ? 'text-[#c59a67]' : ''}>{item.icon}</span>
+                  <span className={isActive ? 'text-[#d4af37]' : ''}>{item.icon}</span>
                   <span className={`truncate ${collapsed ? 'text-center text-[10px]' : ''}`}>
                     {item.label}
                   </span>
@@ -128,7 +128,7 @@ export const YouTubeSidebar: React.FC<YouTubeSidebarProps> = ({
                   <span
                     className={`font-mono text-[10px] font-bold px-1.5 py-0.2 rounded ${
                       isActive
-                        ? 'bg-[#c59a67]/20 text-[#c59a67] border border-[#c59a67]/40'
+                        ? 'bg-[#d4af37]/20 text-[#d4af37] border border-[#d4af37]/40'
                         : 'bg-white/5 text-slate-400 border border-white/10'
                     }`}
                   >
@@ -170,7 +170,7 @@ export const YouTubeSidebar: React.FC<YouTubeSidebarProps> = ({
         {/* Section 3: Telemetry Footer */}
         {!collapsed && (
           <div className="pt-3 border-t border-white/10 px-3">
-            <div className="rounded-xl border border-white/10 bg-[#13161b] p-2.5 space-y-1">
+            <div className="rounded-xl border border-white/10 bg-[#181512] p-2.5 space-y-1">
               <div className="text-[10px] font-mono tracking-wider text-slate-500 uppercase">
                 SYSTEM TELEMETRY
               </div>
@@ -180,7 +180,7 @@ export const YouTubeSidebar: React.FC<YouTubeSidebarProps> = ({
               </div>
               <div className="flex items-center justify-between text-xs">
                 <span className="text-slate-400">Stamina:</span>
-                <span className="font-mono font-bold text-[#a3e635]">
+                <span className="font-mono font-bold text-[#d4af37]">
                   {(348 + curiosityCredits).toLocaleString()}
                 </span>
               </div>

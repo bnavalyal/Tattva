@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+﻿import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import {
   Background,
   Controls,
@@ -371,7 +371,7 @@ const WorkspaceInner: React.FC<InquiryWorkspaceProps> = ({
               aria-label="Switch active inquiry"
               value={activeInquiry.id}
               onChange={(e) => onSelectInquiry(e.target.value)}
-              className="max-w-[260px] truncate rounded-xl border border-slate-200 bg-slate-50 px-3 py-1.5 text-sm font-semibold text-slate-900 outline-none transition hover:border-indigo-300 focus:border-indigo-500"
+              className="max-w-[260px] truncate rounded-xl border border-slate-200 bg-slate-50 px-3 py-1.5 text-sm font-semibold text-slate-900 outline-none transition hover:border-[#d4af37]/40 focus:border-[#d4af37]"
             >
               {inquiries.map((inq) => (
                 <option key={inq.id} value={inq.id}>
@@ -402,7 +402,7 @@ const WorkspaceInner: React.FC<InquiryWorkspaceProps> = ({
                 onClick={() => setPaneMode('split')}
                 className={`inline-flex items-center gap-1.5 rounded-lg px-2.5 py-1 text-xs font-semibold transition ${
                   paneMode === 'split'
-                    ? 'bg-white text-indigo-700 shadow-sm'
+                    ? 'bg-white text-[#d4af37] shadow-sm'
                     : 'text-slate-600 hover:text-slate-900'
                 }`}
               >
@@ -415,7 +415,7 @@ const WorkspaceInner: React.FC<InquiryWorkspaceProps> = ({
               onClick={() => setPaneMode('chat')}
               className={`inline-flex items-center gap-1.5 rounded-lg px-2.5 py-1 text-xs font-semibold transition ${
                 paneMode === 'chat'
-                  ? 'bg-white text-indigo-700 shadow-sm'
+                  ? 'bg-white text-[#d4af37] shadow-sm'
                   : 'text-slate-600 hover:text-slate-900'
               }`}
             >
@@ -427,7 +427,7 @@ const WorkspaceInner: React.FC<InquiryWorkspaceProps> = ({
               onClick={() => setPaneMode('graph')}
               className={`inline-flex items-center gap-1.5 rounded-lg px-2.5 py-1 text-xs font-semibold transition ${
                 paneMode === 'graph'
-                  ? 'bg-white text-indigo-700 shadow-sm'
+                  ? 'bg-white text-[#d4af37] shadow-sm'
                   : 'text-slate-600 hover:text-slate-900'
               }`}
             >
@@ -440,7 +440,7 @@ const WorkspaceInner: React.FC<InquiryWorkspaceProps> = ({
           <button
             type="button"
             onClick={onNewInquiry}
-            className="inline-flex items-center gap-1.5 rounded-xl bg-indigo-600 px-3.5 py-1.5 text-xs font-semibold text-white shadow-sm transition hover:bg-indigo-700"
+            className="inline-flex items-center gap-1.5 rounded-xl bg-[#d4af37] text-black px-3.5 py-1.5 text-xs font-semibold text-white shadow-sm transition hover:bg-[#e5c158]"
           >
             <Plus className="h-3.5 w-3.5" />
             New Inquiry
@@ -477,7 +477,7 @@ const WorkspaceInner: React.FC<InquiryWorkspaceProps> = ({
                         onClick={() => focusNodeInGraph(id)}
                         className={`max-w-[140px] truncate rounded-md px-1.5 py-0.5 text-[11px] font-medium transition ${
                           isLast
-                            ? 'bg-indigo-100 font-semibold text-indigo-800'
+                            ? 'bg-[#d4af37]/15 font-semibold text-[#e5c158]'
                             : 'text-slate-600 hover:bg-slate-200/70'
                         }`}
                       >
@@ -494,7 +494,7 @@ const WorkspaceInner: React.FC<InquiryWorkspaceProps> = ({
                   onClick={() => setHistoryScope('all')}
                   className={`rounded-md px-2 py-0.5 transition ${
                     historyScope === 'all'
-                      ? 'bg-indigo-600 text-white'
+                      ? 'bg-[#d4af37] text-black text-white'
                       : 'text-slate-600 hover:text-slate-900'
                   }`}
                 >
@@ -505,7 +505,7 @@ const WorkspaceInner: React.FC<InquiryWorkspaceProps> = ({
                   onClick={() => setHistoryScope('path')}
                   className={`rounded-md px-2 py-0.5 transition ${
                     historyScope === 'path'
-                      ? 'bg-indigo-600 text-white'
+                      ? 'bg-[#d4af37] text-black text-white'
                       : 'text-slate-600 hover:text-slate-900'
                   }`}
                 >
@@ -537,13 +537,13 @@ const WorkspaceInner: React.FC<InquiryWorkspaceProps> = ({
                         onClick={() => focusNodeInGraph(turn.id)}
                         className={`w-full rounded-xl border p-3 text-left transition ${
                           isActive
-                            ? 'border-indigo-400 bg-indigo-50/70 shadow-sm'
-                            : 'border-slate-200/80 bg-slate-50/50 hover:border-indigo-200 hover:bg-white'
+                            ? 'border-[#d4af37]/50 bg-[#d4af37]/10 shadow-sm'
+                            : 'border-slate-200/80 bg-slate-50/50 hover:border-[#d4af37]/30 hover:bg-white'
                         }`}
                       >
                         <div className="flex items-center justify-between gap-2">
-                          <span className="inline-flex items-center gap-1.5 text-[11px] font-semibold text-indigo-700">
-                            <span className="rounded bg-white px-1.5 py-0.5 text-[10px] border border-indigo-200">
+                          <span className="inline-flex items-center gap-1.5 text-[11px] font-semibold text-[#d4af37]">
+                            <span className="rounded bg-white px-1.5 py-0.5 text-[10px] border border-[#d4af37]/30">
                               Q{idx + 1}
                             </span>
                             {turn.data.kind === 'root'
@@ -572,10 +572,10 @@ const WorkspaceInner: React.FC<InquiryWorkspaceProps> = ({
 
               {/* Active Node Detailed AI Explanation & 3 Contextual Follow-Ups */}
               {selectedNode && (
-                <div className="rounded-2xl border border-indigo-100 bg-white p-5 shadow-sm ring-1 ring-slate-100">
+                <div className="rounded-2xl border border-[#d4af37]/20 bg-white p-5 shadow-sm ring-1 ring-slate-100">
                   <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-100 pb-3">
                     <div className="flex items-center gap-2">
-                      <span className="inline-flex items-center gap-1 rounded-full bg-indigo-50 px-2.5 py-0.5 text-[11px] font-semibold text-indigo-700">
+                      <span className="inline-flex items-center gap-1 rounded-full bg-[#d4af37]/10 px-2.5 py-0.5 text-[11px] font-semibold text-[#d4af37]">
                         <Compass className="h-3 w-3" />
                         {objectiveMeta.shortLabel}
                       </span>
@@ -589,7 +589,7 @@ const WorkspaceInner: React.FC<InquiryWorkspaceProps> = ({
                         if (!isDesktopLg) setPaneMode('graph');
                         window.setTimeout(() => focusNodeInGraph(selectedNode.id), 40);
                       }}
-                      className="text-xs font-semibold text-indigo-600 hover:text-indigo-800"
+                      className="text-xs font-semibold text-[#d4af37] hover:text-[#e5c158]"
                     >
                       Center Node in Graph →
                     </button>
@@ -601,7 +601,7 @@ const WorkspaceInner: React.FC<InquiryWorkspaceProps> = ({
                     </h2>
 
                     <div className="rounded-xl bg-slate-50/80 p-4">
-                      <h3 className="text-xs font-bold uppercase tracking-wide text-indigo-700">
+                      <h3 className="text-xs font-bold uppercase tracking-wide text-[#d4af37]">
                         {selectedNode.data.title}
                       </h3>
                       <p className="mt-2 text-sm leading-relaxed text-slate-700">
@@ -621,7 +621,7 @@ const WorkspaceInner: React.FC<InquiryWorkspaceProps> = ({
                               key={idx}
                               className="flex items-start gap-2 text-xs leading-relaxed text-slate-700"
                             >
-                              <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-indigo-500" />
+                              <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-[#d4af37]/100" />
                               <span>{point}</span>
                             </li>
                           ))}
@@ -649,7 +649,7 @@ const WorkspaceInner: React.FC<InquiryWorkspaceProps> = ({
                   <div className="mt-5 border-t border-slate-100 pt-4">
                     <div className="mb-2.5 flex items-center justify-between">
                       <div className="flex items-center gap-1.5">
-                        <Sparkles className="h-4 w-4 text-indigo-600" />
+                        <Sparkles className="h-4 w-4 text-[#d4af37]" />
                         <span className="text-xs font-bold uppercase tracking-wide text-slate-800">
                           3 Contextual Follow-Up Questions
                         </span>
@@ -673,15 +673,15 @@ const WorkspaceInner: React.FC<InquiryWorkspaceProps> = ({
                             }
                             className={`flex w-full items-start gap-3 rounded-xl border px-3.5 py-2.5 text-left transition ${
                               alreadyExplored
-                                ? 'border-emerald-200 bg-emerald-50/70 text-emerald-950 hover:bg-emerald-50'
-                                : 'border-slate-200 bg-white text-slate-800 hover:border-indigo-400 hover:bg-indigo-50/50'
+                                ? 'border-[#f59e0b]/30 bg-[#f59e0b]/10 text-[#f3efea] hover:bg-[#f59e0b]/15'
+                                : 'border-slate-200 bg-white text-slate-800 hover:border-[#d4af37]/50 hover:bg-[#d4af37]/10'
                             } disabled:opacity-60`}
                           >
                             <span
                               className={`mt-0.5 inline-flex h-5 w-6 shrink-0 items-center justify-center rounded-md text-[11px] font-bold ${
                                 alreadyExplored
-                                  ? 'bg-emerald-600 text-white'
-                                  : 'bg-indigo-100 text-indigo-700'
+                                  ? 'bg-[#f59e0b] text-black text-white'
+                                  : 'bg-[#d4af37]/15 text-[#d4af37]'
                               }`}
                             >
                               {alreadyExplored ? (
@@ -720,7 +720,7 @@ const WorkspaceInner: React.FC<InquiryWorkspaceProps> = ({
                   </strong>
                 </span>
                 {isGeneratingBranch && (
-                  <span className="inline-flex items-center gap-1 font-semibold text-indigo-600">
+                  <span className="inline-flex items-center gap-1 font-semibold text-[#d4af37]">
                     <Loader2 className="h-3 w-3 animate-spin" />
                     Generating branch...
                   </span>
@@ -733,7 +733,7 @@ const WorkspaceInner: React.FC<InquiryWorkspaceProps> = ({
                   value={customQuestion}
                   onChange={(e) => setCustomQuestion(e.target.value)}
                   placeholder="Ask your own follow-up question to branch from here..."
-                  className="flex-1 rounded-xl border border-slate-200 bg-white px-3.5 py-2.5 text-sm text-slate-900 outline-none transition focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/15"
+                  className="flex-1 rounded-xl border border-slate-200 bg-white px-3.5 py-2.5 text-sm text-slate-900 outline-none transition focus:border-[#d4af37] focus:ring-2 focus:ring-[#d4af37]/20"
                 />
                 <button
                   type="button"
@@ -758,7 +758,7 @@ const WorkspaceInner: React.FC<InquiryWorkspaceProps> = ({
                 <button
                   type="submit"
                   disabled={!customQuestion.trim() || isGeneratingBranch}
-                  className="inline-flex h-10 items-center gap-1.5 rounded-xl bg-indigo-600 px-4 text-xs font-semibold text-white shadow-sm transition hover:bg-indigo-700 disabled:cursor-not-allowed disabled:opacity-50"
+                  className="inline-flex h-10 items-center gap-1.5 rounded-xl bg-[#d4af37] text-black px-4 text-xs font-semibold text-white shadow-sm transition hover:bg-[#e5c158] disabled:cursor-not-allowed disabled:opacity-50"
                 >
                   <Send className="h-3.5 w-3.5" />
                   <span className="hidden sm:inline">Explore</span>
@@ -790,9 +790,9 @@ const WorkspaceInner: React.FC<InquiryWorkspaceProps> = ({
               }
             }}
             title="Drag to resize panes (double-click to reset)"
-            className="group relative z-20 flex w-2.5 shrink-0 cursor-col-resize items-center justify-center bg-slate-100 transition hover:bg-indigo-100 focus:outline-none"
+            className="group relative z-20 flex w-2.5 shrink-0 cursor-col-resize items-center justify-center bg-slate-100 transition hover:bg-[#d4af37]/15 focus:outline-none"
           >
-            <div className="h-10 w-1 rounded-full bg-slate-300 transition group-hover:bg-indigo-500" />
+            <div className="h-10 w-1 rounded-full bg-slate-300 transition group-hover:bg-[#d4af37]/100" />
           </div>
         )}
 
@@ -805,7 +805,7 @@ const WorkspaceInner: React.FC<InquiryWorkspaceProps> = ({
             {/* Floating Graph Controls & Metrics Bar */}
             <div className="pointer-events-none absolute left-3 right-3 top-3 z-10 flex flex-wrap items-center justify-between gap-2">
               <div className="pointer-events-auto inline-flex items-center gap-2 rounded-xl border border-slate-200/90 bg-white/95 px-3 py-1.5 text-xs shadow-sm backdrop-blur">
-                <GitBranch className="h-3.5 w-3.5 text-indigo-600" />
+                <GitBranch className="h-3.5 w-3.5 text-[#d4af37]" />
                 <span className="font-semibold text-slate-800">
                   {activeInquiry.nodes.length} nodes
                 </span>
@@ -843,7 +843,7 @@ const WorkspaceInner: React.FC<InquiryWorkspaceProps> = ({
                   type="button"
                   onClick={handleAutoLayout}
                   title="Arrange nodes cleanly"
-                  className="inline-flex items-center gap-1 rounded-lg px-2 py-1 text-xs font-semibold text-slate-600 transition hover:bg-indigo-50 hover:text-indigo-700"
+                  className="inline-flex items-center gap-1 rounded-lg px-2 py-1 text-xs font-semibold text-slate-600 transition hover:bg-[#d4af37]/10 hover:text-[#d4af37]"
                 >
                   <LayoutGrid className="h-3.5 w-3.5" />
                   <span className="hidden sm:inline">Auto-Layout</span>
@@ -854,7 +854,7 @@ const WorkspaceInner: React.FC<InquiryWorkspaceProps> = ({
                   title="Toggle graph minimap"
                   className={`inline-flex items-center gap-1 rounded-lg px-2 py-1 text-xs font-semibold transition ${
                     showMinimap
-                      ? 'bg-indigo-50 text-indigo-700'
+                      ? 'bg-[#d4af37]/10 text-[#d4af37]'
                       : 'text-slate-600 hover:bg-slate-100'
                   }`}
                 >

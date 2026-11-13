@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+﻿import React, { useMemo, useState } from 'react';
 import {
   ArrowRight,
   Award,
@@ -138,10 +138,10 @@ export const ProfileRewardsView: React.FC<ProfileRewardsViewProps> = ({
   const { theme, setTheme } = useTheme();
 
   const domainCompetencies = [
-    { domain: 'Computer Science Core', level: 'Mastered', pct: 92, badge: '92%', color: 'bg-[#a3e635]', topics: 'Stack Invariants, Monotonic Deque, Raft, OS Concurrency' },
-    { domain: 'AI & Data Science (AIDS)', level: 'Advanced', pct: 88, badge: '88%', color: 'bg-[#a3e635]', topics: 'PCA, Covariance Matrices, PSI Drift Detection' },
-    { domain: 'AI & Machine Learning (AIML)', level: 'Advanced', pct: 84, badge: '84%', color: 'bg-[#c59a67]', topics: 'Transformers, Scaled Softmax, FlashAttention' },
-    { domain: 'Cybersecurity & Defense', level: 'Proficient', pct: 78, badge: '78%', color: 'bg-[#c59a67]', topics: 'TLS 1.3, Ephemeral ECDHE, Post-Quantum ML-KEM' },
+    { domain: 'Computer Science Core', level: 'Mastered', pct: 92, badge: '92%', color: 'bg-[#d4af37]', topics: 'Stack Invariants, Monotonic Deque, Raft, OS Concurrency' },
+    { domain: 'AI & Data Science (AIDS)', level: 'Advanced', pct: 88, badge: '88%', color: 'bg-[#d4af37]', topics: 'PCA, Covariance Matrices, PSI Drift Detection' },
+    { domain: 'AI & Machine Learning (AIML)', level: 'Advanced', pct: 84, badge: '84%', color: 'bg-[#d4af37]', topics: 'Transformers, Scaled Softmax, FlashAttention' },
+    { domain: 'Cybersecurity & Defense', level: 'Proficient', pct: 78, badge: '78%', color: 'bg-[#d4af37]', topics: 'TLS 1.3, Ephemeral ECDHE, Post-Quantum ML-KEM' },
   ];
 
   const filteredConcepts = useMemo(() => {
@@ -178,10 +178,10 @@ export const ProfileRewardsView: React.FC<ProfileRewardsViewProps> = ({
   return (
     <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8 space-y-8 animate-fadeIn text-slate-200">
       {/* 1. LEARNER IDENTITY (Dark Obsidian Card) */}
-      <div className="rounded-2xl border border-white/10 bg-[#13161b] p-6 sm:p-8 shadow-2xl">
+      <div className="rounded-2xl border border-white/10 bg-[#181512] p-6 sm:p-8 shadow-2xl">
         <div className="flex flex-wrap items-start justify-between gap-4">
           <div className="flex items-center gap-4">
-            <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl bg-stone-900 border border-white/15 text-xl font-bold font-mono text-[#c59a67] shadow-inner">
+            <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl bg-stone-900 border border-white/15 text-xl font-bold font-mono text-[#d4af37] shadow-inner">
               {user.name
                 .split(' ')
                 .map((p) => p[0])
@@ -192,7 +192,7 @@ export const ProfileRewardsView: React.FC<ProfileRewardsViewProps> = ({
             <div>
               <div className="flex flex-wrap items-center gap-2">
                 <h1 className="font-serif-tattva text-2xl sm:text-3xl font-normal text-white">{user.name}</h1>
-                <span className="rounded font-mono text-[10px] font-bold text-[#a3e635] bg-[#a3e635]/10 border border-[#a3e635]/30 px-2 py-0.5">
+                <span className="rounded font-mono text-[10px] font-bold text-[#d4af37] bg-[#d4af37]/10 border border-[#d4af37]/30 px-2 py-0.5">
                   SYSTEM: ACTIVE
                 </span>
               </div>
@@ -203,11 +203,11 @@ export const ProfileRewardsView: React.FC<ProfileRewardsViewProps> = ({
           </div>
 
           <div className="flex items-center gap-3">
-            <div className="rounded-xl border border-white/10 bg-[#181b22] px-3.5 py-1.5 text-right font-mono">
+            <div className="rounded-xl border border-white/10 bg-[#181512] px-3.5 py-1.5 text-right font-mono">
               <span className="block text-[9px] uppercase tracking-wider text-slate-500">B2B COGNITIVE STAMINA</span>
               <div className="flex items-center justify-end gap-1.5">
-                <span className="w-1.5 h-1.5 rounded-full bg-[#a3e635]" />
-                <span className="text-sm font-bold text-[#a3e635]">{(348 + curiosityCredits).toLocaleString()}</span>
+                <span className="w-1.5 h-1.5 rounded-full bg-[#d4af37]" />
+                <span className="text-sm font-bold text-[#d4af37]">{(348 + curiosityCredits).toLocaleString()}</span>
                 <span className="text-[10px] text-slate-400">PTS</span>
               </div>
             </div>
@@ -221,7 +221,7 @@ export const ProfileRewardsView: React.FC<ProfileRewardsViewProps> = ({
                 setDraftSubjects(user.focusSubjects);
                 setIsEditingProfile((prev) => !prev);
               }}
-              className="inline-flex items-center gap-1.5 rounded-xl border border-white/10 bg-[#181b22] px-3.5 py-2 text-xs font-semibold text-slate-300 hover:text-white hover:border-[#c59a67]/60 transition cursor-pointer"
+              className="inline-flex items-center gap-1.5 rounded-xl border border-white/10 bg-[#181512] px-3.5 py-2 text-xs font-semibold text-slate-300 hover:text-white hover:border-[#d4af37]/60 transition cursor-pointer"
             >
               <Edit3 className="h-3.5 w-3.5" />
               <span>{isEditingProfile ? 'Cancel' : 'Edit Dossier'}</span>
@@ -230,7 +230,7 @@ export const ProfileRewardsView: React.FC<ProfileRewardsViewProps> = ({
         </div>
 
         {savedNotice && (
-          <div className="mt-4 rounded-xl border border-[#a3e635]/40 bg-[#a3e635]/10 px-3.5 py-2 text-xs font-mono font-semibold text-[#a3e635]">
+          <div className="mt-4 rounded-xl border border-[#d4af37]/40 bg-[#d4af37]/10 px-3.5 py-2 text-xs font-mono font-semibold text-[#d4af37]">
             Profile dossier updated successfully.
           </div>
         )}
@@ -244,7 +244,7 @@ export const ProfileRewardsView: React.FC<ProfileRewardsViewProps> = ({
                   type="text"
                   value={draftName}
                   onChange={(e) => setDraftName(e.target.value)}
-                  className="w-full rounded-xl border border-white/10 bg-[#0e1115] px-3 py-2 text-xs text-white outline-none focus:border-[#c59a67]"
+                  className="w-full rounded-xl border border-white/10 bg-[#12100e] px-3 py-2 text-xs text-white outline-none focus:border-[#d4af37]"
                 />
               </div>
               <div>
@@ -253,7 +253,7 @@ export const ProfileRewardsView: React.FC<ProfileRewardsViewProps> = ({
                   type="text"
                   value={draftTeam}
                   onChange={(e) => setDraftTeam(e.target.value)}
-                  className="w-full rounded-xl border border-white/10 bg-[#0e1115] px-3 py-2 text-xs text-white outline-none focus:border-[#c59a67]"
+                  className="w-full rounded-xl border border-white/10 bg-[#12100e] px-3 py-2 text-xs text-white outline-none focus:border-[#d4af37]"
                 />
               </div>
             </div>
@@ -263,13 +263,13 @@ export const ProfileRewardsView: React.FC<ProfileRewardsViewProps> = ({
                 rows={2}
                 value={draftBio}
                 onChange={(e) => setDraftBio(e.target.value)}
-                className="w-full rounded-xl border border-white/10 bg-[#0e1115] px-3 py-2 text-xs text-white outline-none focus:border-[#c59a67]"
+                className="w-full rounded-xl border border-white/10 bg-[#12100e] px-3 py-2 text-xs text-white outline-none focus:border-[#d4af37]"
               />
             </div>
             <div className="flex justify-end gap-2 pt-2">
               <button
                 type="submit"
-                className="inline-flex items-center gap-1.5 rounded-xl bg-[#c59a67] px-4 py-2 text-xs font-bold text-[#0b0d0f] hover:bg-[#d4a373] transition cursor-pointer"
+                className="inline-flex items-center gap-1.5 rounded-xl bg-[#d4af37] px-4 py-2 text-xs font-bold text-[#12100e] hover:bg-[#e5c158] transition cursor-pointer"
               >
                 <Save className="h-3.5 w-3.5" />
                 <span>Save Changes</span>
@@ -290,7 +290,7 @@ export const ProfileRewardsView: React.FC<ProfileRewardsViewProps> = ({
                 <span
                   key={subj}
                   onClick={() => toggleDraftSubject(subj)}
-                  className="rounded font-mono text-[10px] bg-[#181b22] border border-white/5 px-2.5 py-0.5 text-slate-300"
+                  className="rounded font-mono text-[10px] bg-[#181512] border border-white/5 px-2.5 py-0.5 text-slate-300"
                 >
                   {subj}
                 </span>
@@ -308,7 +308,7 @@ export const ProfileRewardsView: React.FC<ProfileRewardsViewProps> = ({
             </span>
           </div>
 
-          <div className="inline-flex items-center rounded-xl border border-white/10 bg-[#0e1115] p-1">
+          <div className="inline-flex items-center rounded-xl border border-white/10 bg-[#12100e] p-1">
             <button
               type="button"
               onClick={() => setTheme('light')}
@@ -326,7 +326,7 @@ export const ProfileRewardsView: React.FC<ProfileRewardsViewProps> = ({
               onClick={() => setTheme('dark')}
               className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-mono transition cursor-pointer ${
                 theme === 'dark'
-                  ? 'bg-[#181b22] text-[#c59a67] border border-[#c59a67]/40 shadow-sm font-bold'
+                  ? 'bg-[#181512] text-[#d4af37] border border-[#d4af37]/40 shadow-sm font-bold'
                   : 'text-slate-400 hover:text-white'
               }`}
             >
@@ -339,32 +339,32 @@ export const ProfileRewardsView: React.FC<ProfileRewardsViewProps> = ({
 
       {/* 2. B2B ENTERPRISE TELEMETRY METRIC CARDS (PRD §10) */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-        <div className="rounded-2xl border border-white/10 bg-[#13161b] p-5 shadow-xl space-y-1">
+        <div className="rounded-2xl border border-white/10 bg-[#181512] p-5 shadow-xl space-y-1">
           <div className="flex items-center justify-between text-slate-400 font-mono">
             <span className="text-[10px] uppercase tracking-wider">Total Cognitive Labor</span>
-            <Clock className="w-4 h-4 text-[#c59a67]" />
+            <Clock className="w-4 h-4 text-[#d4af37]" />
           </div>
           <div className="font-mono text-2xl sm:text-3xl font-extrabold text-white">42.5 hrs</div>
-          <div className="text-[10px] font-mono text-[#a3e635]">
+          <div className="text-[10px] font-mono text-[#d4af37]">
             ● Verified in &ge;25m Crucibles
           </div>
         </div>
 
-        <div className="rounded-2xl border border-white/10 bg-[#13161b] p-5 shadow-xl space-y-1">
+        <div className="rounded-2xl border border-white/10 bg-[#181512] p-5 shadow-xl space-y-1">
           <div className="flex items-center justify-between text-slate-400 font-mono">
             <span className="text-[10px] uppercase tracking-wider">Research Mode Rigor</span>
-            <Award className="w-4 h-4 text-[#c59a67]" />
+            <Award className="w-4 h-4 text-[#d4af37]" />
           </div>
           <div className="font-mono text-2xl sm:text-3xl font-extrabold text-white">84%</div>
-          <div className="text-[10px] font-mono text-[#a3e635]">
+          <div className="text-[10px] font-mono text-[#d4af37]">
             3x Multiplier Active Sessions
           </div>
         </div>
 
-        <div className="rounded-2xl border border-white/10 bg-[#13161b] p-5 shadow-xl space-y-1">
+        <div className="rounded-2xl border border-white/10 bg-[#181512] p-5 shadow-xl space-y-1">
           <div className="flex items-center justify-between text-slate-400 font-mono">
             <span className="text-[10px] uppercase tracking-wider">Attested Invariants</span>
-            <CheckCircle2 className="w-4 h-4 text-[#a3e635]" />
+            <CheckCircle2 className="w-4 h-4 text-[#d4af37]" />
           </div>
           <div className="font-mono text-2xl sm:text-3xl font-extrabold text-white">16 Proven</div>
           <div className="text-[10px] font-mono text-slate-400">
@@ -372,24 +372,24 @@ export const ProfileRewardsView: React.FC<ProfileRewardsViewProps> = ({
           </div>
         </div>
 
-        <div className="rounded-2xl border border-white/10 bg-[#13161b] p-5 shadow-xl space-y-1">
+        <div className="rounded-2xl border border-white/10 bg-[#181512] p-5 shadow-xl space-y-1">
           <div className="flex items-center justify-between text-slate-400 font-mono">
             <span className="text-[10px] uppercase tracking-wider">Adversarial Traps</span>
-            <ShieldAlert className="w-4 h-4 text-[#c59a67]" />
+            <ShieldAlert className="w-4 h-4 text-[#d4af37]" />
           </div>
           <div className="font-mono text-2xl sm:text-3xl font-extrabold text-white">7 / 7</div>
-          <div className="text-[10px] font-mono text-[#a3e635]">
+          <div className="text-[10px] font-mono text-[#d4af37]">
             100% Trap Survival Rate
           </div>
         </div>
       </div>
 
       {/* 3. DOMAIN COMPETENCY BREAKDOWN */}
-      <div className="rounded-2xl border border-white/10 bg-[#13161b] p-6 shadow-2xl space-y-5">
+      <div className="rounded-2xl border border-white/10 bg-[#181512] p-6 shadow-2xl space-y-5">
         <div className="flex flex-wrap items-center justify-between gap-2 border-b border-white/10 pb-4">
           <div>
             <div className="flex items-center gap-2">
-              <Code2 className="w-4 h-4 text-[#c59a67]" />
+              <Code2 className="w-4 h-4 text-[#d4af37]" />
               <h2 className="text-base sm:text-lg font-bold text-white uppercase tracking-wider font-sans">
                 Engineering Domain Competency
               </h2>
@@ -398,7 +398,7 @@ export const ProfileRewardsView: React.FC<ProfileRewardsViewProps> = ({
               Verified comprehension calculated from your active quizzes and single knowledge graphs.
             </p>
           </div>
-          <span className="font-mono text-[10px] text-[#a3e635] bg-[#a3e635]/10 border border-[#a3e635]/30 px-2.5 py-1 rounded">
+          <span className="font-mono text-[10px] text-[#d4af37] bg-[#d4af37]/10 border border-[#d4af37]/30 px-2.5 py-1 rounded">
             All 4 Core Domains Active
           </span>
         </div>
@@ -407,7 +407,7 @@ export const ProfileRewardsView: React.FC<ProfileRewardsViewProps> = ({
           {domainCompetencies.map((comp, idx) => (
             <div
               key={idx}
-              className="rounded-xl border border-white/5 bg-[#0e1115] p-4 space-y-2.5"
+              className="rounded-xl border border-white/5 bg-[#12100e] p-4 space-y-2.5"
             >
               <div className="flex items-center justify-between">
                 <div>
@@ -416,7 +416,7 @@ export const ProfileRewardsView: React.FC<ProfileRewardsViewProps> = ({
                 </div>
                 <div className="text-right">
                   <span className="font-mono text-xs font-bold text-white">{comp.badge}</span>
-                  <span className="block font-mono text-[10px] font-semibold text-[#a3e635]">
+                  <span className="block font-mono text-[10px] font-semibold text-[#d4af37]">
                     {comp.level}
                   </span>
                 </div>
@@ -435,11 +435,11 @@ export const ProfileRewardsView: React.FC<ProfileRewardsViewProps> = ({
       </div>
 
       {/* 4. VERIFIED CONCEPT PORTFOLIO */}
-      <div className="rounded-2xl border border-white/10 bg-[#13161b] p-6 shadow-2xl space-y-5">
+      <div className="rounded-2xl border border-white/10 bg-[#181512] p-6 shadow-2xl space-y-5">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-white/10 pb-4">
           <div>
             <div className="flex items-center gap-2">
-              <CheckCircle2 className="w-4 h-4 text-[#a3e635]" />
+              <CheckCircle2 className="w-4 h-4 text-[#d4af37]" />
               <h2 className="text-base sm:text-lg font-bold text-white uppercase tracking-wider font-sans">
                 Verified Concept Portfolio ({filteredConcepts.length})
               </h2>
@@ -457,7 +457,7 @@ export const ProfileRewardsView: React.FC<ProfileRewardsViewProps> = ({
                 placeholder="Search concepts or invariants..."
                 value={conceptSearch}
                 onChange={(e) => setConceptSearch(e.target.value)}
-                className="rounded-lg border border-white/10 bg-[#0e1115] pl-8 pr-3 py-1 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-[#c59a67] w-44 sm:w-56 font-sans"
+                className="rounded-lg border border-white/10 bg-[#12100e] pl-8 pr-3 py-1 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-[#d4af37] w-44 sm:w-56 font-sans"
               />
             </div>
             {['All', 'AIML', 'Cybersecurity', 'AIDS', 'Computer Science'].map((cat) => (
@@ -467,8 +467,8 @@ export const ProfileRewardsView: React.FC<ProfileRewardsViewProps> = ({
                 onClick={() => setConceptFilter(cat)}
                 className={`rounded px-3 py-1 text-xs font-semibold transition cursor-pointer font-mono ${
                   conceptFilter === cat
-                    ? 'bg-[#c59a67] text-[#0b0d0f] font-bold shadow-xs'
-                    : 'border border-white/10 bg-[#0e1115] text-slate-400 hover:text-white'
+                    ? 'bg-[#d4af37] text-[#12100e] font-bold shadow-xs'
+                    : 'border border-white/10 bg-[#12100e] text-slate-400 hover:text-white'
                 }`}
               >
                 {cat}
@@ -482,11 +482,11 @@ export const ProfileRewardsView: React.FC<ProfileRewardsViewProps> = ({
           {filteredConcepts.map((concept) => (
             <div
               key={concept.id}
-              className="rounded-xl border border-white/10 bg-[#0e1115] p-4 shadow-xl hover:border-[#c59a67]/60 transition space-y-2"
+              className="rounded-xl border border-white/10 bg-[#12100e] p-4 shadow-xl hover:border-[#d4af37]/60 transition space-y-2"
             >
               <div className="flex items-center justify-between gap-2">
-                <span className="inline-flex items-center gap-1 rounded bg-[#a3e635]/10 border border-[#a3e635]/30 px-2 py-0.5 font-mono text-[9px] font-bold text-[#a3e635]">
-                  <CheckCircle2 className="w-3 h-3 text-[#a3e635]" />
+                <span className="inline-flex items-center gap-1 rounded bg-[#d4af37]/10 border border-[#d4af37]/30 px-2 py-0.5 font-mono text-[9px] font-bold text-[#d4af37]">
+                  <CheckCircle2 className="w-3 h-3 text-[#d4af37]" />
                   <span>VERIFIED</span>
                 </span>
                 <span className="font-mono text-[10px] font-bold text-slate-400 uppercase tracking-wider">
@@ -496,7 +496,7 @@ export const ProfileRewardsView: React.FC<ProfileRewardsViewProps> = ({
 
               <h4 className="text-xs sm:text-sm font-bold text-white">{concept.name}</h4>
 
-              <div className="rounded-lg bg-[#13161b] border border-white/5 p-2 font-mono text-[11px] text-[#a3e635] leading-relaxed">
+              <div className="rounded-lg bg-[#181512] border border-white/5 p-2 font-mono text-[11px] text-[#d4af37] leading-relaxed">
                 {concept.invariant}
               </div>
 
@@ -509,11 +509,11 @@ export const ProfileRewardsView: React.FC<ProfileRewardsViewProps> = ({
       </div>
 
       {/* 5. IMMUTABLE B2B AUDIT LEDGER (PRD §10) */}
-      <div className="rounded-2xl border border-white/10 bg-[#13161b] p-6 shadow-2xl space-y-5">
+      <div className="rounded-2xl border border-white/10 bg-[#181512] p-6 shadow-2xl space-y-5">
         <div className="flex flex-wrap items-center justify-between gap-3 border-b border-white/10 pb-4">
           <div>
             <div className="flex items-center gap-2">
-              <History className="h-4 w-4 text-[#c59a67]" />
+              <History className="h-4 w-4 text-[#d4af37]" />
               <h2 className="text-base sm:text-lg font-bold text-white uppercase tracking-wider font-sans">
                 WalletTransactions: Append-Only Telemetry Ledger
               </h2>
@@ -523,13 +523,13 @@ export const ProfileRewardsView: React.FC<ProfileRewardsViewProps> = ({
             </p>
           </div>
 
-          <div className="inline-flex rounded-lg border border-white/10 bg-[#0e1115] p-0.5 text-xs font-mono">
+          <div className="inline-flex rounded-lg border border-white/10 bg-[#12100e] p-0.5 text-xs font-mono">
             <button
               type="button"
               onClick={() => setLedgerTab('all')}
               className={`rounded px-3 py-1 transition cursor-pointer ${
                 ledgerTab === 'all'
-                  ? 'bg-[#181b22] text-white font-bold'
+                  ? 'bg-[#181512] text-white font-bold'
                   : 'text-slate-400 hover:text-white'
               }`}
             >
@@ -540,7 +540,7 @@ export const ProfileRewardsView: React.FC<ProfileRewardsViewProps> = ({
               onClick={() => setLedgerTab('inquiries')}
               className={`rounded px-3 py-1 transition cursor-pointer ${
                 ledgerTab === 'inquiries'
-                  ? 'bg-[#181b22] text-white font-bold'
+                  ? 'bg-[#181512] text-white font-bold'
                   : 'text-slate-400 hover:text-white'
               }`}
             >
@@ -555,7 +555,7 @@ export const ProfileRewardsView: React.FC<ProfileRewardsViewProps> = ({
               <div
                 key={inq.id}
                 onClick={() => onOpenInquiry(inq.id)}
-                className="flex w-full items-center justify-between gap-4 rounded-xl border border-white/10 bg-[#0e1115] p-4 text-left transition hover:border-[#c59a67]/60 cursor-pointer"
+                className="flex w-full items-center justify-between gap-4 rounded-xl border border-white/10 bg-[#12100e] p-4 text-left transition hover:border-[#d4af37]/60 cursor-pointer"
               >
                 <div className="min-w-0">
                   <div className="flex items-center gap-2">
@@ -566,7 +566,7 @@ export const ProfileRewardsView: React.FC<ProfileRewardsViewProps> = ({
                   </div>
                   <p className="mt-1 truncate text-xs text-slate-400">{inq.initialQuestion}</p>
                 </div>
-                <div className="flex shrink-0 items-center gap-2 font-mono text-xs text-[#a3e635]">
+                <div className="flex shrink-0 items-center gap-2 font-mono text-xs text-[#d4af37]">
                   <span>{inq.nodes.length} Nodes</span>
                   <ArrowRight className="h-3.5 w-3.5" />
                 </div>
@@ -578,10 +578,10 @@ export const ProfileRewardsView: React.FC<ProfileRewardsViewProps> = ({
             {transactions.map((tx) => (
               <div
                 key={tx.id}
-                className="flex items-start justify-between gap-3 rounded-xl border border-white/5 bg-[#0e1115] px-4 py-3"
+                className="flex items-start justify-between gap-3 rounded-xl border border-white/5 bg-[#12100e] px-4 py-3"
               >
                 <div className="flex items-start gap-3">
-                  <div className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded bg-[#181b22] text-[#a3e635] border border-white/10">
+                  <div className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded bg-[#181512] text-[#d4af37] border border-white/10">
                     <CheckCircle2 className="w-3.5 h-3.5" />
                   </div>
                   <div>
@@ -594,7 +594,7 @@ export const ProfileRewardsView: React.FC<ProfileRewardsViewProps> = ({
                     <p className="text-xs text-slate-400 mt-0.5">{tx.description}</p>
                   </div>
                 </div>
-                <span className="shrink-0 rounded font-mono text-[10px] font-bold text-[#a3e635] bg-[#a3e635]/10 px-2 py-0.5 border border-[#a3e635]/30">
+                <span className="shrink-0 rounded font-mono text-[10px] font-bold text-[#d4af37] bg-[#d4af37]/10 px-2 py-0.5 border border-[#d4af37]/30">
                   +1.0 STAMINA
                 </span>
               </div>

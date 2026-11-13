@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+﻿import React, { useState } from 'react';
 import {
   ArrowRight,
   Compass,
@@ -105,13 +105,13 @@ export const AuthGatePage: React.FC<AuthGatePageProps> = ({ onAuthenticated }) =
         {/* Top Wordmark */}
         <div className="mb-8 flex flex-wrap items-center justify-between gap-4">
           <div className="flex items-center gap-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-indigo-600 text-white shadow-sm">
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#d4af37] text-black text-white shadow-sm">
               <Network className="h-5 w-5" />
             </div>
             <div>
               <div className="flex items-center gap-2">
                 <span className="text-lg font-bold tracking-tight text-slate-900">ThinkForge</span>
-                <span className="rounded-full border border-indigo-200 bg-indigo-50 px-2 py-0.5 text-[11px] font-semibold text-indigo-700">
+                <span className="rounded-full border border-[#d4af37]/30 bg-[#d4af37]/10 px-2 py-0.5 text-[11px] font-semibold text-[#d4af37]">
                   Team CurioMinds
                 </span>
               </div>
@@ -122,13 +122,13 @@ export const AuthGatePage: React.FC<AuthGatePageProps> = ({ onAuthenticated }) =
           <span
             className={`inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-xs font-medium ${
               isSupabaseConfigured
-                ? 'border-emerald-200 bg-emerald-50 text-emerald-700'
+                ? 'border-[#f59e0b]/30 bg-[#f59e0b]/10 text-[#f59e0b]'
                 : 'border-slate-200 bg-white text-slate-600'
             }`}
           >
             <span
               className={`h-2 w-2 rounded-full ${
-                isSupabaseConfigured ? 'bg-emerald-500' : 'bg-indigo-500'
+                isSupabaseConfigured ? 'bg-[#f59e0b]' : 'bg-[#d4af37]/100'
               }`}
             />
             {isSupabaseConfigured ? 'Supabase Auth Ready' : 'Interactive Demo Mode'}
@@ -140,7 +140,7 @@ export const AuthGatePage: React.FC<AuthGatePageProps> = ({ onAuthenticated }) =
           {/* Left Hero Summary */}
           <div className="flex flex-col justify-between rounded-3xl border border-slate-200/80 bg-white p-8 shadow-sm lg:col-span-6">
             <div className="space-y-6">
-              <div className="inline-flex items-center gap-2 rounded-full border border-indigo-100 bg-indigo-50/70 px-3 py-1 text-xs font-semibold text-indigo-700">
+              <div className="inline-flex items-center gap-2 rounded-full border border-[#d4af37]/20 bg-[#d4af37]/10 px-3 py-1 text-xs font-semibold text-[#d4af37]">
                 <Sparkles className="h-3.5 w-3.5" />
                 Curiosity-Driven Learning Workspace
               </div>
@@ -148,7 +148,7 @@ export const AuthGatePage: React.FC<AuthGatePageProps> = ({ onAuthenticated }) =
               <div className="space-y-3">
                 <h1 className="text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">
                   Don&apos;t just find answers.{' '}
-                  <span className="text-indigo-600">Discover better questions.</span>
+                  <span className="text-[#d4af37]">Discover better questions.</span>
                 </h1>
                 <p className="text-base leading-relaxed text-slate-600">
                   ThinkForge transforms linear AI chat into visual knowledge trees. Choose your
@@ -159,7 +159,7 @@ export const AuthGatePage: React.FC<AuthGatePageProps> = ({ onAuthenticated }) =
 
               <div className="grid grid-cols-1 gap-3.5 pt-2 sm:grid-cols-2">
                 <div className="rounded-2xl border border-slate-100 bg-slate-50/80 p-4">
-                  <Compass className="h-5 w-5 text-indigo-600" />
+                  <Compass className="h-5 w-5 text-[#d4af37]" />
                   <h3 className="mt-2.5 text-sm font-semibold text-slate-900">
                     5 Learning Objectives
                   </h3>
@@ -170,7 +170,7 @@ export const AuthGatePage: React.FC<AuthGatePageProps> = ({ onAuthenticated }) =
                 </div>
 
                 <div className="rounded-2xl border border-slate-100 bg-slate-50/80 p-4">
-                  <GitBranch className="h-5 w-5 text-indigo-600" />
+                  <GitBranch className="h-5 w-5 text-[#d4af37]" />
                   <h3 className="mt-2.5 text-sm font-semibold text-slate-900">
                     Living Knowledge Graphs
                   </h3>
@@ -181,7 +181,7 @@ export const AuthGatePage: React.FC<AuthGatePageProps> = ({ onAuthenticated }) =
                 </div>
 
                 <div className="rounded-2xl border border-slate-100 bg-slate-50/80 p-4">
-                  <Users className="h-5 w-5 text-teal-600" />
+                  <Users className="h-5 w-5 text-[#c87d55]" />
                   <h3 className="mt-2.5 text-sm font-semibold text-slate-900">
                     Community Extensions
                   </h3>
@@ -264,7 +264,7 @@ export const AuthGatePage: React.FC<AuthGatePageProps> = ({ onAuthenticated }) =
                           value={name}
                           onChange={(e) => setName(e.target.value)}
                           placeholder="Ananya Rao"
-                          className="w-full rounded-xl border border-slate-200 bg-white py-2.5 pl-9 pr-3 text-sm text-slate-900 outline-none transition focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/15"
+                          className="w-full rounded-xl border border-slate-200 bg-white py-2.5 pl-9 pr-3 text-sm text-slate-900 outline-none transition focus:border-[#d4af37] focus:ring-2 focus:ring-[#d4af37]/20"
                         />
                       </div>
                     </div>
@@ -277,7 +277,7 @@ export const AuthGatePage: React.FC<AuthGatePageProps> = ({ onAuthenticated }) =
                         value={team}
                         onChange={(e) => setTeam(e.target.value)}
                         placeholder="CurioMinds"
-                        className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-sm text-slate-900 outline-none transition focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/15"
+                        className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-sm text-slate-900 outline-none transition focus:border-[#d4af37] focus:ring-2 focus:ring-[#d4af37]/20"
                       />
                     </div>
                   </div>
@@ -295,7 +295,7 @@ export const AuthGatePage: React.FC<AuthGatePageProps> = ({ onAuthenticated }) =
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                       placeholder="ananya@thinkforge.dev"
-                      className="w-full rounded-xl border border-slate-200 bg-white py-2.5 pl-9 pr-3 text-sm text-slate-900 outline-none transition focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/15"
+                      className="w-full rounded-xl border border-slate-200 bg-white py-2.5 pl-9 pr-3 text-sm text-slate-900 outline-none transition focus:border-[#d4af37] focus:ring-2 focus:ring-[#d4af37]/20"
                     />
                   </div>
                 </div>
@@ -312,7 +312,7 @@ export const AuthGatePage: React.FC<AuthGatePageProps> = ({ onAuthenticated }) =
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
                       placeholder="Enter password (min 6 chars)"
-                      className="w-full rounded-xl border border-slate-200 bg-white py-2.5 pl-9 pr-10 text-sm text-slate-900 outline-none transition focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/15"
+                      className="w-full rounded-xl border border-slate-200 bg-white py-2.5 pl-9 pr-10 text-sm text-slate-900 outline-none transition focus:border-[#d4af37] focus:ring-2 focus:ring-[#d4af37]/20"
                     />
                     <button
                       type="button"
@@ -331,7 +331,7 @@ export const AuthGatePage: React.FC<AuthGatePageProps> = ({ onAuthenticated }) =
                       type="checkbox"
                       checked={remember}
                       onChange={(e) => setRemember(e.target.checked)}
-                      className="h-4 w-4 rounded border-slate-300 text-indigo-600 focus:ring-indigo-500"
+                      className="h-4 w-4 rounded border-slate-300 text-[#d4af37] focus:ring-[#d4af37]"
                     />
                     Remember me on this browser
                   </label>
@@ -345,7 +345,7 @@ export const AuthGatePage: React.FC<AuthGatePageProps> = ({ onAuthenticated }) =
                 )}
 
                 {noticeMsg && (
-                  <div className="rounded-xl border border-emerald-200 bg-emerald-50 px-3.5 py-2.5 text-xs font-medium text-emerald-700">
+                  <div className="rounded-xl border border-[#f59e0b]/30 bg-[#f59e0b]/10 px-3.5 py-2.5 text-xs font-medium text-[#f59e0b]">
                     {noticeMsg}
                   </div>
                 )}
@@ -353,7 +353,7 @@ export const AuthGatePage: React.FC<AuthGatePageProps> = ({ onAuthenticated }) =
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-indigo-600 px-4 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-indigo-700 disabled:cursor-not-allowed disabled:opacity-60"
+                  className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-[#d4af37] text-black px-4 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-[#e5c158] disabled:cursor-not-allowed disabled:opacity-60"
                 >
                   {isSubmitting
                     ? 'Entering ThinkForge...'
@@ -379,18 +379,18 @@ export const AuthGatePage: React.FC<AuthGatePageProps> = ({ onAuthenticated }) =
                   type="button"
                   disabled={isSubmitting}
                   onClick={() => handleQuickDemo(DEMO_LEARNER_ACCOUNT)}
-                  className="flex items-center justify-between rounded-xl border border-indigo-200 bg-indigo-50/70 px-3.5 py-2.5 text-left transition hover:border-indigo-300 hover:bg-indigo-50 disabled:opacity-60"
+                  className="flex items-center justify-between rounded-xl border border-[#d4af37]/30 bg-[#d4af37]/10 px-3.5 py-2.5 text-left transition hover:border-[#d4af37]/50 hover:bg-[#d4af37]/10 disabled:opacity-60"
                 >
                   <div className="min-w-0">
-                    <div className="flex items-center gap-1.5 text-xs font-semibold text-indigo-950">
-                      <UserCheck className="h-3.5 w-3.5 text-indigo-600" />
+                    <div className="flex items-center gap-1.5 text-xs font-semibold text-[#f3efea]">
+                      <UserCheck className="h-3.5 w-3.5 text-[#d4af37]" />
                       <span className="truncate">{DEMO_LEARNER_ACCOUNT.user.name}</span>
                     </div>
-                    <p className="mt-0.5 truncate text-[11px] text-indigo-700">
+                    <p className="mt-0.5 truncate text-[11px] text-[#d4af37]">
                       Team {DEMO_LEARNER_ACCOUNT.user.team} · Active Learner
                     </p>
                   </div>
-                  <ArrowRight className="h-4 w-4 shrink-0 text-indigo-600" />
+                  <ArrowRight className="h-4 w-4 shrink-0 text-[#d4af37]" />
                 </button>
 
                 <button

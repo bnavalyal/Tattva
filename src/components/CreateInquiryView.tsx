@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+﻿import React, { useEffect, useState } from 'react';
 import {
   ArrowLeft,
   ArrowRight,
@@ -147,22 +147,22 @@ export const CreateInquiryView: React.FC<CreateInquiryViewProps> = ({
         <button
           type="button"
           onClick={onCancel}
-          className="inline-flex items-center gap-1.5 rounded-lg border border-white/10 bg-[#13161b] px-3 py-1.5 text-xs font-semibold text-slate-300 hover:text-white hover:border-white/20 transition cursor-pointer"
+          className="inline-flex items-center gap-1.5 rounded-lg border border-white/10 bg-[#181512] px-3 py-1.5 text-xs font-semibold text-slate-300 hover:text-white hover:border-white/20 transition cursor-pointer"
         >
           <ArrowLeft className="w-3.5 h-3.5" />
           <span>Back</span>
         </button>
 
         <div className="flex items-center gap-2">
-          <span className="inline-flex items-center gap-1.5 rounded font-mono text-[10px] font-bold text-[#c59a67] bg-[#c59a67]/10 border border-[#c59a67]/30 px-3 py-1 uppercase tracking-wider">
-            <Zap className="w-3.5 h-3.5 text-[#c59a67] fill-current" />
+          <span className="inline-flex items-center gap-1.5 rounded font-mono text-[10px] font-bold text-[#d4af37] bg-[#d4af37]/10 border border-[#d4af37]/30 px-3 py-1 uppercase tracking-wider">
+            <Zap className="w-3.5 h-3.5 text-[#d4af37] fill-current" />
             <span>TATTVA Knowledge Studio Launcher</span>
           </span>
         </div>
       </div>
 
       {/* Main Focus Card */}
-      <div className="rounded-2xl border border-white/10 bg-[#13161b] p-6 sm:p-10 shadow-2xl space-y-8">
+      <div className="rounded-2xl border border-white/10 bg-[#181512] p-6 sm:p-10 shadow-2xl space-y-8">
         {/* Header Message */}
         <div className="text-center max-w-2xl mx-auto space-y-2">
           <h1 className="font-serif-tattva text-2xl sm:text-3xl lg:text-4xl font-normal text-white tracking-tight">
@@ -175,7 +175,7 @@ export const CreateInquiryView: React.FC<CreateInquiryViewProps> = ({
 
         {/* Central Command Input Box */}
         <form onSubmit={handleSubmit} className="space-y-4 max-w-3xl mx-auto">
-          <div className="rounded-2xl border border-white/15 focus-within:border-[#c59a67] bg-[#0e1115] shadow-xl transition-all overflow-hidden">
+          <div className="rounded-2xl border border-white/15 focus-within:border-[#d4af37] bg-[#12100e] shadow-xl transition-all overflow-hidden">
             {/* Textarea */}
             <textarea
               rows={3}
@@ -188,7 +188,7 @@ export const CreateInquiryView: React.FC<CreateInquiryViewProps> = ({
             />
 
             {/* Bottom Toolbar */}
-            <div className="border-t border-white/10 bg-[#13161b] px-4 py-3 flex flex-wrap items-center justify-between gap-3 font-mono">
+            <div className="border-t border-white/10 bg-[#181512] px-4 py-3 flex flex-wrap items-center justify-between gap-3 font-mono">
               <div className="flex items-center gap-2">
                 <span className="text-[10px] uppercase text-slate-400 tracking-wider">
                   DOMAIN:
@@ -196,7 +196,7 @@ export const CreateInquiryView: React.FC<CreateInquiryViewProps> = ({
                 <select
                   value={subject}
                   onChange={(e) => setSubject(e.target.value)}
-                  className="rounded border border-white/10 bg-[#0e1115] px-2.5 py-1 text-xs text-slate-200 focus:outline-none focus:border-[#c59a67] cursor-pointer"
+                  className="rounded border border-white/10 bg-[#12100e] px-2.5 py-1 text-xs text-slate-200 focus:outline-none focus:border-[#d4af37] cursor-pointer"
                 >
                   {categories.map((c) => (
                     <option key={c.id} value={c.id}>
@@ -215,7 +215,7 @@ export const CreateInquiryView: React.FC<CreateInquiryViewProps> = ({
                 <button
                   type="submit"
                   disabled={isGenerating || question.trim().length < 6}
-                  className="inline-flex items-center gap-2 rounded-xl bg-[#c59a67] hover:bg-[#d4a373] text-[#0b0d0f] px-5 py-2 text-xs font-bold shadow-md transition disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer"
+                  className="inline-flex items-center gap-2 rounded-xl bg-[#d4af37] hover:bg-[#e5c158] text-[#12100e] px-5 py-2 text-xs font-bold shadow-md transition disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer"
                 >
                   {isGenerating ? (
                     <>
@@ -263,14 +263,14 @@ export const CreateInquiryView: React.FC<CreateInquiryViewProps> = ({
                     onClick={() => setObjective(lens.id)}
                     className={`flex items-center justify-between rounded-xl border p-3 text-left transition cursor-pointer ${
                       isSelected
-                        ? 'border-[#c59a67] bg-[#181b22] text-white ring-1 ring-[#c59a67]/40'
-                        : 'border-white/10 bg-[#0e1115] text-slate-400 hover:border-white/25 hover:text-white'
+                        ? 'border-[#d4af37] bg-[#181512] text-white ring-1 ring-[#d4af37]/40'
+                        : 'border-white/10 bg-[#12100e] text-slate-400 hover:border-white/25 hover:text-white'
                     }`}
                   >
                     <div className="flex items-center gap-2.5">
                       <div
                         className={`w-7 h-7 rounded-lg flex items-center justify-center ${
-                          isSelected ? 'bg-[#c59a67] text-[#0b0d0f]' : 'bg-[#181b22] text-slate-400'
+                          isSelected ? 'bg-[#d4af37] text-[#12100e]' : 'bg-[#181512] text-slate-400'
                         }`}
                       >
                         <Icon className="w-4 h-4" />
@@ -279,7 +279,7 @@ export const CreateInquiryView: React.FC<CreateInquiryViewProps> = ({
                     </div>
 
                     {isSelected && (
-                      <CheckCircle2 className="w-4 h-4 text-[#c59a67] shrink-0" />
+                      <CheckCircle2 className="w-4 h-4 text-[#d4af37] shrink-0" />
                     )}
                   </button>
                 );
@@ -291,7 +291,7 @@ export const CreateInquiryView: React.FC<CreateInquiryViewProps> = ({
         {/* Quick Inspiration Chips */}
         <div className="border-t border-white/10 pt-6 space-y-3">
           <div className="flex items-center gap-1.5 text-xs text-slate-400">
-            <Lightbulb className="w-3.5 h-3.5 text-[#c59a67]" />
+            <Lightbulb className="w-3.5 h-3.5 text-[#d4af37]" />
             <span>Or launch directly from a popular masterclass topic:</span>
           </div>
 
@@ -305,9 +305,9 @@ export const CreateInquiryView: React.FC<CreateInquiryViewProps> = ({
                   setQuestion(starter.question);
                   setObjective(starter.lens);
                 }}
-                className="inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-[#0e1115] px-3.5 py-1.5 text-xs font-medium text-slate-300 hover:border-[#c59a67] hover:text-white transition cursor-pointer"
+                className="inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-[#12100e] px-3.5 py-1.5 text-xs font-medium text-slate-300 hover:border-[#d4af37] hover:text-white transition cursor-pointer"
               >
-                <span className="w-1.5 h-1.5 rounded-full bg-[#c59a67]" />
+                <span className="w-1.5 h-1.5 rounded-full bg-[#d4af37]" />
                 <span>{starter.topic}</span>
               </button>
             ))}
@@ -317,19 +317,19 @@ export const CreateInquiryView: React.FC<CreateInquiryViewProps> = ({
         {/* Features Indicator footer */}
         <div className="border-t border-white/10 pt-5 grid grid-cols-2 sm:grid-cols-4 gap-3 text-center font-mono text-[11px] text-slate-400">
           <div className="flex items-center justify-center gap-1.5">
-            <Layers className="w-3.5 h-3.5 text-[#c59a67]" />
+            <Layers className="w-3.5 h-3.5 text-[#d4af37]" />
             <span>Single Knowledge Graph</span>
           </div>
           <div className="flex items-center justify-center gap-1.5">
-            <HelpCircle className="w-3.5 h-3.5 text-[#c59a67]" />
+            <HelpCircle className="w-3.5 h-3.5 text-[#d4af37]" />
             <span>Active Concept Quizzes</span>
           </div>
           <div className="flex items-center justify-center gap-1.5">
-            <FileText className="w-3.5 h-3.5 text-[#c59a67]" />
+            <FileText className="w-3.5 h-3.5 text-[#d4af37]" />
             <span>Formulas &amp; Notes</span>
           </div>
           <div className="flex items-center justify-center gap-1.5">
-            <BookOpen className="w-3.5 h-3.5 text-[#c59a67]" />
+            <BookOpen className="w-3.5 h-3.5 text-[#d4af37]" />
             <span>Research Papers</span>
           </div>
         </div>

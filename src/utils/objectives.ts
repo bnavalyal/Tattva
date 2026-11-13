@@ -18,8 +18,8 @@ export const OBJECTIVE_LIST: ObjectiveDisplayMeta[] = [
     tagline: 'Strip away jargon to core axioms',
     description:
       'Break a concept down to its non-negotiable mechanisms, invariants, and why standard approaches work or fail.',
-    badgeClasses: 'border-indigo-200 bg-indigo-50 text-indigo-700',
-    dotClasses: 'bg-indigo-500',
+    badgeClasses: 'border-[#d4af37]/30 bg-[#d4af37]/12 text-[#d4af37]',
+    dotClasses: 'bg-[#d4af37]',
   },
   {
     id: 'deep-research',
@@ -28,8 +28,8 @@ export const OBJECTIVE_LIST: ObjectiveDisplayMeta[] = [
     tagline: 'Edge cases, papers & trade-offs',
     description:
       'Explore technical failure modes, competing architectures, empirical bottlenecks, and open research questions.',
-    badgeClasses: 'border-blue-200 bg-blue-50 text-blue-700',
-    dotClasses: 'bg-blue-500',
+    badgeClasses: 'border-[#c87d55]/30 bg-[#c87d55]/14 text-[#c87d55]',
+    dotClasses: 'bg-[#c87d55]',
   },
   {
     id: 'topic-backstory',
@@ -38,8 +38,8 @@ export const OBJECTIVE_LIST: ObjectiveDisplayMeta[] = [
     tagline: 'How and why the idea emerged',
     description:
       'Trace the historical bottlenecks, watershed debates, and pioneers whose constraints shaped modern practice.',
-    badgeClasses: 'border-amber-200 bg-amber-50 text-amber-800',
-    dotClasses: 'bg-amber-500',
+    badgeClasses: 'border-[#eab308]/30 bg-[#eab308]/14 text-[#eab308]',
+    dotClasses: 'bg-[#eab308]',
   },
   {
     id: 'cross-topic',
@@ -48,8 +48,8 @@ export const OBJECTIVE_LIST: ObjectiveDisplayMeta[] = [
     tagline: 'Bridge concepts across fields',
     description:
       'Discover surprising mathematical or structural parallels linking computer science, biology, physics, and economics.',
-    badgeClasses: 'border-teal-200 bg-teal-50 text-teal-800',
-    dotClasses: 'bg-teal-500',
+    badgeClasses: 'border-[#b4693e]/30 bg-[#b4693e]/14 text-[#b4693e]',
+    dotClasses: 'bg-[#b4693e]',
   },
   {
     id: 'exam-prep',
@@ -58,8 +58,8 @@ export const OBJECTIVE_LIST: ObjectiveDisplayMeta[] = [
     tagline: 'Crisp definitions, traps & recall',
     description:
       'Focus on high-yield distinctions, worked examples, subtle counterexamples, and concise revision summaries.',
-    badgeClasses: 'border-emerald-200 bg-emerald-50 text-emerald-800',
-    dotClasses: 'bg-emerald-500',
+    badgeClasses: 'border-[#f59e0b]/30 bg-[#f59e0b]/14 text-[#f59e0b]',
+    dotClasses: 'bg-[#f59e0b]',
   },
 ];
 
@@ -74,29 +74,29 @@ export function getCardAccentClasses(variant: CardVariant): {
   switch (variant) {
     case 'indigo':
       return {
-        topBar: 'bg-indigo-600',
-        pill: 'border-indigo-200 bg-indigo-50 text-indigo-700',
+        topBar: 'bg-[#d4af37]',
+        pill: 'border-[#d4af37]/30 bg-[#d4af37]/12 text-[#d4af37]',
       };
     case 'emerald':
       return {
-        topBar: 'bg-emerald-600',
-        pill: 'border-emerald-200 bg-emerald-50 text-emerald-700',
+        topBar: 'bg-[#f59e0b]',
+        pill: 'border-[#f59e0b]/30 bg-[#f59e0b]/14 text-[#f59e0b]',
       };
     case 'amber':
       return {
-        topBar: 'bg-amber-500',
-        pill: 'border-amber-200 bg-amber-50 text-amber-800',
+        topBar: 'bg-[#eab308]',
+        pill: 'border-[#eab308]/30 bg-[#eab308]/14 text-[#eab308]',
       };
     case 'monograph':
       return {
-        topBar: 'bg-teal-600',
-        pill: 'border-teal-200 bg-teal-50 text-teal-700',
+        topBar: 'bg-[#c87d55]',
+        pill: 'border-[#c87d55]/30 bg-[#c87d55]/14 text-[#c87d55]',
       };
     case 'journal':
     default:
       return {
-        topBar: 'bg-slate-700',
-        pill: 'border-slate-200 bg-slate-100 text-slate-700',
+        topBar: 'bg-[#73685d]',
+        pill: 'border-[#2e2822] bg-[#181512] text-[#a3988c]',
       };
   }
 }

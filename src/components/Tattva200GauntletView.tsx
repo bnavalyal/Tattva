@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+﻿import React, { useState } from 'react';
 import {
   CheckCircle2,
   Lock,
@@ -221,7 +221,7 @@ export const Tattva200GauntletView: React.FC<Tattva200GauntletViewProps> = ({
       <div className="border-b border-white/10 pb-6 flex flex-col md:flex-row md:items-center justify-between gap-6">
         <div>
           <div className="flex items-center gap-2">
-            <span className="font-mono text-[10px] font-bold text-[#c59a67] uppercase tracking-wider bg-[#c59a67]/10 px-2.5 py-0.5 rounded border border-[#c59a67]/30">
+            <span className="font-mono text-[10px] font-bold text-[#d4af37] uppercase tracking-wider bg-[#d4af37]/10 px-2.5 py-0.5 rounded border border-[#d4af37]/30">
               PRD §4 · The Execution Gauntlet
             </span>
             <span className="text-xs text-slate-500">·</span>
@@ -239,14 +239,14 @@ export const Tattva200GauntletView: React.FC<Tattva200GauntletViewProps> = ({
         </div>
 
         {/* Live Mastery Meter */}
-        <div className="rounded-2xl border border-white/10 bg-[#13161b] p-5 shrink-0 text-right space-y-2 min-w-[220px]">
+        <div className="rounded-2xl border border-white/10 bg-[#181512] p-5 shrink-0 text-right space-y-2 min-w-[220px]">
           <div className="flex items-center justify-between font-mono text-xs text-slate-400">
             <span>CONQUEST PROGRESS</span>
-            <span className="font-bold text-[#a3e635]">{conqueredCount} / 200</span>
+            <span className="font-bold text-[#d4af37]">{conqueredCount} / 200</span>
           </div>
           <div className="h-2 w-full rounded-full bg-white/10 overflow-hidden">
             <div
-              className="h-full rounded-full bg-gradient-to-r from-[#c59a67] to-[#a3e635] transition-all"
+              className="h-full rounded-full bg-gradient-to-r from-[#d4af37] to-[#d4af37] transition-all"
               style={{ width: `${(conqueredCount / 200) * 100}%` }}
             />
           </div>
@@ -266,8 +266,8 @@ export const Tattva200GauntletView: React.FC<Tattva200GauntletViewProps> = ({
               onClick={() => setActiveTier(t.id)}
               className={`rounded-xl px-3.5 py-1.5 text-xs font-mono transition cursor-pointer border ${
                 activeTier === t.id
-                  ? 'border-[#c59a67] bg-[#c59a67]/15 text-[#c59a67] font-bold'
-                  : 'border-white/10 bg-[#13161b] text-slate-400 hover:text-white hover:border-white/20'
+                  ? 'border-[#d4af37] bg-[#d4af37]/15 text-[#d4af37] font-bold'
+                  : 'border-white/10 bg-[#181512] text-slate-400 hover:text-white hover:border-white/20'
               }`}
             >
               {t.label}
@@ -282,7 +282,7 @@ export const Tattva200GauntletView: React.FC<Tattva200GauntletViewProps> = ({
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Search concept or invariant..."
-            className="w-full rounded-xl border border-white/10 bg-[#13161b] pl-9 pr-3 py-2 text-xs text-white placeholder-slate-500 outline-none focus:border-[#c59a67]"
+            className="w-full rounded-xl border border-white/10 bg-[#181512] pl-9 pr-3 py-2 text-xs text-white placeholder-slate-500 outline-none focus:border-[#d4af37]"
           />
         </div>
       </div>
@@ -299,10 +299,10 @@ export const Tattva200GauntletView: React.FC<Tattva200GauntletViewProps> = ({
               key={concept.id}
               className={`rounded-2xl border p-5 flex flex-col justify-between space-y-4 transition relative overflow-hidden ${
                 isConquered
-                  ? 'border-white/10 bg-[#13161b] hover:border-[#a3e635]/40'
+                  ? 'border-white/10 bg-[#181512] hover:border-[#d4af37]/40'
                   : isAvailable
-                  ? 'border-[#c59a67]/50 bg-[#181b22] hover:border-[#c59a67] shadow-md'
-                  : 'border-white/5 bg-[#0e1115] opacity-60'
+                  ? 'border-[#d4af37]/50 bg-[#181512] hover:border-[#d4af37] shadow-md'
+                  : 'border-white/5 bg-[#12100e] opacity-60'
               }`}
             >
               <div className="space-y-2.5">
@@ -320,14 +320,14 @@ export const Tattva200GauntletView: React.FC<Tattva200GauntletViewProps> = ({
                     )}
 
                     {isConquered && (
-                      <span className="inline-flex items-center gap-1 font-mono text-[10px] font-bold text-[#a3e635] bg-[#a3e635]/10 border border-[#a3e635]/30 px-2 py-0.5 rounded">
+                      <span className="inline-flex items-center gap-1 font-mono text-[10px] font-bold text-[#d4af37] bg-[#d4af37]/10 border border-[#d4af37]/30 px-2 py-0.5 rounded">
                         <CheckCircle2 className="w-3 h-3" />
                         CONQUERED
                       </span>
                     )}
 
                     {isAvailable && (
-                      <span className="font-mono text-[10px] font-bold text-[#c59a67] bg-[#c59a67]/10 border border-[#c59a67]/30 px-2 py-0.5 rounded">
+                      <span className="font-mono text-[10px] font-bold text-[#d4af37] bg-[#d4af37]/10 border border-[#d4af37]/30 px-2 py-0.5 rounded">
                         AVAILABLE
                       </span>
                     )}
@@ -367,8 +367,8 @@ export const Tattva200GauntletView: React.FC<Tattva200GauntletViewProps> = ({
                     }}
                     className={`font-bold transition cursor-pointer flex items-center gap-1 ${
                       isConquered
-                        ? 'text-[#a3e635] hover:underline'
-                        : 'text-[#c59a67] hover:underline'
+                        ? 'text-[#d4af37] hover:underline'
+                        : 'text-[#d4af37] hover:underline'
                     }`}
                   >
                     <span>{isConquered ? 'Review Knowledge Tree →' : 'Enter Crucible →'}</span>

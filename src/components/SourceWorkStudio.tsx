@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+﻿import React, { useState, useMemo } from 'react';
 import {
   ArrowLeft,
   BookOpen,
@@ -231,15 +231,15 @@ export const SourceWorkStudio: React.FC<SourceWorkStudioProps> = ({
   };
 
   return (
-    <div className="flex flex-col h-full bg-[#0b0d0f] text-slate-200">
+    <div className="flex flex-col h-full bg-[#12100e] text-slate-200">
       {/* Studio Header Bar */}
-      <header className="border-b border-white/10 bg-[#0b0d0f] px-6 py-3 shadow-md shrink-0">
+      <header className="border-b border-white/10 bg-[#12100e] px-6 py-3 shadow-md shrink-0">
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div className="flex items-center gap-3">
             <button
               type="button"
               onClick={onBack}
-              className="inline-flex items-center gap-1.5 rounded-lg border border-white/10 bg-[#13161b] px-3 py-1.5 text-xs font-medium text-slate-300 hover:text-white hover:border-white/25 transition cursor-pointer"
+              className="inline-flex items-center gap-1.5 rounded-lg border border-white/10 bg-[#181512] px-3 py-1.5 text-xs font-medium text-slate-300 hover:text-white hover:border-white/25 transition cursor-pointer"
             >
               <ArrowLeft className="w-3.5 h-3.5" />
               <span>Back to Sources</span>
@@ -249,7 +249,7 @@ export const SourceWorkStudio: React.FC<SourceWorkStudioProps> = ({
 
             <div>
               <div className="flex items-center gap-2">
-                <span className="font-mono text-[10px] font-bold tracking-wider text-[#c59a67] uppercase bg-[#c59a67]/10 px-2 py-0.5 rounded border border-[#c59a67]/20">
+                <span className="font-mono text-[10px] font-bold tracking-wider text-[#d4af37] uppercase bg-[#d4af37]/10 px-2 py-0.5 rounded border border-[#d4af37]/20">
                   {source.category}
                 </span>
                 <span className="text-xs text-slate-500">·</span>
@@ -271,32 +271,32 @@ export const SourceWorkStudio: React.FC<SourceWorkStudioProps> = ({
               title="PRD §7: The Training Weights. Direct answers forbidden; awards 3x Cognitive Stamina."
               className={`flex items-center gap-2 rounded-xl border px-3 py-2 font-mono text-xs font-bold transition cursor-pointer ${
                 researchMode
-                  ? 'border-[#a3e635]/60 bg-[#a3e635]/15 text-[#a3e635] shadow-[0_0_12px_rgba(163,230,53,0.2)]'
-                  : 'border-white/10 bg-[#13161b] text-slate-400 hover:text-white'
+                  ? 'border-[#d4af37]/60 bg-[#d4af37]/15 text-[#d4af37] shadow-[0_0_12px_rgba(163,230,53,0.2)]'
+                  : 'border-white/10 bg-[#181512] text-slate-400 hover:text-white'
               }`}
             >
               <div
                 className={`w-2 h-2 rounded-full ${
-                  researchMode ? 'bg-[#a3e635] animate-pulse' : 'bg-slate-600'
+                  researchMode ? 'bg-[#d4af37] animate-pulse' : 'bg-slate-600'
                 }`}
               />
               <span>RESEARCH MODE: {researchMode ? 'ACTIVE (3x)' : 'OFF'}</span>
             </button>
 
             {/* Mastery Indicator Box */}
-            <div className="flex items-center gap-4 bg-[#13161b] border border-white/10 rounded-xl px-4 py-2 shadow-sm">
+            <div className="flex items-center gap-4 bg-[#181512] border border-white/10 rounded-xl px-4 py-2 shadow-sm">
               <div>
                 <div className="flex items-center justify-between gap-4">
                   <span className="text-[10px] font-mono tracking-widest text-slate-400 uppercase">
                     TOPIC IN-AND-OUT MASTERY
                   </span>
-                  <span className="font-mono text-xs font-bold text-[#c59a67]">
+                  <span className="font-mono text-xs font-bold text-[#d4af37]">
                     {masteryStats.compositeScore}% · {masteryStats.level}
                   </span>
                 </div>
                 <div className="w-48 bg-white/10 rounded-full h-1.5 mt-1.5 overflow-hidden">
                   <div
-                    className="bg-[#c59a67] h-full rounded-full transition-all duration-500 ease-out"
+                    className="bg-[#d4af37] h-full rounded-full transition-all duration-500 ease-out"
                     style={{ width: `${masteryStats.compositeScore}%` }}
                   />
                 </div>
@@ -306,11 +306,11 @@ export const SourceWorkStudio: React.FC<SourceWorkStudioProps> = ({
 
               <div className="flex items-center gap-3 text-xs font-mono">
                 <div className="text-center">
-                  <div className="font-bold text-[#a3e635]">{masteryStats.masteredNodes}</div>
+                  <div className="font-bold text-[#d4af37]">{masteryStats.masteredNodes}</div>
                   <div className="text-[9px] text-slate-400">Mastered</div>
                 </div>
                 <div className="text-center">
-                  <div className="font-bold text-[#c59a67]">{masteryStats.inProgressNodes}</div>
+                  <div className="font-bold text-[#d4af37]">{masteryStats.inProgressNodes}</div>
                   <div className="text-[9px] text-slate-400">In Progress</div>
                 </div>
                 <div className="text-center">
@@ -328,16 +328,16 @@ export const SourceWorkStudio: React.FC<SourceWorkStudioProps> = ({
       {/* Main Studio: Dual-Screen Layout */}
       <div className="flex-1 grid grid-cols-1 lg:grid-cols-12 overflow-hidden">
         {/* LEFT SCREEN: SOURCE MATERIAL (Mirroring Screenshot 2) */}
-        <div className="lg:col-span-6 xl:col-span-6 border-r border-white/10 flex flex-col bg-[#0e1115] overflow-hidden">
+        <div className="lg:col-span-6 xl:col-span-6 border-r border-white/10 flex flex-col bg-[#12100e] overflow-hidden">
           {/* Sub-nav Tab Bar */}
-          <div className="border-b border-white/10 px-6 pt-2.5 flex items-center justify-between bg-[#0b0d0f]">
+          <div className="border-b border-white/10 px-6 pt-2.5 flex items-center justify-between bg-[#12100e]">
             <nav className="flex space-x-2" aria-label="Sections">
               <button
                 type="button"
                 onClick={() => setActiveTab('transcript')}
                 className={`py-2 px-3 text-xs font-semibold transition border-b-2 cursor-pointer ${
                   activeTab === 'transcript'
-                    ? 'border-[#c59a67] text-white'
+                    ? 'border-[#d4af37] text-white'
                     : 'border-transparent text-slate-400 hover:text-slate-200'
                 }`}
               >
@@ -349,13 +349,13 @@ export const SourceWorkStudio: React.FC<SourceWorkStudioProps> = ({
                 onClick={() => setActiveTab('quizzes')}
                 className={`flex items-center gap-1.5 py-2 px-3 text-xs font-semibold transition border-b-2 cursor-pointer ${
                   activeTab === 'quizzes'
-                    ? 'border-[#c59a67] text-white'
+                    ? 'border-[#d4af37] text-white'
                     : 'border-transparent text-slate-400 hover:text-slate-200'
                 }`}
               >
                 <HelpCircle className="w-3.5 h-3.5" />
                 <span>Active Quizzes</span>
-                <span className="font-mono text-[10px] text-[#a3e635] bg-[#a3e635]/10 px-1 rounded">
+                <span className="font-mono text-[10px] text-[#d4af37] bg-[#d4af37]/10 px-1 rounded">
                   {masteryStats.passedQuizzes}/{masteryStats.totalQuizzes}
                 </span>
               </button>
@@ -365,7 +365,7 @@ export const SourceWorkStudio: React.FC<SourceWorkStudioProps> = ({
                 onClick={() => setActiveTab('notes')}
                 className={`flex items-center gap-1.5 py-2 px-3 text-xs font-semibold transition border-b-2 cursor-pointer ${
                   activeTab === 'notes'
-                    ? 'border-[#c59a67] text-white'
+                    ? 'border-[#d4af37] text-white'
                     : 'border-transparent text-slate-400 hover:text-slate-200'
                 }`}
               >
@@ -378,7 +378,7 @@ export const SourceWorkStudio: React.FC<SourceWorkStudioProps> = ({
                 onClick={() => setActiveTab('paper')}
                 className={`flex items-center gap-1.5 py-2 px-3 text-xs font-semibold transition border-b-2 cursor-pointer ${
                   activeTab === 'paper'
-                    ? 'border-[#c59a67] text-white'
+                    ? 'border-[#d4af37] text-white'
                     : 'border-transparent text-slate-400 hover:text-slate-200'
                 }`}
               >
@@ -392,7 +392,7 @@ export const SourceWorkStudio: React.FC<SourceWorkStudioProps> = ({
                   onClick={() => setActiveTab('video')}
                   className={`flex items-center gap-1.5 py-2 px-3 text-xs font-semibold transition border-b-2 cursor-pointer ${
                     activeTab === 'video'
-                      ? 'border-[#c59a67] text-white'
+                      ? 'border-[#d4af37] text-white'
                       : 'border-transparent text-slate-400 hover:text-slate-200'
                   }`}
                 >
@@ -406,7 +406,7 @@ export const SourceWorkStudio: React.FC<SourceWorkStudioProps> = ({
               <button
                 type="button"
                 onClick={() => setIsAddingNote(true)}
-                className="inline-flex items-center gap-1 rounded-lg border border-white/10 bg-[#181b22] px-2.5 py-1 text-xs font-semibold text-slate-200 hover:border-[#c59a67]/60 transition cursor-pointer"
+                className="inline-flex items-center gap-1 rounded-lg border border-white/10 bg-[#181512] px-2.5 py-1 text-xs font-semibold text-slate-200 hover:border-[#d4af37]/60 transition cursor-pointer"
               >
                 <Plus className="w-3.5 h-3.5" />
                 <span>Add Note</span>
@@ -432,7 +432,7 @@ export const SourceWorkStudio: React.FC<SourceWorkStudioProps> = ({
             {activeTab === 'transcript' && (
               <div className="space-y-6">
                 <div>
-                  <span className="inline-block rounded font-mono text-[10px] font-bold text-[#c59a67] bg-[#c59a67]/15 border border-[#c59a67]/30 px-2.5 py-0.5 uppercase tracking-wider mb-2">
+                  <span className="inline-block rounded font-mono text-[10px] font-bold text-[#d4af37] bg-[#d4af37]/15 border border-[#d4af37]/30 px-2.5 py-0.5 uppercase tracking-wider mb-2">
                     TRANSCRIPT
                   </span>
                   <h2 className="font-serif-tattva text-2xl sm:text-3xl text-white font-normal leading-snug">
@@ -458,8 +458,8 @@ export const SourceWorkStudio: React.FC<SourceWorkStudioProps> = ({
                     A free-list allocator reintroduces per-object reclamation by threading freed blocks into a linked list keyed by size class, at the cost of metadata overhead and fragmentation as blocks of mismatched sizes accumulate.
                   </p>
 
-                  <div className="rounded-xl border border-white/10 bg-[#13161b] p-4 space-y-2 mt-4">
-                    <div className="font-mono text-xs text-[#a3e635] font-bold uppercase">
+                  <div className="rounded-xl border border-white/10 bg-[#181512] p-4 space-y-2 mt-4">
+                    <div className="font-mono text-xs text-[#d4af37] font-bold uppercase">
                       Architectural Mechanics &amp; Invariants:
                     </div>
                     <ul className="list-disc pl-5 space-y-1 text-xs text-slate-300">
@@ -475,9 +475,9 @@ export const SourceWorkStudio: React.FC<SourceWorkStudioProps> = ({
             {/* TAB: ACTIVE QUIZZES */}
             {activeTab === 'quizzes' && (
               <div className="space-y-6">
-                <div className="flex items-center justify-between bg-[#13161b] border border-white/10 rounded-xl p-4">
+                <div className="flex items-center justify-between bg-[#181512] border border-white/10 rounded-xl p-4">
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-xl bg-[#181b22] border border-white/10 text-[#c59a67] flex items-center justify-center font-bold">
+                    <div className="w-10 h-10 rounded-xl bg-[#181512] border border-white/10 text-[#d4af37] flex items-center justify-center font-bold">
                       <Award className="w-5 h-5" />
                     </div>
                     <div>
@@ -490,7 +490,7 @@ export const SourceWorkStudio: React.FC<SourceWorkStudioProps> = ({
                     </div>
                   </div>
                   <div className="text-right">
-                    <span className="font-mono text-xl font-bold text-[#a3e635]">
+                    <span className="font-mono text-xl font-bold text-[#d4af37]">
                       {Math.round((masteryStats.passedQuizzes / (source.quizzes.length || 1)) * 100)}%
                     </span>
                     <span className="block text-[10px] text-slate-400 font-mono uppercase">Accuracy</span>
@@ -503,13 +503,13 @@ export const SourceWorkStudio: React.FC<SourceWorkStudioProps> = ({
                     return (
                       <div
                         key={quiz.id}
-                        className="rounded-2xl border border-white/10 bg-[#13161b] p-5 space-y-3"
+                        className="rounded-2xl border border-white/10 bg-[#181512] p-5 space-y-3"
                       >
                         <div className="flex items-start justify-between gap-3">
                           <span className="w-6 h-6 rounded-full bg-white/10 text-white font-mono text-xs font-bold flex items-center justify-center">
                             Q{qIdx + 1}
                           </span>
-                          <span className="text-xs font-mono text-[#c59a67]">
+                          <span className="text-xs font-mono text-[#d4af37]">
                             Concept: {source.knowledgeGraph.nodes.find(n => n.id === quiz.relatedConceptNodeId)?.label || 'Core Invariant'}
                           </span>
                         </div>
@@ -525,15 +525,15 @@ export const SourceWorkStudio: React.FC<SourceWorkStudioProps> = ({
                             const isCorrectOpt = optIdx === quiz.correctOptionIndex;
 
                             let optClasses =
-                              'border border-white/10 bg-[#181b22] hover:border-white/25 text-slate-300';
+                              'border border-white/10 bg-[#181512] hover:border-white/25 text-slate-300';
 
                             if (isAnswered) {
                               if (isCorrectOpt) {
-                                optClasses = 'border-[#a3e635] bg-[#a3e635]/10 text-white font-semibold shadow-[0_0_8px_rgba(163,230,53,0.15)]';
+                                optClasses = 'border-[#d4af37] bg-[#d4af37]/10 text-white font-semibold shadow-[0_0_8px_rgba(163,230,53,0.15)]';
                               } else if (isSelected && !isCorrectOpt) {
                                 optClasses = 'border-red-500/80 bg-red-950/20 text-red-200';
                               } else {
-                                optClasses = 'border-white/5 bg-[#0e1115] text-slate-500 opacity-60';
+                                optClasses = 'border-white/5 bg-[#12100e] text-slate-500 opacity-60';
                               }
                             }
 
@@ -550,7 +550,7 @@ export const SourceWorkStudio: React.FC<SourceWorkStudioProps> = ({
                                 </span>
                                 <span className="flex-1">{option}</span>
                                 {isAnswered && isCorrectOpt && (
-                                  <CheckCircle2 className="w-4 h-4 text-[#a3e635] shrink-0 mt-0.5" />
+                                  <CheckCircle2 className="w-4 h-4 text-[#d4af37] shrink-0 mt-0.5" />
                                 )}
                               </button>
                             );
@@ -559,8 +559,8 @@ export const SourceWorkStudio: React.FC<SourceWorkStudioProps> = ({
 
                         {/* Explanation banner */}
                         {isAnswered && (
-                          <div className="rounded-xl border border-white/10 bg-[#0e1115] p-3 text-xs text-slate-300 leading-relaxed">
-                            <span className="font-bold text-[#a3e635] block mb-1">
+                          <div className="rounded-xl border border-white/10 bg-[#12100e] p-3 text-xs text-slate-300 leading-relaxed">
+                            <span className="font-bold text-[#d4af37] block mb-1">
                               {quiz.isAnsweredCorrectly ? '✓ Correct Explanation:' : '⚠ Concept Breakdown:'}
                             </span>
                             {quiz.explanation}
@@ -583,7 +583,7 @@ export const SourceWorkStudio: React.FC<SourceWorkStudioProps> = ({
                   <button
                     type="button"
                     onClick={() => setIsAddingNote(true)}
-                    className="flex items-center gap-1.5 rounded-lg border border-[#c59a67]/40 bg-[#c59a67]/15 px-3 py-1 font-mono text-xs font-semibold text-[#c59a67] hover:bg-[#c59a67]/25 transition cursor-pointer"
+                    className="flex items-center gap-1.5 rounded-lg border border-[#d4af37]/40 bg-[#d4af37]/15 px-3 py-1 font-mono text-xs font-semibold text-[#d4af37] hover:bg-[#d4af37]/25 transition cursor-pointer"
                   >
                     <Plus className="w-3.5 h-3.5" />
                     New Note
@@ -593,10 +593,10 @@ export const SourceWorkStudio: React.FC<SourceWorkStudioProps> = ({
                 {isAddingNote && (
                   <form
                     onSubmit={handleAddNote}
-                    className="rounded-2xl border border-white/15 bg-[#13161b] p-4 space-y-3"
+                    className="rounded-2xl border border-white/15 bg-[#181512] p-4 space-y-3"
                   >
                     <div className="flex items-center justify-between">
-                      <span className="font-mono text-xs font-bold text-[#c59a67] uppercase">
+                      <span className="font-mono text-xs font-bold text-[#d4af37] uppercase">
                         Add Note or Formula
                       </span>
                       <button
@@ -612,13 +612,13 @@ export const SourceWorkStudio: React.FC<SourceWorkStudioProps> = ({
                       placeholder="Note Title / Invariant"
                       value={newNoteTitle}
                       onChange={(e) => setNewNoteTitle(e.target.value)}
-                      className="w-full rounded-xl border border-white/10 bg-[#0b0d0f] px-3 py-2 text-xs text-white placeholder-slate-500 outline-none focus:border-[#c59a67]"
+                      className="w-full rounded-xl border border-white/10 bg-[#12100e] px-3 py-2 text-xs text-white placeholder-slate-500 outline-none focus:border-[#d4af37]"
                       required
                     />
                     <select
                       value={newNoteCategory}
                       onChange={(e) => setNewNoteCategory(e.target.value as SourceNote['category'])}
-                      className="w-full rounded-xl border border-white/10 bg-[#0b0d0f] px-3 py-2 text-xs text-white outline-none focus:border-[#c59a67]"
+                      className="w-full rounded-xl border border-white/10 bg-[#12100e] px-3 py-2 text-xs text-white outline-none focus:border-[#d4af37]"
                     >
                       <option value="Custom Note">Custom Note</option>
                       <option value="Key Invariant">Key Invariant</option>
@@ -630,7 +630,7 @@ export const SourceWorkStudio: React.FC<SourceWorkStudioProps> = ({
                       rows={3}
                       value={newNoteContent}
                       onChange={(e) => setNewNoteContent(e.target.value)}
-                      className="w-full rounded-xl border border-white/10 bg-[#0b0d0f] px-3 py-2 text-xs text-white placeholder-slate-500 outline-none focus:border-[#c59a67]"
+                      className="w-full rounded-xl border border-white/10 bg-[#12100e] px-3 py-2 text-xs text-white placeholder-slate-500 outline-none focus:border-[#d4af37]"
                       required
                     />
                     <div className="flex justify-end gap-2">
@@ -643,7 +643,7 @@ export const SourceWorkStudio: React.FC<SourceWorkStudioProps> = ({
                       </button>
                       <button
                         type="submit"
-                        className="rounded-lg bg-[#c59a67] px-3 py-1 font-mono text-xs font-bold text-black hover:bg-[#d4a373]"
+                        className="rounded-lg bg-[#d4af37] px-3 py-1 font-mono text-xs font-bold text-black hover:bg-[#e5c158]"
                       >
                         Save Note
                       </button>
@@ -654,10 +654,10 @@ export const SourceWorkStudio: React.FC<SourceWorkStudioProps> = ({
                 {source.notes.map((note) => (
                   <div
                     key={note.id}
-                    className="rounded-2xl border border-white/10 bg-[#13161b] p-5 space-y-2 shadow-sm"
+                    className="rounded-2xl border border-white/10 bg-[#181512] p-5 space-y-2 shadow-sm"
                   >
                     <div className="flex items-center justify-between">
-                      <span className="rounded font-mono text-[10px] font-bold text-[#c59a67] bg-[#c59a67]/10 border border-[#c59a67]/20 px-2 py-0.5 uppercase">
+                      <span className="rounded font-mono text-[10px] font-bold text-[#d4af37] bg-[#d4af37]/10 border border-[#d4af37]/20 px-2 py-0.5 uppercase">
                         {note.category}
                       </span>
                       <span className="text-[11px] font-mono text-slate-500">{note.updatedAt}</span>
@@ -665,7 +665,7 @@ export const SourceWorkStudio: React.FC<SourceWorkStudioProps> = ({
 
                     <h4 className="text-sm font-bold text-white">{note.title}</h4>
 
-                    <div className="text-xs leading-relaxed text-slate-300 whitespace-pre-wrap font-sans bg-[#0e1115] p-3 rounded-xl border border-white/5">
+                    <div className="text-xs leading-relaxed text-slate-300 whitespace-pre-wrap font-sans bg-[#12100e] p-3 rounded-xl border border-white/5">
                       {note.content}
                     </div>
                   </div>
@@ -676,10 +676,10 @@ export const SourceWorkStudio: React.FC<SourceWorkStudioProps> = ({
             {/* TAB: RESEARCH PAPER */}
             {activeTab === 'paper' && (
               <div className="space-y-6">
-                <div className="rounded-2xl border border-white/10 bg-[#13161b] p-5 space-y-3">
+                <div className="rounded-2xl border border-white/10 bg-[#181512] p-5 space-y-3">
                   <div className="flex items-start justify-between gap-4">
                     <div>
-                      <span className="rounded font-mono text-[10px] font-bold uppercase tracking-wider text-[#c59a67] bg-[#c59a67]/10 px-2 py-0.5 border border-[#c59a67]/20">
+                      <span className="rounded font-mono text-[10px] font-bold uppercase tracking-wider text-[#d4af37] bg-[#d4af37]/10 px-2 py-0.5 border border-[#d4af37]/20">
                         {source.researchPaper.conference} ({source.researchPaper.year})
                       </span>
                       <h3 className="mt-2 font-serif-tattva text-xl font-normal text-white">
@@ -694,7 +694,7 @@ export const SourceWorkStudio: React.FC<SourceWorkStudioProps> = ({
                       href={source.researchPaper.arxivUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1.5 rounded-xl border border-white/10 bg-[#181b22] px-3 py-1.5 text-xs font-semibold text-white hover:border-[#c59a67]/60 transition shrink-0 cursor-pointer"
+                      className="inline-flex items-center gap-1.5 rounded-xl border border-white/10 bg-[#181512] px-3 py-1.5 text-xs font-semibold text-white hover:border-[#d4af37]/60 transition shrink-0 cursor-pointer"
                     >
                       <span>Read Paper</span>
                       <ExternalLink className="w-3.5 h-3.5" />
@@ -702,11 +702,11 @@ export const SourceWorkStudio: React.FC<SourceWorkStudioProps> = ({
                   </div>
                 </div>
 
-                <div className="rounded-2xl border border-white/10 bg-[#13161b] p-5 space-y-2">
+                <div className="rounded-2xl border border-white/10 bg-[#181512] p-5 space-y-2">
                   <h4 className="text-xs font-mono font-bold uppercase text-slate-400 tracking-wider">
                     Paper Abstract
                   </h4>
-                  <p className="text-xs leading-relaxed text-slate-300 italic border-l-2 border-[#c59a67] pl-3">
+                  <p className="text-xs leading-relaxed text-slate-300 italic border-l-2 border-[#d4af37] pl-3">
                     &ldquo;{source.researchPaper.abstract}&rdquo;
                   </p>
                 </div>
@@ -731,11 +731,11 @@ export const SourceWorkStudio: React.FC<SourceWorkStudioProps> = ({
         </div>
 
         {/* RIGHT SCREEN: KNOWLEDGE GRAPH (Mirroring Screenshot 2) */}
-        <div className="lg:col-span-6 xl:col-span-6 flex flex-col bg-[#0b0d0f] overflow-hidden relative">
+        <div className="lg:col-span-6 xl:col-span-6 flex flex-col bg-[#12100e] overflow-hidden relative">
           {/* Header Bar */}
-          <div className="border-b border-white/10 bg-[#0b0d0f] px-5 py-3 flex items-center justify-between">
+          <div className="border-b border-white/10 bg-[#12100e] px-5 py-3 flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <Layers className="w-4 h-4 text-[#c59a67]" />
+              <Layers className="w-4 h-4 text-[#d4af37]" />
               <span className="font-mono text-xs font-bold uppercase tracking-widest text-slate-300">
                 KNOWLEDGE GRAPH
               </span>
@@ -745,11 +745,11 @@ export const SourceWorkStudio: React.FC<SourceWorkStudioProps> = ({
               {/* STAMINA 410 Badge from Screenshot 2 */}
               <div className="flex items-center gap-2 font-mono text-xs">
                 <span className="text-slate-500 uppercase">STAMINA</span>
-                <span className="font-bold text-[#a3e635] text-sm">410</span>
+                <span className="font-bold text-[#d4af37] text-sm">410</span>
               </div>
 
               {/* Zoom Controls */}
-              <div className="flex items-center gap-1 border border-white/10 rounded-lg p-0.5 bg-[#13161b]">
+              <div className="flex items-center gap-1 border border-white/10 rounded-lg p-0.5 bg-[#181512]">
                 <button
                   type="button"
                   onClick={() => setGraphZoom((z) => Math.max(0.65, Number((z - 0.15).toFixed(2))))}
@@ -778,7 +778,7 @@ export const SourceWorkStudio: React.FC<SourceWorkStudioProps> = ({
           </div>
 
           {/* SVG Canvas Area */}
-          <div className="flex-1 relative overflow-hidden bg-[#0b0d0f] select-none min-h-[420px]">
+          <div className="flex-1 relative overflow-hidden bg-[#12100e] select-none min-h-[420px]">
             {/* Dark Radial Dot Grid Pattern */}
             <div
               className="absolute inset-0 opacity-20 pointer-events-none"
@@ -819,7 +819,7 @@ export const SourceWorkStudio: React.FC<SourceWorkStudioProps> = ({
                         <path
                           d={`M ${sx} ${sy} Q ${mx} ${my}, ${tx} ${ty}`}
                           fill="none"
-                          stroke="#c59a67"
+                          stroke="#d4af37"
                           strokeWidth={2}
                           strokeDasharray="5 3"
                         />
@@ -831,8 +831,8 @@ export const SourceWorkStudio: React.FC<SourceWorkStudioProps> = ({
                               width="64"
                               height="16"
                               rx="4"
-                              fill="#13161b"
-                              stroke="#c59a67"
+                              fill="#181512"
+                              stroke="#d4af37"
                               strokeWidth="0.8"
                             />
                             <text
@@ -841,7 +841,7 @@ export const SourceWorkStudio: React.FC<SourceWorkStudioProps> = ({
                               textAnchor="middle"
                               fontSize="8"
                               fontWeight="700"
-                              fill="#c59a67"
+                              fill="#d4af37"
                               fontFamily="monospace"
                             >
                               {edge.label}
@@ -860,7 +860,7 @@ export const SourceWorkStudio: React.FC<SourceWorkStudioProps> = ({
                       fill="none"
                       stroke={
                         sourceNode.status === 'mastered' && targetNode.status === 'mastered'
-                          ? '#a3e635'
+                          ? '#d4af37'
                           : 'rgba(255, 255, 255, 0.2)'
                       }
                       strokeWidth={
@@ -900,7 +900,7 @@ export const SourceWorkStudio: React.FC<SourceWorkStudioProps> = ({
                               setSelectedNodeId(node.id);
                               setIsDetailOpen(true);
                             }}
-                            className="absolute -top-3 left-1/2 -translate-x-1/2 whitespace-nowrap rounded font-mono bg-[#c59a67] text-[#0b0d0f] px-2 py-0.5 text-[8.5px] font-bold shadow-md hover:bg-[#d4a373] transition flex items-center gap-1 z-30 cursor-pointer"
+                            className="absolute -top-3 left-1/2 -translate-x-1/2 whitespace-nowrap rounded font-mono bg-[#d4af37] text-[#12100e] px-2 py-0.5 text-[8.5px] font-bold shadow-md hover:bg-[#e5c158] transition flex items-center gap-1 z-30 cursor-pointer"
                           >
                             <Sparkles className="w-2.5 h-2.5" />
                             <span>+{collapsedCount} Invariants</span>
@@ -911,10 +911,10 @@ export const SourceWorkStudio: React.FC<SourceWorkStudioProps> = ({
                         <div
                           className={`w-14 h-14 rounded-full flex items-center justify-center transition-all duration-200 border-2 ${
                             node.status === 'mastered'
-                              ? 'border-[#a3e635] bg-[#13161b] text-[#a3e635] shadow-[0_0_12px_rgba(163,230,53,0.25)] ring-2 ring-[#a3e635]/20'
+                              ? 'border-[#d4af37] bg-[#181512] text-[#d4af37] shadow-[0_0_12px_rgba(163,230,53,0.25)] ring-2 ring-[#d4af37]/20'
                               : node.status === 'in_progress'
-                              ? 'border-[#c59a67] bg-[#13161b] text-[#c59a67] ring-2 ring-[#c59a67]/20'
-                              : 'border-dashed border-white/20 bg-[#0e1115] text-slate-500'
+                              ? 'border-[#d4af37] bg-[#181512] text-[#d4af37] ring-2 ring-[#d4af37]/20'
+                              : 'border-dashed border-white/20 bg-[#12100e] text-slate-500'
                           } ${
                             isSelected
                               ? 'ring-4 ring-white/40 shadow-xl'
@@ -922,9 +922,9 @@ export const SourceWorkStudio: React.FC<SourceWorkStudioProps> = ({
                           }`}
                         >
                           {node.status === 'mastered' ? (
-                            <CheckCircle2 className="w-6 h-6 text-[#a3e635]" />
+                            <CheckCircle2 className="w-6 h-6 text-[#d4af37]" />
                           ) : node.status === 'in_progress' ? (
-                            <Layers className="w-5 h-5 text-[#c59a67]" />
+                            <Layers className="w-5 h-5 text-[#d4af37]" />
                           ) : (
                             <HelpCircle className="w-5 h-5 text-slate-500" />
                           )}
@@ -932,11 +932,11 @@ export const SourceWorkStudio: React.FC<SourceWorkStudioProps> = ({
 
                         {/* Status dot */}
                         <div
-                          className={`absolute top-0 right-0 w-3.5 h-3.5 rounded-full border-2 border-[#0b0d0f] ${
+                          className={`absolute top-0 right-0 w-3.5 h-3.5 rounded-full border-2 border-[#12100e] ${
                             node.status === 'mastered'
-                              ? 'bg-[#a3e635]'
+                              ? 'bg-[#d4af37]'
                               : node.status === 'in_progress'
-                              ? 'bg-[#c59a67]'
+                              ? 'bg-[#d4af37]'
                               : 'bg-slate-600'
                           }`}
                         />
@@ -944,7 +944,7 @@ export const SourceWorkStudio: React.FC<SourceWorkStudioProps> = ({
 
                       {/* Text below node: Name + 1 simple line */}
                       <div className="mt-2 w-full px-1">
-                        <div className="text-xs font-bold text-white leading-snug line-clamp-2 group-hover:text-[#c59a67] transition">
+                        <div className="text-xs font-bold text-white leading-snug line-clamp-2 group-hover:text-[#d4af37] transition">
                           {node.label}
                         </div>
                         <div className="mt-0.5 text-[10px] text-slate-400 font-medium leading-tight line-clamp-1">
@@ -959,10 +959,10 @@ export const SourceWorkStudio: React.FC<SourceWorkStudioProps> = ({
 
             {/* Detail Popover Drawer */}
             {isDetailOpen && selectedNode && (
-              <div className="absolute inset-x-4 bottom-28 top-auto max-h-[70%] overflow-y-auto rounded-2xl border border-white/15 bg-[#13161b]/98 backdrop-blur-md p-5 shadow-2xl z-40 animate-fadeIn space-y-3">
+              <div className="absolute inset-x-4 bottom-28 top-auto max-h-[70%] overflow-y-auto rounded-2xl border border-white/15 bg-[#181512]/98 backdrop-blur-md p-5 shadow-2xl z-40 animate-fadeIn space-y-3">
                 <div className="flex items-start justify-between gap-3 border-b border-white/10 pb-2.5">
                   <div className="flex items-center gap-2">
-                    <span className="font-mono text-[9px] font-bold text-[#c59a67] uppercase bg-[#c59a67]/10 px-2 py-0.5 rounded border border-[#c59a67]/30">
+                    <span className="font-mono text-[9px] font-bold text-[#d4af37] uppercase bg-[#d4af37]/10 px-2 py-0.5 rounded border border-[#d4af37]/30">
                       {selectedNode.category}
                     </span>
                     <span className="font-mono text-[10px] text-slate-400">
@@ -987,7 +987,7 @@ export const SourceWorkStudio: React.FC<SourceWorkStudioProps> = ({
                 </div>
 
                 {selectedNode.keyFormula && (
-                  <div className="rounded-xl bg-[#0b0d0f] border border-white/10 p-3 font-mono text-xs text-[#a3e635]">
+                  <div className="rounded-xl bg-[#12100e] border border-white/10 p-3 font-mono text-xs text-[#d4af37]">
                     {selectedNode.keyFormula}
                   </div>
                 )}
@@ -997,8 +997,8 @@ export const SourceWorkStudio: React.FC<SourceWorkStudioProps> = ({
                 </p>
 
                 {selectedNode.failureMode && (
-                  <div className="rounded-xl border border-[#c59a67]/40 bg-[#c59a67]/10 p-3 text-xs text-amber-200">
-                    <span className="font-bold text-[#c59a67] block mb-1">Architectural Failure Mode:</span>
+                  <div className="rounded-xl border border-[#d4af37]/40 bg-[#d4af37]/10 p-3 text-xs text-amber-200">
+                    <span className="font-bold text-[#d4af37] block mb-1">Architectural Failure Mode:</span>
                     {selectedNode.failureMode}
                   </div>
                 )}
@@ -1007,7 +1007,7 @@ export const SourceWorkStudio: React.FC<SourceWorkStudioProps> = ({
                   <button
                     type="button"
                     onClick={() => handleToggleNodeStatus(selectedNode.id)}
-                    className="rounded-lg bg-[#c59a67] px-3.5 py-1.5 text-xs font-bold text-[#0b0d0f] hover:bg-[#d4a373] transition cursor-pointer"
+                    className="rounded-lg bg-[#d4af37] px-3.5 py-1.5 text-xs font-bold text-[#12100e] hover:bg-[#e5c158] transition cursor-pointer"
                   >
                     {selectedNode.status === 'mastered' ? '✓ Mastered' : 'Mark as Mastered'}
                   </button>
@@ -1018,7 +1018,7 @@ export const SourceWorkStudio: React.FC<SourceWorkStudioProps> = ({
                       setActiveTab('quizzes');
                       setIsDetailOpen(false);
                     }}
-                    className="text-xs font-mono text-[#a3e635] hover:underline cursor-pointer"
+                    className="text-xs font-mono text-[#d4af37] hover:underline cursor-pointer"
                   >
                     Practice in Quiz →
                   </button>
@@ -1028,7 +1028,7 @@ export const SourceWorkStudio: React.FC<SourceWorkStudioProps> = ({
           </div>
 
           {/* BOTTOM SOCRATIC INQUIRY BAR (PRD §3 & §5) */}
-          <div className="border-t border-white/10 bg-[#0b0d0f] p-4 space-y-3 shrink-0">
+          <div className="border-t border-white/10 bg-[#12100e] p-4 space-y-3 shrink-0">
             {/* PRD §5: High-Visibility Adversarial AI Trap Alert */}
             {activeTrap && (
               <div className="rounded-xl border border-red-500/60 bg-red-950/60 p-4 space-y-3 animate-fadeIn shadow-2xl">
@@ -1066,7 +1066,7 @@ export const SourceWorkStudio: React.FC<SourceWorkStudioProps> = ({
             {/* Socratic Dialogue Prompt Text */}
             <div className="text-xs text-slate-300 leading-relaxed font-sans">
               {researchMode ? (
-                <span className="text-[#a3e635] font-mono text-[11px] block mb-1">
+                <span className="text-[#d4af37] font-mono text-[11px] block mb-1">
                   [ RESEARCH MODE ENGAGED: Socratic Scaffolding &bull; Direct Answers Forbidden ]
                 </span>
               ) : null}
@@ -1099,7 +1099,7 @@ export const SourceWorkStudio: React.FC<SourceWorkStudioProps> = ({
                         setSocraticInput(chip);
                       }
                     }}
-                    className="rounded border border-white/10 bg-[#13161b] px-2.5 py-1 text-[11px] font-mono text-slate-300 hover:border-[#c59a67]/60 hover:text-white transition cursor-pointer"
+                    className="rounded border border-white/10 bg-[#181512] px-2.5 py-1 text-[11px] font-mono text-slate-300 hover:border-[#d4af37]/60 hover:text-white transition cursor-pointer"
                   >
                     {chip}
                   </button>
@@ -1141,17 +1141,17 @@ export const SourceWorkStudio: React.FC<SourceWorkStudioProps> = ({
                     ? 'Input locked: resolve the adversarial trap above to continue...'
                     : 'Ask a technical question about the source material...'
                 }
-                className={`flex-1 rounded-xl border border-white/10 bg-[#13161b] px-4 py-2 text-xs text-white placeholder-slate-500 outline-none focus:border-[#c59a67]/60 font-sans ${
+                className={`flex-1 rounded-xl border border-white/10 bg-[#181512] px-4 py-2 text-xs text-white placeholder-slate-500 outline-none focus:border-[#d4af37]/60 font-sans ${
                   activeTrap ? 'opacity-50 cursor-not-allowed' : ''
                 }`}
               />
               <button
                 type="submit"
                 disabled={Boolean(activeTrap)}
-                className={`rounded-xl border border-white/15 bg-[#181b22] px-4 py-2 font-mono text-xs font-bold text-slate-200 transition ${
+                className={`rounded-xl border border-white/15 bg-[#181512] px-4 py-2 font-mono text-xs font-bold text-slate-200 transition ${
                   activeTrap
                     ? 'opacity-50 cursor-not-allowed'
-                    : 'hover:text-white hover:border-[#c59a67] cursor-pointer'
+                    : 'hover:text-white hover:border-[#d4af37] cursor-pointer'
                 }`}
               >
                 ASK

@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+﻿import React, { useMemo, useState } from 'react';
 import {
   ArrowRight,
   BookmarkPlus,
@@ -121,7 +121,7 @@ export const HomeDashboardView: React.FC<HomeDashboardViewProps> = ({
       {/* 1. TOP EDITORIAL HERO (Simple, Focused Community Hub) */}
       <div className="border-b border-white/10 pb-6 space-y-3">
         <div className="flex flex-wrap items-center gap-2">
-          <span className="font-mono text-[10px] font-bold text-[#c59a67] uppercase tracking-wider bg-[#c59a67]/10 px-2.5 py-0.5 rounded border border-[#c59a67]/30">
+          <span className="font-mono text-[10px] font-bold text-[#d4af37] uppercase tracking-wider bg-[#d4af37]/10 px-2.5 py-0.5 rounded border border-[#d4af37]/30">
             PRD §2 · The 25-Minute Baseline Constraint
           </span>
           <span className="text-xs text-slate-500">·</span>
@@ -141,7 +141,7 @@ export const HomeDashboardView: React.FC<HomeDashboardViewProps> = ({
         {/* Global telemetry invariant strip */}
         <div className="flex flex-wrap items-center gap-4 pt-2 text-[11px] font-mono text-slate-400">
           <span className="flex items-center gap-1.5">
-            <span className="w-2 h-2 rounded-full bg-[#a3e635]" />
+            <span className="w-2 h-2 rounded-full bg-[#d4af37]" />
             <strong className="text-white">18+</strong> Verified Masterclasses
           </span>
           <span>·</span>
@@ -153,9 +153,9 @@ export const HomeDashboardView: React.FC<HomeDashboardViewProps> = ({
 
       {/* Enrolled toast notification */}
       {enrolledNotice && (
-        <div className="rounded-xl border border-[#a3e635]/40 bg-[#a3e635]/10 px-4 py-3 text-xs font-mono text-[#a3e635] flex items-center justify-between animate-fadeIn">
+        <div className="rounded-xl border border-[#d4af37]/40 bg-[#d4af37]/10 px-4 py-3 text-xs font-mono text-[#d4af37] flex items-center justify-between animate-fadeIn">
           <div className="flex items-center gap-2">
-            <CheckCircle2 className="w-4 h-4 text-[#a3e635]" />
+            <CheckCircle2 className="w-4 h-4 text-[#d4af37]" />
             <span>{enrolledNotice}</span>
           </div>
           <button
@@ -179,8 +179,8 @@ export const HomeDashboardView: React.FC<HomeDashboardViewProps> = ({
               onClick={() => setSelectedCategory(cat.id)}
               className={`rounded-xl px-3.5 py-1.5 text-xs font-mono transition cursor-pointer border ${
                 selectedCategory === cat.id
-                  ? 'border-[#c59a67] bg-[#c59a67]/15 text-[#c59a67] font-bold shadow-xs'
-                  : 'border-white/10 bg-[#13161b] text-slate-400 hover:text-white hover:border-white/20'
+                  ? 'border-[#d4af37] bg-[#d4af37]/15 text-[#d4af37] font-bold shadow-xs'
+                  : 'border-white/10 bg-[#181512] text-slate-400 hover:text-white hover:border-white/20'
               }`}
             >
               {cat.label}
@@ -196,7 +196,7 @@ export const HomeDashboardView: React.FC<HomeDashboardViewProps> = ({
             value={videoSearchQuery}
             onChange={(e) => setVideoSearchQuery(e.target.value)}
             placeholder="Search masterclasses, invariants..."
-            className="w-full rounded-xl border border-white/10 bg-[#13161b] pl-9 pr-3 py-2 text-xs text-white placeholder-slate-500 outline-none focus:border-[#c59a67] font-mono"
+            className="w-full rounded-xl border border-white/10 bg-[#181512] pl-9 pr-3 py-2 text-xs text-white placeholder-slate-500 outline-none focus:border-[#d4af37] font-mono"
           />
         </div>
       </div>
@@ -206,7 +206,7 @@ export const HomeDashboardView: React.FC<HomeDashboardViewProps> = ({
         {filteredVideos.map((video, idx) => (
           <div
             key={video.id}
-            className="rounded-2xl border border-white/10 bg-[#13161b] p-4 flex flex-col justify-between space-y-4 hover:border-white/20 transition shadow-xl group"
+            className="rounded-2xl border border-white/10 bg-[#181512] p-4 flex flex-col justify-between space-y-4 hover:border-white/20 transition shadow-xl group"
           >
             {/* PRD §9 CSS-Grid Typographic Journal Cover */}
             <div
@@ -227,7 +227,7 @@ export const HomeDashboardView: React.FC<HomeDashboardViewProps> = ({
             {/* Content Details */}
             <div className="space-y-2.5 flex-1">
               <div className="flex items-center justify-between text-[11px] font-mono text-slate-400">
-                <span className="text-[#c59a67] font-semibold">{video.subtopic}</span>
+                <span className="text-[#d4af37] font-semibold">{video.subtopic}</span>
                 <span className="flex items-center gap-1 text-slate-500">
                   <Clock className="w-3 h-3" />
                   {video.duration}
@@ -236,7 +236,7 @@ export const HomeDashboardView: React.FC<HomeDashboardViewProps> = ({
 
               <h2
                 onClick={() => handleLaunchCrucible(video)}
-                className="font-serif-tattva text-lg text-white font-normal leading-snug line-clamp-2 cursor-pointer group-hover:text-[#c59a67] transition"
+                className="font-serif-tattva text-lg text-white font-normal leading-snug line-clamp-2 cursor-pointer group-hover:text-[#d4af37] transition"
               >
                 {video.title}
               </h2>
@@ -250,7 +250,7 @@ export const HomeDashboardView: React.FC<HomeDashboardViewProps> = ({
                 {video.keyConcepts.slice(0, 3).map((concept, cIdx) => (
                   <span
                     key={cIdx}
-                    className="rounded bg-[#0e1115] border border-white/5 px-2 py-0.5 font-mono text-[10px] text-slate-300"
+                    className="rounded bg-[#12100e] border border-white/5 px-2 py-0.5 font-mono text-[10px] text-slate-300"
                   >
                     {concept}
                   </span>
@@ -264,16 +264,16 @@ export const HomeDashboardView: React.FC<HomeDashboardViewProps> = ({
                 type="button"
                 onClick={() => handleEnroll(video)}
                 title="Enroll into your personal Workspace desk"
-                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-white/10 bg-[#181b22] text-xs font-mono text-slate-300 hover:text-white hover:border-[#c59a67]/60 transition cursor-pointer"
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-white/10 bg-[#181512] text-xs font-mono text-slate-300 hover:text-white hover:border-[#d4af37]/60 transition cursor-pointer"
               >
-                <BookmarkPlus className="w-3.5 h-3.5 text-[#c59a67]" />
+                <BookmarkPlus className="w-3.5 h-3.5 text-[#d4af37]" />
                 <span>+ Workspace</span>
               </button>
 
               <button
                 type="button"
                 onClick={() => handleLaunchCrucible(video)}
-                className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-xl bg-[#c59a67] text-xs font-mono font-bold text-black hover:bg-[#d4a373] transition cursor-pointer shadow-sm"
+                className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-xl bg-[#d4af37] text-xs font-mono font-bold text-black hover:bg-[#e5c158] transition cursor-pointer shadow-sm"
               >
                 <span>ENTER CRUCIBLE</span>
                 <ArrowRight className="w-3.5 h-3.5" />
@@ -284,10 +284,10 @@ export const HomeDashboardView: React.FC<HomeDashboardViewProps> = ({
       </div>
 
       {/* 4. THE ARENA COMMUNITY BOUNTY BANNER (PRD §8) */}
-      <div className="rounded-2xl border border-white/15 bg-gradient-to-r from-[#13161b] via-[#181b22] to-[#13161b] p-6 sm:p-8 flex flex-col md:flex-row md:items-center justify-between gap-6 shadow-2xl">
+      <div className="rounded-2xl border border-white/15 bg-gradient-to-r from-[#181512] via-[#181512] to-[#181512] p-6 sm:p-8 flex flex-col md:flex-row md:items-center justify-between gap-6 shadow-2xl">
         <div className="space-y-2 max-w-2xl">
           <div className="flex items-center gap-2">
-            <span className="font-mono text-[10px] font-bold text-[#a3e635] bg-[#a3e635]/10 border border-[#a3e635]/30 px-2 py-0.5 rounded uppercase">
+            <span className="font-mono text-[10px] font-bold text-[#d4af37] bg-[#d4af37]/10 border border-[#d4af37]/30 px-2 py-0.5 rounded uppercase">
               PRD §8 · Decentralized Bounties
             </span>
             <span className="text-xs font-mono text-slate-400">Weekly Challenge</span>
@@ -306,7 +306,7 @@ export const HomeDashboardView: React.FC<HomeDashboardViewProps> = ({
           <button
             type="button"
             onClick={() => onNavigate('community')}
-            className="rounded-xl border border-white/20 bg-[#1e222a] px-5 py-3 font-mono text-xs font-bold text-white hover:border-[#a3e635] transition cursor-pointer"
+            className="rounded-xl border border-white/20 bg-[#221e1a] px-5 py-3 font-mono text-xs font-bold text-white hover:border-[#d4af37] transition cursor-pointer"
           >
             VIEW ARENA BOUNTIES →
           </button>

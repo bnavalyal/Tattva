@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+﻿import React, { useEffect, useRef, useState } from 'react';
 import {
   ChevronDown,
   LogOut,
@@ -75,7 +75,7 @@ export const TopNavBar: React.FC<TopNavBarProps> = ({
   };
 
   return (
-    <header className="shrink-0 border-b border-white/10 bg-[#0b0d0f] z-40 text-slate-200">
+    <header className="shrink-0 border-b border-white/10 bg-[#12100e] z-40 text-slate-200">
       <div className="h-16 px-4 sm:px-6 flex items-center justify-between gap-4">
         {/* Left: TATTVA Brand with Sacred Geometry Wireframe Icon */}
         <div className="flex items-center gap-3 shrink-0">
@@ -96,8 +96,8 @@ export const TopNavBar: React.FC<TopNavBarProps> = ({
             className="flex items-center gap-2.5 text-left cursor-pointer group"
           >
             {/* Sacred Geometry Emblem */}
-            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-stone-800 to-stone-900 border border-white/15 flex items-center justify-center shadow-inner group-hover:border-[#c59a67]/60 transition">
-              <svg className="w-4.5 h-4.5 text-[#c59a67]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
+            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-stone-800 to-stone-900 border border-white/15 flex items-center justify-center shadow-inner group-hover:border-[#d4af37]/60 transition">
+              <svg className="w-4.5 h-4.5 text-[#d4af37]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
                 <polygon points="12 2 22 8.5 22 15.5 12 22 2 15.5 2 8.5" />
                 <line x1="12" y1="2" x2="12" y2="22" />
                 <line x1="2" y1="8.5" x2="22" y2="15.5" />
@@ -125,7 +125,7 @@ export const TopNavBar: React.FC<TopNavBarProps> = ({
             onClick={() => onChangeView('home')}
             className={`py-1 transition relative cursor-pointer ${
               activeView === 'home'
-                ? 'text-white font-semibold after:absolute after:bottom-[-18px] after:left-0 after:right-0 after:h-[2px] after:bg-[#c59a67]'
+                ? 'text-white font-semibold after:absolute after:bottom-[-18px] after:left-0 after:right-0 after:h-[2px] after:bg-[#d4af37]'
                 : 'text-slate-400 hover:text-slate-200'
             }`}
           >
@@ -137,7 +137,7 @@ export const TopNavBar: React.FC<TopNavBarProps> = ({
             onClick={() => onChangeView('tattva200')}
             className={`py-1 transition relative cursor-pointer ${
               activeView === 'tattva200'
-                ? 'text-white font-semibold after:absolute after:bottom-[-18px] after:left-0 after:right-0 after:h-[2px] after:bg-[#c59a67]'
+                ? 'text-white font-semibold after:absolute after:bottom-[-18px] after:left-0 after:right-0 after:h-[2px] after:bg-[#d4af37]'
                 : 'text-slate-400 hover:text-slate-200'
             }`}
           >
@@ -149,7 +149,7 @@ export const TopNavBar: React.FC<TopNavBarProps> = ({
             onClick={() => onChangeView('workspace')}
             className={`py-1 transition relative cursor-pointer ${
               activeView === 'workspace'
-                ? 'text-white font-semibold after:absolute after:bottom-[-18px] after:left-0 after:right-0 after:h-[2px] after:bg-[#c59a67]'
+                ? 'text-white font-semibold after:absolute after:bottom-[-18px] after:left-0 after:right-0 after:h-[2px] after:bg-[#d4af37]'
                 : 'text-slate-400 hover:text-slate-200'
             }`}
           >
@@ -161,7 +161,7 @@ export const TopNavBar: React.FC<TopNavBarProps> = ({
             onClick={() => onChangeView('videos')}
             className={`py-1 transition relative cursor-pointer ${
               activeView === 'videos'
-                ? 'text-white font-semibold after:absolute after:bottom-[-18px] after:left-0 after:right-0 after:h-[2px] after:bg-[#c59a67]'
+                ? 'text-white font-semibold after:absolute after:bottom-[-18px] after:left-0 after:right-0 after:h-[2px] after:bg-[#d4af37]'
                 : 'text-slate-400 hover:text-slate-200'
             }`}
           >
@@ -173,7 +173,7 @@ export const TopNavBar: React.FC<TopNavBarProps> = ({
             onClick={() => onChangeView('community')}
             className={`py-1 transition relative cursor-pointer ${
               activeView === 'community'
-                ? 'text-white font-semibold after:absolute after:bottom-[-18px] after:left-0 after:right-0 after:h-[2px] after:bg-[#c59a67]'
+                ? 'text-white font-semibold after:absolute after:bottom-[-18px] after:left-0 after:right-0 after:h-[2px] after:bg-[#d4af37]'
                 : 'text-slate-400 hover:text-slate-200'
             }`}
           >
@@ -185,7 +185,7 @@ export const TopNavBar: React.FC<TopNavBarProps> = ({
         <div className="flex items-center gap-3 shrink-0">
           {/* Monospace Search Bracket */}
           <form onSubmit={handleSearchSubmit} className="hidden sm:flex items-center">
-            <div className="flex items-center h-8.5 rounded-lg border border-white/10 bg-[#13161b] px-3 font-mono text-xs text-slate-400 focus-within:border-[#c59a67]/60 focus-within:text-slate-200 transition w-56 lg:w-64">
+            <div className="flex items-center h-8.5 rounded-lg border border-white/10 bg-[#181512] px-3 font-mono text-xs text-slate-400 focus-within:border-[#d4af37]/60 focus-within:text-slate-200 transition w-56 lg:w-64">
               <span className="text-slate-500 mr-1.5">[</span>
               <Search className="w-3.5 h-3.5 text-slate-400 mr-1.5" />
               <input
@@ -204,9 +204,9 @@ export const TopNavBar: React.FC<TopNavBarProps> = ({
             type="button"
             onClick={() => onChangeView('profile')}
             title="Cognitive Stamina & Execution Ledger"
-            className="flex items-center gap-2 px-2.5 py-1.5 rounded-lg border border-white/10 bg-[#13161b] hover:border-white/20 transition cursor-pointer"
+            className="flex items-center gap-2 px-2.5 py-1.5 rounded-lg border border-white/10 bg-[#181512] hover:border-white/20 transition cursor-pointer"
           >
-            <div className="w-1.5 h-1.5 rounded-full bg-[#a3e635] shadow-[0_0_8px_#a3e635]" />
+            <div className="w-1.5 h-1.5 rounded-full bg-[#d4af37] shadow-[0_0_8px_#d4af37]" />
             <span className="font-mono text-xs font-bold text-white tabular-nums">
               {(348 + curiosityCredits).toLocaleString()}
             </span>
@@ -214,7 +214,7 @@ export const TopNavBar: React.FC<TopNavBarProps> = ({
               STAMINA
             </span>
             {lastCreditDelta !== null && (
-              <span className="font-mono text-[10px] font-bold text-[#a3e635]">
+              <span className="font-mono text-[10px] font-bold text-[#d4af37]">
                 +{lastCreditDelta}
               </span>
             )}
@@ -226,7 +226,7 @@ export const TopNavBar: React.FC<TopNavBarProps> = ({
             onClick={toggleTheme}
             aria-label={theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
             title={theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
-            className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border border-white/10 bg-[#13161b] hover:border-white/20 transition cursor-pointer text-slate-300 hover:text-white"
+            className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border border-white/10 bg-[#181512] hover:border-white/20 transition cursor-pointer text-slate-300 hover:text-white"
           >
             {theme === 'dark' ? (
               <>
@@ -235,7 +235,7 @@ export const TopNavBar: React.FC<TopNavBarProps> = ({
               </>
             ) : (
               <>
-                <Moon className="w-3.5 h-3.5 text-teal-700" />
+                <Moon className="w-3.5 h-3.5 text-[#c87d55]" />
                 <span className="hidden xl:inline font-mono text-[11px] font-medium">Dark</span>
               </>
             )}
@@ -249,7 +249,7 @@ export const TopNavBar: React.FC<TopNavBarProps> = ({
               aria-expanded={accountMenuOpen}
               aria-haspopup="menu"
               title={`${user.name} (${user.email})`}
-              className="flex items-center gap-1.5 p-0.5 rounded-full border border-white/15 bg-[#181b22] hover:border-[#c59a67]/60 cursor-pointer transition"
+              className="flex items-center gap-1.5 p-0.5 rounded-full border border-white/15 bg-[#181512] hover:border-[#d4af37]/60 cursor-pointer transition"
             >
               <div className="w-7 h-7 rounded-full bg-stone-800 text-stone-200 flex items-center justify-center text-xs font-bold font-mono border border-white/10">
                 {user.name.split(' ').map((p) => p[0]).join('').slice(0, 2).toUpperCase() || 'VK'}
@@ -264,13 +264,13 @@ export const TopNavBar: React.FC<TopNavBarProps> = ({
             {accountMenuOpen && (
               <div
                 role="menu"
-                className="absolute right-0 mt-2 w-72 rounded-xl bg-[#13161b] border border-white/10 shadow-2xl p-3 z-50 space-y-2.5 animate-fadeIn"
+                className="absolute right-0 mt-2 w-72 rounded-xl bg-[#181512] border border-white/10 shadow-2xl p-3 z-50 space-y-2.5 animate-fadeIn"
               >
                 <div className="pb-2.5 border-b border-white/10">
                   <div className="text-xs font-bold text-white truncate">
                     {user.name}
                   </div>
-                  <div className="font-mono text-[11px] text-[#c59a67] truncate">
+                  <div className="font-mono text-[11px] text-[#d4af37] truncate">
                     {user.handle}
                   </div>
                   <div className="text-[10px] text-slate-400 truncate mt-0.5 font-mono">
@@ -287,7 +287,7 @@ export const TopNavBar: React.FC<TopNavBarProps> = ({
                     }}
                     className="w-full flex items-center gap-2 px-2.5 py-1.5 font-medium text-slate-300 hover:text-white hover:bg-white/5 rounded-lg text-left cursor-pointer"
                   >
-                    <PlusCircle className="w-3.5 h-3.5 text-[#c59a67]" />
+                    <PlusCircle className="w-3.5 h-3.5 text-[#d4af37]" />
                     <span>Launch New Inquiry</span>
                   </button>
 
@@ -299,7 +299,7 @@ export const TopNavBar: React.FC<TopNavBarProps> = ({
                     }}
                     className="w-full flex items-center gap-2 px-2.5 py-1.5 font-medium text-slate-300 hover:text-white hover:bg-white/5 rounded-lg text-left cursor-pointer"
                   >
-                    <Sparkles className="w-3.5 h-3.5 text-[#a3e635]" />
+                    <Sparkles className="w-3.5 h-3.5 text-[#d4af37]" />
                     <span>View Stamina Ledger</span>
                   </button>
 
@@ -314,11 +314,11 @@ export const TopNavBar: React.FC<TopNavBarProps> = ({
                       {theme === 'dark' ? (
                         <Sun className="w-3.5 h-3.5 text-amber-400" />
                       ) : (
-                        <Moon className="w-3.5 h-3.5 text-teal-700" />
+                        <Moon className="w-3.5 h-3.5 text-[#c87d55]" />
                       )}
                       <span>Appearance</span>
                     </div>
-                    <span className="font-mono text-[10px] font-bold text-[#c59a67] px-2 py-0.5 rounded bg-white/5 border border-white/10 uppercase">
+                    <span className="font-mono text-[10px] font-bold text-[#d4af37] px-2 py-0.5 rounded bg-white/5 border border-white/10 uppercase">
                       {theme === 'dark' ? 'Dark Mode' : 'Light Mode'}
                     </span>
                   </button>
