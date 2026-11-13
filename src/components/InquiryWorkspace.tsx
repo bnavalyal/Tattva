@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import {
   Background,
   Controls,
@@ -10,898 +10,451 @@ import {
   useReactFlow,
   type Edge,
   type EdgeChange,
-  type Node,
   type NodeChange,
   type NodeTypes,
 } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
 import {
-  BookOpen,
+  ArrowRight,
   CheckCircle2,
   ChevronRight,
-  Columns2,
-  Compass,
-  GitBranch,
-  History,
-  LayoutGrid,
-  Loader2,
-  Map as MapIcon,
   Maximize2,
-  MessageSquare,
-  Mic,
-  MicOff,
-  Plus,
-  Send,
-  Sparkles,
-  ZoomIn,
-  ZoomOut,
+  ShieldAlert,
 } from 'lucide-react';
-import type { InquiryNodeData, InquirySession } from '../types/thinkforge';
-import { startVoiceCapture } from '../services/inquiryService';
-import { getActivePathIds, layoutInquiryTree } from '../utils/graphLayout';
-import { formatShortDate, getObjectiveDisplay } from '../utils/objectives';
-import { KnowledgeFlowNode } from './KnowledgeFlowNode';
+import type {
+  InquiryDetail,
+  QuestionNode,
+} from '../types/tattva';
+import {
+  KnowledgeFlowNode,
+  type FlowQuestionNodeType,
+} from './KnowledgeFlowNode';
+import {
+  createInquiryEdge,
+  layoutInquiryTree,
+} from '../utils/graphLayout';
 
 const nodeTypes: NodeTypes = {
   inquiryNode: KnowledgeFlowNode,
 };
 
-type PaneMode = 'split' | 'chat' | 'graph';
-type HistoryScope = 'path' | 'all';
-
-interface InquiryWorkspaceProps {
-  inquiries: InquirySession[];
-  activeInquiry: InquirySession;
-  onSelectInquiry: (inquiryId: string) => void;
-  onNewInquiry: () => void;
-  onExploreFollowUp: (
-    inquiryId: string,
-    parentNodeId: string,
-    followUpIndex: number,
+export interface InquiryWorkspaceProps {
+  inquiryDetail: InquiryDetail;
+  selectedNodeId: string | null;
+  researchMode?: boolean;
+  onToggleResearchMode?: () => void;
+  onSubmitQuestion: (
     question: string,
-  ) => Promise<string | null>;
-  onAskCustomQuestion: (
-    inquiryId: string,
-    parentNodeId: string,
-    question: string,
-  ) => Promise<string | null>;
-  onUpdateGraph: (
-    inquiryId: string,
-    nodes: Node<InquiryNodeData>[],
-    edges: Edge[],
+    parentNodeId: string | null,
+    selectedFollowUpId: string | null,
+    researchMode: boolean,
   ) => void;
+  onSelectNode: (nodeId: string) => void;
+  onResolveTrap?: (nodeId: string) => void;
 }
 
-const WorkspaceInner: React.FC<InquiryWorkspaceProps> = ({
-  inquiries,
-  activeInquiry,
-  onSelectInquiry,
-  onNewInquiry,
-  onExploreFollowUp,
-  onAskCustomQuestion,
-  onUpdateGraph,
+const WorkspaceCanvas: React.FC<InquiryWorkspaceProps> = ({
+  inquiryDetail,
+  selectedNodeId: propSelectedNodeId,
+  researchMode = false,
+  onToggleResearchMode,
+  onSubmitQuestion,
+  onSelectNode,
+  onResolveTrap,
 }) => {
-  const reactFlowInstance = useReactFlow<Node<InquiryNodeData>, Edge>();
-  const splitContainerRef = useRef<HTMLDivElement | null>(null);
-  const composerInputRef = useRef<HTMLInputElement | null>(null);
-  const stopVoiceRef = useRef<(() => void) | null>(null);
-
-  const [isDesktopLg, setIsDesktopLg] = useState<boolean>(() =>
-    typeof window !== 'undefined' ? window.innerWidth >= 1024 : true,
+  const reactFlowInstance = useReactFlow<FlowQuestionNodeType, Edge>();
+  const [internalSelectedId, setInternalSelectedId] = useState<string | null>(
+    propSelectedNodeId || inquiryDetail.nodes[0]?.id || null,
   );
-  const [paneMode, setPaneMode] = useState<PaneMode>(() =>
-    typeof window !== 'undefined' && window.innerWidth < 1024 ? 'chat' : 'split',
-  );
-  const [splitPercent, setSplitPercent] = useState<number>(47);
-  const [isDraggingSplit, setIsDraggingSplit] = useState(false);
+  const [composerInput, setComposerInput] = useState('');
+  const [branchingFromId, setBranchingFromId] = useState<string | null>(null);
 
-  const [selectedNodeId, setSelectedNodeId] = useState<string>(
-    activeInquiry.nodes[0]?.id ?? '',
-  );
-  const [historyScope, setHistoryScope] = useState<HistoryScope>('all');
-  const [showMinimap, setShowMinimap] = useState<boolean>(true);
-  const [customQuestion, setCustomQuestion] = useState('');
-  const [isGeneratingBranch, setIsGeneratingBranch] = useState(false);
-  const [isListeningVoice, setIsListeningVoice] = useState(false);
+  const selectedNodeId = propSelectedNodeId || internalSelectedId;
 
-  // Responsive listener for laptop / tablet / mobile transitions
+  // Sync internal selected ID when prop changes
   useEffect(() => {
-    const onResize = () => {
-      const desktop = window.innerWidth >= 1024;
-      setIsDesktopLg(desktop);
-      setPaneMode((prev) => {
-        if (!desktop && prev === 'split') return 'chat';
-        return prev;
-      });
-    };
-    window.addEventListener('resize', onResize);
-    return () => window.removeEventListener('resize', onResize);
-  }, []);
-
-  // Sync selected node when switching active inquiry
-  useEffect(() => {
-    const latestNode = activeInquiry.nodes[activeInquiry.nodes.length - 1];
-    const exists = activeInquiry.nodes.some((n) => n.id === selectedNodeId);
-    if (!exists) {
-      setSelectedNodeId(latestNode?.id ?? activeInquiry.nodes[0]?.id ?? '');
+    if (propSelectedNodeId) {
+      setInternalSelectedId(propSelectedNodeId);
     }
-    const timer = window.setTimeout(() => {
-      reactFlowInstance.fitView({ padding: 0.2, duration: 320 });
-    }, 60);
-    return () => window.clearTimeout(timer);
-  }, [activeInquiry.id]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [propSelectedNodeId]);
 
-  // Re-fit graph smoothly when switching back to Graph or Split pane
-  useEffect(() => {
-    if (paneMode === 'graph' || paneMode === 'split') {
-      const timer = window.setTimeout(() => {
-        reactFlowInstance.fitView({ padding: 0.2, duration: 280 });
-      }, 90);
-      return () => window.clearTimeout(timer);
+  // Selected node object
+  const selectedNode = useMemo(() => {
+    return inquiryDetail.nodes.find((n) => n.id === selectedNodeId) || inquiryDetail.nodes[0] || null;
+  }, [inquiryDetail.nodes, selectedNodeId]);
+
+  // Active path from root to selected node
+  const activePathIds = useMemo(() => {
+    if (!selectedNodeId) return [];
+    const chain: string[] = [];
+    let curr: QuestionNode | undefined = inquiryDetail.nodes.find((n) => n.id === selectedNodeId);
+    const seen = new Set<string>();
+
+    while (curr && !seen.has(curr.id)) {
+      seen.add(curr.id);
+      chain.unshift(curr.id);
+      curr = inquiryDetail.nodes.find((n) => n.id === curr?.parentNodeId);
     }
-  }, [paneMode, splitPercent, reactFlowInstance]);
+    return chain;
+  }, [inquiryDetail.nodes, selectedNodeId]);
 
-  // Clean up active voice session on unmount
-  useEffect(() => {
-    return () => {
-      stopVoiceRef.current?.();
-    };
-  }, []);
-
-  const focusNodeInGraph = useCallback(
-    (nodeId: string) => {
-      setSelectedNodeId(nodeId);
-      const target = activeInquiry.nodes.find((n) => n.id === nodeId);
-      if (target && (paneMode === 'split' || paneMode === 'graph')) {
-        reactFlowInstance.setCenter(target.position.x + 180, target.position.y + 130, {
-          zoom: 0.95,
-          duration: 380,
-        });
-      }
-    },
-    [activeInquiry.nodes, paneMode, reactFlowInstance],
-  );
-
-  const handleBranchFromNode = useCallback(
-    (nodeId: string) => {
-      setSelectedNodeId(nodeId);
-      if (paneMode === 'graph') {
-        setPaneMode(isDesktopLg ? 'split' : 'chat');
-      }
-      window.setTimeout(() => {
-        composerInputRef.current?.focus();
-      }, 60);
-    },
-    [isDesktopLg, paneMode],
-  );
-
-  const handleTriggerFollowUp = useCallback(
-    async (parentNodeId: string, idx: number, questionText: string) => {
-      if (isGeneratingBranch) return;
-      setIsGeneratingBranch(true);
-      try {
-        const createdId = await onExploreFollowUp(
-          activeInquiry.id,
-          parentNodeId,
-          idx,
-          questionText,
-        );
-        if (createdId) {
-          setSelectedNodeId(createdId);
-          window.setTimeout(() => {
-            reactFlowInstance.fitView({ padding: 0.22, duration: 360 });
-          }, 100);
-        }
-      } finally {
-        setIsGeneratingBranch(false);
-      }
-    },
-    [activeInquiry.id, isGeneratingBranch, onExploreFollowUp, reactFlowInstance],
-  );
-
-  const handleSubmitCustomQuestion = async (e: React.FormEvent) => {
-    e.preventDefault();
-    const trimmed = customQuestion.trim();
-    if (!trimmed || isGeneratingBranch) return;
-    const anchorId = selectedNodeId || activeInquiry.nodes[0]?.id;
-    if (!anchorId) return;
-
-    setIsGeneratingBranch(true);
-    try {
-      const createdId = await onAskCustomQuestion(activeInquiry.id, anchorId, trimmed);
-      setCustomQuestion('');
-      if (createdId) {
-        setSelectedNodeId(createdId);
-        window.setTimeout(() => {
-          reactFlowInstance.fitView({ padding: 0.22, duration: 360 });
-        }, 100);
-      }
-    } finally {
-      setIsGeneratingBranch(false);
-    }
-  };
-
-  const handleToggleVoice = () => {
-    if (isListeningVoice) {
-      stopVoiceRef.current?.();
-      setIsListeningVoice(false);
-      return;
-    }
-
-    setIsListeningVoice(true);
-    stopVoiceRef.current = startVoiceCapture({
-      fallbackText: 'What real-world edge case challenges this mechanism most?',
-      onResult: (transcript) => {
-        setCustomQuestion((prev) => (prev ? `${prev} ${transcript}` : transcript));
-      },
-      onEnd: () => {
-        setIsListeningVoice(false);
-      },
-    });
-  };
-
-  // Drag handler for smooth 30%-70% split pane resizing
-  const handleStartSplitDrag = (e: React.MouseEvent) => {
-    e.preventDefault();
-    setIsDraggingSplit(true);
-
-    const onMouseMove = (moveEvent: MouseEvent) => {
-      const container = splitContainerRef.current;
-      if (!container) return;
-      const rect = container.getBoundingClientRect();
-      if (rect.width <= 0) return;
-      const rawPct = ((moveEvent.clientX - rect.left) / rect.width) * 100;
-      const clamped = Math.min(70, Math.max(30, rawPct));
-      setSplitPercent(Math.round(clamped * 10) / 10);
-    };
-
-    const onMouseUp = () => {
-      setIsDraggingSplit(false);
-      window.removeEventListener('mousemove', onMouseMove);
-      window.removeEventListener('mouseup', onMouseUp);
-    };
-
-    window.addEventListener('mousemove', onMouseMove);
-    window.addEventListener('mouseup', onMouseUp);
-  };
-
-  const handleAutoLayout = () => {
-    const laidOut = layoutInquiryTree(activeInquiry.nodes, activeInquiry.edges);
-    onUpdateGraph(activeInquiry.id, laidOut, activeInquiry.edges);
-    window.setTimeout(() => {
-      reactFlowInstance.fitView({ padding: 0.22, duration: 360 });
-    }, 60);
-  };
-
-  const handleNodesChange = useCallback(
-    (changes: NodeChange<Node<InquiryNodeData>>[]) => {
-      const nextNodes = applyNodeChanges(changes, activeInquiry.nodes);
-      onUpdateGraph(activeInquiry.id, nextNodes, activeInquiry.edges);
-    },
-    [activeInquiry.edges, activeInquiry.id, activeInquiry.nodes, onUpdateGraph],
-  );
-
-  const handleEdgesChange = useCallback(
-    (changes: EdgeChange<Edge>[]) => {
-      const nextEdges = applyEdgeChanges(changes, activeInquiry.edges);
-      onUpdateGraph(activeInquiry.id, activeInquiry.nodes, nextEdges);
-    },
-    [activeInquiry.edges, activeInquiry.id, activeInquiry.nodes, onUpdateGraph],
-  );
-
-  const activePathIds = useMemo(
-    () => getActivePathIds(selectedNodeId, activeInquiry.nodes),
-    [activeInquiry.nodes, selectedNodeId],
-  );
-
-  const activePathSet = useMemo(() => new Set(activePathIds), [activePathIds]);
-
-  const selectedNode = useMemo(
-    () =>
-      activeInquiry.nodes.find((n) => n.id === selectedNodeId) ??
-      activeInquiry.nodes[0] ??
-      null,
-    [activeInquiry.nodes, selectedNodeId],
-  );
-
-  const conversationTurns = useMemo(() => {
-    if (historyScope === 'path') {
-      return activePathIds
-        .map((id) => activeInquiry.nodes.find((n) => n.id === id))
-        .filter((n): n is Node<InquiryNodeData> => Boolean(n));
-    }
-    return [...activeInquiry.nodes].sort(
-      (a, b) =>
-        new Date(a.data.createdAt).getTime() - new Date(b.data.createdAt).getTime(),
+  // Check if current branch or selected node has an unresolved adversarial trap
+  const hasUnresolvedTrap = useMemo(() => {
+    return inquiryDetail.nodes.some(
+      (n) => activePathIds.includes(n.id) && n.isTrap && !n.trapResolvedAt,
     );
-  }, [activeInquiry.nodes, activePathIds, historyScope]);
+  }, [inquiryDetail.nodes, activePathIds]);
 
-  const maxDepth = useMemo(
-    () => activeInquiry.nodes.reduce((max, n) => Math.max(max, n.data.depth), 0),
-    [activeInquiry.nodes],
-  );
+  const activeTrapNode = useMemo(() => {
+    return inquiryDetail.nodes.find(
+      (n) => activePathIds.includes(n.id) && n.isTrap && !n.trapResolvedAt,
+    ) || null;
+  }, [inquiryDetail.nodes, activePathIds]);
 
-  const renderNodes = useMemo(
-    () =>
-      activeInquiry.nodes.map((node) => ({
-        ...node,
+  // Build ReactFlow Nodes
+  const initialNodes = useMemo<FlowQuestionNodeType[]>(() => {
+    return inquiryDetail.nodes.map((node, idx) => {
+      const isSelected = node.id === selectedNodeId;
+      const isOnActivePath = activePathIds.includes(node.id);
+
+      return {
+        id: node.id,
+        type: 'inquiryNode',
+        position: { x: 0, y: 0 },
         data: {
-          ...node.data,
-          isSelected: node.id === selectedNode?.id,
-          isOnActivePath: activePathSet.has(node.id),
-          onSelectNode: (id: string) => setSelectedNodeId(id),
-          onFocusNode: focusNodeInGraph,
-          onBranchFromNode: handleBranchFromNode,
-          onSelectFollowUp: handleTriggerFollowUp,
+          ...node,
+          nodeId: node.id,
+          depth: idx,
+          isSelected,
+          isOnActivePath,
+          onSelectNode: (id) => {
+            setInternalSelectedId(id);
+            onSelectNode(id);
+          },
+          onFocusNode: (id) => {
+            setInternalSelectedId(id);
+            onSelectNode(id);
+            const n = inquiryDetail.nodes.find((item) => item.id === id);
+            if (n && reactFlowInstance) {
+              reactFlowInstance.fitView({ nodes: [{ id }], duration: 600 });
+            }
+          },
+          onBranchFromNode: (id) => {
+            setBranchingFromId(id);
+            setInternalSelectedId(id);
+            onSelectNode(id);
+          },
+          onSelectFollowUp: (nodeId, followUp) => {
+            onSubmitQuestion(
+              followUp.questionText,
+              nodeId,
+              followUp.id,
+              researchMode,
+            );
+          },
+          onResolveTrap: (nodeId) => {
+            onResolveTrap?.(nodeId);
+          },
         },
-      })),
-    [
-      activeInquiry.nodes,
-      activePathSet,
-      focusNodeInGraph,
-      handleBranchFromNode,
-      handleTriggerFollowUp,
-      selectedNode?.id,
-    ],
+      };
+    });
+  }, [
+    inquiryDetail.nodes,
+    selectedNodeId,
+    activePathIds,
+    onSelectNode,
+    onSubmitQuestion,
+    onResolveTrap,
+    researchMode,
+    reactFlowInstance,
+  ]);
+
+  // Build ReactFlow Edges
+  const initialEdges = useMemo<Edge[]>(() => {
+    const edges: Edge[] = [];
+    for (const node of inquiryDetail.nodes) {
+      if (node.parentNodeId) {
+        const parent = inquiryDetail.nodes.find((n) => n.id === node.parentNodeId);
+        const followUpMatched = parent?.followUps?.find((f) => f.childNodeId === node.id);
+        const label = followUpMatched ? `Follow-up 0${followUpMatched.position}` : undefined;
+        edges.push(createInquiryEdge(node.parentNodeId, node.id, label));
+      }
+    }
+    return edges;
+  }, [inquiryDetail.nodes]);
+
+  // Auto-layout
+  const [nodes, setNodes] = useState<FlowQuestionNodeType[]>(() =>
+    layoutInquiryTree(initialNodes, initialEdges),
+  );
+  const [edges, setEdges] = useState<Edge[]>(initialEdges);
+
+  useEffect(() => {
+    const nextNodes = layoutInquiryTree(initialNodes, initialEdges);
+    setNodes(nextNodes);
+    setEdges(initialEdges);
+  }, [initialNodes, initialEdges]);
+
+  const onNodesChange = useCallback(
+    (changes: NodeChange<FlowQuestionNodeType>[]) =>
+      setNodes((nds) => applyNodeChanges(changes, nds)),
+    [],
   );
 
-  const objectiveMeta = getObjectiveDisplay(activeInquiry.objective);
+  const onEdgesChange = useCallback(
+    (changes: EdgeChange[]) => setEdges((eds) => applyEdgeChanges(changes, eds)),
+    [],
+  );
 
-  const effectiveLeftWidth =
-    paneMode === 'split' && isDesktopLg
-      ? `${splitPercent}%`
-      : paneMode === 'chat'
-      ? '100%'
-      : '0%';
+  const handleFitView = useCallback(() => {
+    reactFlowInstance.fitView({ padding: 0.15, duration: 500 });
+  }, [reactFlowInstance]);
 
-  const effectiveRightWidth =
-    paneMode === 'split' && isDesktopLg
-      ? `${100 - splitPercent}%`
-      : paneMode === 'graph'
-      ? '100%'
-      : '0%';
+  const handleFormSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!composerInput.trim() || hasUnresolvedTrap) return;
+
+    const parentId = branchingFromId || selectedNodeId || null;
+    onSubmitQuestion(composerInput.trim(), parentId, null, researchMode);
+    setComposerInput('');
+    setBranchingFromId(null);
+  };
 
   return (
-    <div className="flex h-[calc(100vh-4rem)] min-h-[600px] flex-col bg-[var(--bg-canvas)]">
-      {/* Workspace Header Strip */}
-      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-200 bg-white px-4 py-2.5 sm:px-6">
-        <div className="flex min-w-0 flex-1 flex-wrap items-center gap-2.5">
+    <div className="flex flex-col h-full bg-[#0b0d0f] text-slate-200 select-none overflow-hidden relative">
+      {/* Workspace Sub-header */}
+      <div className="border-b border-white/10 bg-[#0e1115] px-4 py-2.5 flex flex-wrap items-center justify-between gap-3 shrink-0">
+        <div className="flex items-center gap-3">
           <div className="flex items-center gap-2">
-            <select
-              aria-label="Switch active inquiry"
-              value={activeInquiry.id}
-              onChange={(e) => onSelectInquiry(e.target.value)}
-              className="max-w-[260px] truncate rounded-xl border border-slate-200 bg-slate-50 px-3 py-1.5 text-sm font-semibold text-slate-900 outline-none transition hover:border-indigo-300 focus:border-indigo-500"
-            >
-              {inquiries.map((inq) => (
-                <option key={inq.id} value={inq.id}>
-                  {inq.title}
-                </option>
-              ))}
-            </select>
-
-            <span
-              className={`hidden items-center gap-1.5 rounded-full border px-2.5 py-1 text-[11px] font-semibold sm:inline-flex ${objectiveMeta.badgeClasses}`}
-            >
-              <span className={`h-1.5 w-1.5 rounded-full ${objectiveMeta.dotClasses}`} />
-              {objectiveMeta.shortLabel}
+            <span className="font-mono text-[10px] font-bold text-[#c59a67] uppercase bg-[#c59a67]/10 px-2 py-0.5 rounded border border-[#c59a67]/30">
+              KNOWLEDGE GRAPH
             </span>
-
-            <span className="hidden rounded-full bg-slate-100 px-2.5 py-1 text-[11px] font-medium text-slate-600 md:inline-flex">
-              {activeInquiry.subject}
+            <span className="text-xs font-mono text-slate-400">
+              {inquiryDetail.nodes.length} Nodes Dissected
             </span>
+          </div>
+
+          {/* Active Breadcrumb Chain */}
+          <div className="hidden md:flex items-center gap-1.5 text-xs font-mono text-slate-400">
+            <span className="text-slate-600">/</span>
+            {activePathIds.map((id, idx) => {
+              const node = inquiryDetail.nodes.find((n) => n.id === id);
+              if (!node) return null;
+              const isLast = idx === activePathIds.length - 1;
+
+              return (
+                <React.Fragment key={id}>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setInternalSelectedId(id);
+                      onSelectNode(id);
+                    }}
+                    className={`truncate max-w-[140px] hover:text-white transition ${
+                      isLast ? 'text-[#c59a67] font-bold' : 'text-slate-400'
+                    }`}
+                  >
+                    {node.userQuestion}
+                  </button>
+                  {!isLast && <ChevronRight className="w-3 h-3 text-slate-600" />}
+                </React.Fragment>
+              );
+            })}
           </div>
         </div>
 
-        <div className="flex items-center gap-2">
-          {/* Responsive Mode Switcher */}
-          <div className="inline-flex items-center rounded-xl border border-slate-200 bg-slate-100/80 p-0.5">
-            {isDesktopLg && (
-              <button
-                type="button"
-                onClick={() => setPaneMode('split')}
-                className={`inline-flex items-center gap-1.5 rounded-lg px-2.5 py-1 text-xs font-semibold transition ${
-                  paneMode === 'split'
-                    ? 'bg-white text-indigo-700 shadow-sm'
-                    : 'text-slate-600 hover:text-slate-900'
+        <div className="flex items-center gap-2.5">
+          {/* PRD §7: Physical Research Mode Switch */}
+          {onToggleResearchMode && (
+            <button
+              type="button"
+              onClick={onToggleResearchMode}
+              title="PRD §7: Toggles Socratic reasoning mode with 3x Stamina multiplier"
+              className={`flex items-center gap-1.5 px-3 py-1 rounded-xl font-mono text-xs font-bold transition cursor-pointer border ${
+                researchMode
+                  ? 'border-[#a3e635]/60 bg-[#a3e635]/15 text-[#a3e635] shadow-[0_0_10px_rgba(163,230,53,0.2)]'
+                  : 'border-white/10 bg-[#13161b] text-slate-400 hover:text-white'
+              }`}
+            >
+              <div
+                className={`w-2 h-2 rounded-full ${
+                  researchMode ? 'bg-[#a3e635] animate-pulse' : 'bg-slate-600'
                 }`}
-              >
-                <Columns2 className="h-3.5 w-3.5" />
-                Split
-              </button>
-            )}
-            <button
-              type="button"
-              onClick={() => setPaneMode('chat')}
-              className={`inline-flex items-center gap-1.5 rounded-lg px-2.5 py-1 text-xs font-semibold transition ${
-                paneMode === 'chat'
-                  ? 'bg-white text-indigo-700 shadow-sm'
-                  : 'text-slate-600 hover:text-slate-900'
-              }`}
-            >
-              <MessageSquare className="h-3.5 w-3.5" />
-              Explanation
+              />
+              <span>RESEARCH MODE {researchMode ? '(3x)' : 'OFF'}</span>
             </button>
-            <button
-              type="button"
-              onClick={() => setPaneMode('graph')}
-              className={`inline-flex items-center gap-1.5 rounded-lg px-2.5 py-1 text-xs font-semibold transition ${
-                paneMode === 'graph'
-                  ? 'bg-white text-indigo-700 shadow-sm'
-                  : 'text-slate-600 hover:text-slate-900'
-              }`}
-            >
-              <GitBranch className="h-3.5 w-3.5" />
-              Graph ({activeInquiry.nodes.length})
-            </button>
-          </div>
+          )}
 
-          {/* Clear New Inquiry Button */}
           <button
             type="button"
-            onClick={onNewInquiry}
-            className="inline-flex items-center gap-1.5 rounded-xl bg-indigo-600 px-3.5 py-1.5 text-xs font-semibold text-white shadow-sm transition hover:bg-indigo-700"
+            onClick={handleFitView}
+            title="Fit graph to view"
+            className="p-1.5 rounded-lg border border-white/10 bg-[#13161b] text-slate-400 hover:text-white hover:border-[#c59a67]/60 transition cursor-pointer"
           >
-            <Plus className="h-3.5 w-3.5" />
-            New Inquiry
+            <Maximize2 className="w-3.5 h-3.5" />
           </button>
         </div>
       </div>
 
-      {/* Main Split Workspace Container */}
-      <div
-        ref={splitContainerRef}
-        className={`relative flex flex-1 overflow-hidden ${
-          isDraggingSplit ? 'select-none' : ''
-        }`}
-      >
-        {/* LEFT PANE: AI Conversation, Contextual Follow-ups & Explanation */}
-        {(paneMode === 'split' || paneMode === 'chat') && (
-          <div
-            style={{ width: effectiveLeftWidth }}
-            className="flex h-full flex-col border-r border-slate-200 bg-white transition-[width] duration-150 ease-out"
-          >
-            {/* History Scope + Path Breadcrumb */}
-            <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-100 bg-slate-50/70 px-4 py-2.5">
-              <div className="flex items-center gap-1.5 overflow-x-auto text-xs">
-                <History className="h-3.5 w-3.5 shrink-0 text-slate-400" />
-                {activePathIds.map((id, idx) => {
-                  const n = activeInquiry.nodes.find((item) => item.id === id);
-                  if (!n) return null;
-                  const isLast = idx === activePathIds.length - 1;
-                  return (
-                    <React.Fragment key={id}>
-                      {idx > 0 && <ChevronRight className="h-3 w-3 shrink-0 text-slate-300" />}
-                      <button
-                        type="button"
-                        onClick={() => focusNodeInGraph(id)}
-                        className={`max-w-[140px] truncate rounded-md px-1.5 py-0.5 text-[11px] font-medium transition ${
-                          isLast
-                            ? 'bg-indigo-100 font-semibold text-indigo-800'
-                            : 'text-slate-600 hover:bg-slate-200/70'
-                        }`}
-                      >
-                        {idx === 0 ? 'Root' : n.data.title}
-                      </button>
-                    </React.Fragment>
-                  );
-                })}
-              </div>
+      {/* ReactFlow Canvas */}
+      <div className="flex-1 relative overflow-hidden bg-[#0b0d0f]">
+        <ReactFlow
+          nodes={nodes}
+          edges={edges}
+          onNodesChange={onNodesChange}
+          onEdgesChange={onEdgesChange}
+          nodeTypes={nodeTypes}
+          fitView
+          minZoom={0.2}
+          maxZoom={1.5}
+          proOptions={{ hideAttribution: true }}
+          className="bg-[#0b0d0f]"
+        >
+          <Background color="#ffffff" gap={28} size={1} className="opacity-10" />
+          <Controls showInteractive={false} className="!border-white/10 !bg-[#13161b]" />
+          <MiniMap
+            nodeColor="#c59a67"
+            maskColor="rgba(11, 13, 15, 0.85)"
+            className="!border !border-white/10 !bg-[#13161b] !rounded-xl !overflow-hidden"
+          />
+        </ReactFlow>
+      </div>
 
-              <div className="inline-flex rounded-lg border border-slate-200 bg-white p-0.5 text-[11px] font-semibold">
-                <button
-                  type="button"
-                  onClick={() => setHistoryScope('all')}
-                  className={`rounded-md px-2 py-0.5 transition ${
-                    historyScope === 'all'
-                      ? 'bg-indigo-600 text-white'
-                      : 'text-slate-600 hover:text-slate-900'
-                  }`}
-                >
-                  All ({activeInquiry.nodes.length})
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setHistoryScope('path')}
-                  className={`rounded-md px-2 py-0.5 transition ${
-                    historyScope === 'path'
-                      ? 'bg-indigo-600 text-white'
-                      : 'text-slate-600 hover:text-slate-900'
-                  }`}
-                >
-                  Path ({activePathIds.length})
-                </button>
-              </div>
-            </div>
-
-            {/* Scrollable Conversation History + Active Explanation */}
-            <div className="flex-1 space-y-5 overflow-y-auto px-4 py-4 sm:px-5">
-              {/* Conversation Thread Strip */}
-              <div className="space-y-2">
-                <div className="flex items-center justify-between">
-                  <span className="text-[11px] font-semibold uppercase tracking-wider text-slate-400">
-                    Conversation History
-                  </span>
-                  <span className="text-[11px] text-slate-400">
-                    Click any step to inspect &amp; highlight in graph
-                  </span>
-                </div>
-
-                <div className="space-y-2">
-                  {conversationTurns.map((turn, idx) => {
-                    const isActive = turn.id === selectedNode?.id;
-                    return (
-                      <button
-                        key={turn.id}
-                        type="button"
-                        onClick={() => focusNodeInGraph(turn.id)}
-                        className={`w-full rounded-xl border p-3 text-left transition ${
-                          isActive
-                            ? 'border-indigo-400 bg-indigo-50/70 shadow-sm'
-                            : 'border-slate-200/80 bg-slate-50/50 hover:border-indigo-200 hover:bg-white'
-                        }`}
-                      >
-                        <div className="flex items-center justify-between gap-2">
-                          <span className="inline-flex items-center gap-1.5 text-[11px] font-semibold text-indigo-700">
-                            <span className="rounded bg-white px-1.5 py-0.5 text-[10px] border border-indigo-200">
-                              Q{idx + 1}
-                            </span>
-                            {turn.data.kind === 'root'
-                              ? 'Root Question'
-                              : turn.data.kind === 'peer'
-                              ? 'Peer Contribution'
-                              : `Branch Depth ${turn.data.depth}`}
-                          </span>
-                          <span className="text-[11px] text-slate-400">
-                            {formatShortDate(turn.data.createdAt)}
-                          </span>
-                        </div>
-                        <p className="mt-1.5 text-xs font-semibold text-slate-900">
-                          {turn.data.question}
-                        </p>
-                        {!isActive && (
-                          <p className="mt-1 line-clamp-1 text-[11px] text-slate-500">
-                            {turn.data.title} — {turn.data.explanation}
-                          </p>
-                        )}
-                      </button>
-                    );
-                  })}
-                </div>
-              </div>
-
-              {/* Active Node Detailed AI Explanation & 3 Contextual Follow-Ups */}
-              {selectedNode && (
-                <div className="rounded-2xl border border-indigo-100 bg-white p-5 shadow-sm ring-1 ring-slate-100">
-                  <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-100 pb-3">
-                    <div className="flex items-center gap-2">
-                      <span className="inline-flex items-center gap-1 rounded-full bg-indigo-50 px-2.5 py-0.5 text-[11px] font-semibold text-indigo-700">
-                        <Compass className="h-3 w-3" />
-                        {objectiveMeta.shortLabel}
-                      </span>
-                      <span className="text-xs font-medium text-slate-500">
-                        Depth {selectedNode.data.depth}
-                      </span>
-                    </div>
-                    <button
-                      type="button"
-                      onClick={() => {
-                        if (!isDesktopLg) setPaneMode('graph');
-                        window.setTimeout(() => focusNodeInGraph(selectedNode.id), 40);
-                      }}
-                      className="text-xs font-semibold text-indigo-600 hover:text-indigo-800"
-                    >
-                      Center Node in Graph →
-                    </button>
-                  </div>
-
-                  <div className="mt-4 space-y-3">
-                    <h2 className="text-base font-bold leading-snug text-slate-900">
-                      {selectedNode.data.question}
-                    </h2>
-
-                    <div className="rounded-xl bg-slate-50/80 p-4">
-                      <h3 className="text-xs font-bold uppercase tracking-wide text-indigo-700">
-                        {selectedNode.data.title}
-                      </h3>
-                      <p className="mt-2 text-sm leading-relaxed text-slate-700">
-                        {selectedNode.data.explanation}
-                      </p>
-                    </div>
-
-                    {/* Key Takeaways */}
-                    {selectedNode.data.takeaways.length > 0 && (
-                      <div className="space-y-1.5 pt-1">
-                        <h4 className="text-xs font-semibold uppercase tracking-wide text-slate-500">
-                          Key Takeaways
-                        </h4>
-                        <ul className="space-y-1.5">
-                          {selectedNode.data.takeaways.map((point, idx) => (
-                            <li
-                              key={idx}
-                              className="flex items-start gap-2 text-xs leading-relaxed text-slate-700"
-                            >
-                              <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-indigo-500" />
-                              <span>{point}</span>
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                    )}
-
-                    {/* References */}
-                    {selectedNode.data.references.length > 0 && (
-                      <div className="flex flex-wrap items-center gap-1.5 pt-1">
-                        <BookOpen className="h-3.5 w-3.5 text-slate-400" />
-                        {selectedNode.data.references.map((ref, idx) => (
-                          <span
-                            key={idx}
-                            className="rounded-lg border border-slate-200 bg-slate-50 px-2.5 py-1 text-[11px] font-medium text-slate-600"
-                          >
-                            {ref}
-                          </span>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-
-                  {/* Three Contextual Follow-Up Questions */}
-                  <div className="mt-5 border-t border-slate-100 pt-4">
-                    <div className="mb-2.5 flex items-center justify-between">
-                      <div className="flex items-center gap-1.5">
-                        <Sparkles className="h-4 w-4 text-indigo-600" />
-                        <span className="text-xs font-bold uppercase tracking-wide text-slate-800">
-                          3 Contextual Follow-Up Questions
-                        </span>
-                      </div>
-                      <span className="text-[11px] font-medium text-slate-500">
-                        Select to branch graph (+15 credits)
-                      </span>
-                    </div>
-
-                    <div className="space-y-2">
-                      {selectedNode.data.followUps.map((fq, idx) => {
-                        const alreadyExplored =
-                          selectedNode.data.usedFollowUps.includes(idx);
-                        return (
-                          <button
-                            key={idx}
-                            type="button"
-                            disabled={isGeneratingBranch}
-                            onClick={() =>
-                              handleTriggerFollowUp(selectedNode.id, idx, fq)
-                            }
-                            className={`flex w-full items-start gap-3 rounded-xl border px-3.5 py-2.5 text-left transition ${
-                              alreadyExplored
-                                ? 'border-emerald-200 bg-emerald-50/70 text-emerald-950 hover:bg-emerald-50'
-                                : 'border-slate-200 bg-white text-slate-800 hover:border-indigo-400 hover:bg-indigo-50/50'
-                            } disabled:opacity-60`}
-                          >
-                            <span
-                              className={`mt-0.5 inline-flex h-5 w-6 shrink-0 items-center justify-center rounded-md text-[11px] font-bold ${
-                                alreadyExplored
-                                  ? 'bg-emerald-600 text-white'
-                                  : 'bg-indigo-100 text-indigo-700'
-                              }`}
-                            >
-                              {alreadyExplored ? (
-                                <CheckCircle2 className="h-3.5 w-3.5" />
-                              ) : (
-                                `0${idx + 1}`
-                              )}
-                            </span>
-                            <div className="min-w-0 flex-1">
-                              <p className="text-xs font-semibold leading-snug">{fq}</p>
-                              <p className="mt-0.5 text-[11px] text-slate-500">
-                                {alreadyExplored
-                                  ? 'Explored · Click to revisit or inspect this branch'
-                                  : 'Click to explore this follow-up branch'}
-                              </p>
-                            </div>
-                          </button>
-                        );
-                      })}
-                    </div>
-                  </div>
-                </div>
-              )}
-            </div>
-
-            {/* Bottom Custom Question Composer */}
-            <form
-              onSubmit={handleSubmitCustomQuestion}
-              className="border-t border-slate-200 bg-slate-50/80 p-3.5 sm:px-5"
-            >
-              <div className="mb-1.5 flex items-center justify-between text-[11px] text-slate-500">
-                <span>
-                  Branching from:{' '}
-                  <strong className="font-semibold text-slate-700">
-                    {selectedNode?.data.title ?? 'Root Node'}
-                  </strong>
-                </span>
-                {isGeneratingBranch && (
-                  <span className="inline-flex items-center gap-1 font-semibold text-indigo-600">
-                    <Loader2 className="h-3 w-3 animate-spin" />
-                    Generating branch...
-                  </span>
-                )}
-              </div>
+      {/* Socratic Dialogue / Follow-up Composer Bottom Bar */}
+      <div className="border-t border-white/10 bg-[#0e1115] p-4 space-y-3 shrink-0">
+        {/* Adversarial Trap Warning Banner (§5) */}
+        {hasUnresolvedTrap && activeTrapNode?.trapMetadata && (
+          <div className="rounded-xl border border-red-500/60 bg-red-950/60 p-4 space-y-2.5 animate-fadeIn shadow-2xl">
+            <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <input
-                  ref={composerInputRef}
-                  type="text"
-                  value={customQuestion}
-                  onChange={(e) => setCustomQuestion(e.target.value)}
-                  placeholder="Ask your own follow-up question to branch from here..."
-                  className="flex-1 rounded-xl border border-slate-200 bg-white px-3.5 py-2.5 text-sm text-slate-900 outline-none transition focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/15"
-                />
-                <button
-                  type="button"
-                  onClick={handleToggleVoice}
-                  title={
-                    isListeningVoice
-                      ? 'Stop voice input'
-                      : 'Voice input (Sarvam STT integration hook)'
-                  }
-                  className={`inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border transition ${
-                    isListeningVoice
-                      ? 'border-rose-300 bg-rose-50 text-rose-600'
-                      : 'border-slate-200 bg-white text-slate-600 hover:bg-slate-100'
-                  }`}
-                >
-                  {isListeningVoice ? (
-                    <MicOff className="h-4 w-4" />
-                  ) : (
-                    <Mic className="h-4 w-4" />
-                  )}
-                </button>
-                <button
-                  type="submit"
-                  disabled={!customQuestion.trim() || isGeneratingBranch}
-                  className="inline-flex h-10 items-center gap-1.5 rounded-xl bg-indigo-600 px-4 text-xs font-semibold text-white shadow-sm transition hover:bg-indigo-700 disabled:cursor-not-allowed disabled:opacity-50"
-                >
-                  <Send className="h-3.5 w-3.5" />
-                  <span className="hidden sm:inline">Explore</span>
-                </button>
-              </div>
-            </form>
-          </div>
-        )}
-
-        {/* RESIZABLE SPLIT DIVIDER (Desktop Split Mode) */}
-        {paneMode === 'split' && isDesktopLg && (
-          <div
-            role="separator"
-            tabIndex={0}
-            aria-orientation="vertical"
-            aria-label="Resize explanation and knowledge graph panels"
-            aria-valuemin={30}
-            aria-valuemax={70}
-            aria-valuenow={Math.round(splitPercent)}
-            onMouseDown={handleStartSplitDrag}
-            onDoubleClick={() => setSplitPercent(47)}
-            onKeyDown={(e) => {
-              if (e.key === 'ArrowLeft') {
-                setSplitPercent((p) => Math.max(30, p - 3));
-              } else if (e.key === 'ArrowRight') {
-                setSplitPercent((p) => Math.min(70, p + 3));
-              } else if (e.key === 'Enter') {
-                setSplitPercent(47);
-              }
-            }}
-            title="Drag to resize panes (double-click to reset)"
-            className="group relative z-20 flex w-2.5 shrink-0 cursor-col-resize items-center justify-center bg-slate-100 transition hover:bg-indigo-100 focus:outline-none"
-          >
-            <div className="h-10 w-1 rounded-full bg-slate-300 transition group-hover:bg-indigo-500" />
-          </div>
-        )}
-
-        {/* RIGHT PANE: Interactive React Flow Knowledge Graph */}
-        {(paneMode === 'split' || paneMode === 'graph') && (
-          <div
-            style={{ width: effectiveRightWidth }}
-            className="relative h-full bg-[var(--bg-canvas)] transition-[width] duration-150 ease-out"
-          >
-            {/* Floating Graph Controls & Metrics Bar */}
-            <div className="pointer-events-none absolute left-3 right-3 top-3 z-10 flex flex-wrap items-center justify-between gap-2">
-              <div className="pointer-events-auto inline-flex items-center gap-2 rounded-xl border border-slate-200/90 bg-white/95 px-3 py-1.5 text-xs shadow-sm backdrop-blur">
-                <GitBranch className="h-3.5 w-3.5 text-indigo-600" />
-                <span className="font-semibold text-slate-800">
-                  {activeInquiry.nodes.length} nodes
+                <ShieldAlert className="w-4 h-4 text-red-400" />
+                <span className="font-mono text-xs font-bold text-red-300 uppercase tracking-wider">
+                  ⚠️ BE CAREFUL HERE!! (PRD §5 Adversarial Trap Active)
                 </span>
-                <span className="text-slate-300">·</span>
-                <span className="text-slate-500">Depth {maxDepth}</span>
               </div>
-
-              <div className="pointer-events-auto flex flex-wrap items-center gap-1 rounded-xl border border-slate-200/90 bg-white/95 p-1 shadow-sm backdrop-blur">
-                <button
-                  type="button"
-                  onClick={() => reactFlowInstance.zoomIn({ duration: 200 })}
-                  title="Zoom in"
-                  className="inline-flex h-7 w-7 items-center justify-center rounded-lg text-slate-600 transition hover:bg-slate-100 hover:text-slate-900"
-                >
-                  <ZoomIn className="h-3.5 w-3.5" />
-                </button>
-                <button
-                  type="button"
-                  onClick={() => reactFlowInstance.zoomOut({ duration: 200 })}
-                  title="Zoom out"
-                  className="inline-flex h-7 w-7 items-center justify-center rounded-lg text-slate-600 transition hover:bg-slate-100 hover:text-slate-900"
-                >
-                  <ZoomOut className="h-3.5 w-3.5" />
-                </button>
-                <button
-                  type="button"
-                  onClick={() => reactFlowInstance.fitView({ padding: 0.22, duration: 320 })}
-                  title="Fit entire knowledge graph"
-                  className="inline-flex items-center gap-1 rounded-lg px-2 py-1 text-xs font-semibold text-slate-600 transition hover:bg-slate-100 hover:text-slate-900"
-                >
-                  <Maximize2 className="h-3.5 w-3.5" />
-                  <span className="hidden sm:inline">Fit</span>
-                </button>
-                <button
-                  type="button"
-                  onClick={handleAutoLayout}
-                  title="Arrange nodes cleanly"
-                  className="inline-flex items-center gap-1 rounded-lg px-2 py-1 text-xs font-semibold text-slate-600 transition hover:bg-indigo-50 hover:text-indigo-700"
-                >
-                  <LayoutGrid className="h-3.5 w-3.5" />
-                  <span className="hidden sm:inline">Auto-Layout</span>
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setShowMinimap((prev) => !prev)}
-                  title="Toggle graph minimap"
-                  className={`inline-flex items-center gap-1 rounded-lg px-2 py-1 text-xs font-semibold transition ${
-                    showMinimap
-                      ? 'bg-indigo-50 text-indigo-700'
-                      : 'text-slate-600 hover:bg-slate-100'
-                  }`}
-                >
-                  <MapIcon className="h-3.5 w-3.5" />
-                  <span className="hidden sm:inline">Map</span>
-                </button>
-              </div>
+              <span className="font-mono text-[9px] font-bold uppercase text-red-200 bg-red-900/60 px-2 py-0.5 rounded border border-red-500/40">
+                Input Locked
+              </span>
             </div>
 
-            <ReactFlow
-              nodes={renderNodes}
-              edges={activeInquiry.edges}
-              nodeTypes={nodeTypes}
-              onNodesChange={handleNodesChange}
-              onEdgesChange={handleEdgesChange}
-              onNodeClick={(_, node) => setSelectedNodeId(node.id)}
-              fitView
-              fitViewOptions={{ padding: 0.22 }}
-              minZoom={0.35}
-              maxZoom={1.6}
-              proOptions={{ hideAttribution: true }}
-            >
-              <Background gap={22} size={1} color="#cad2c5" />
-              <Controls position="bottom-left" showInteractive={false} />
-              {showMinimap && (
-                <MiniMap
-                  position="bottom-right"
-                  pannable
-                  zoomable
-                  nodeColor={(node) => {
-                    const data = node.data as InquiryNodeData | undefined;
-                    if (data?.kind === 'root') return '#52796f';
-                    if (data?.kind === 'peer') return '#84a98c';
-                    return '#354f52';
-                  }}
-                />
-              )}
-            </ReactFlow>
+            <p className="text-xs text-red-200 leading-relaxed font-sans">
+              {activeTrapNode.trapMetadata.scenario}
+            </p>
+
+            <div className="pt-2 border-t border-red-500/30 flex items-center justify-between">
+              <span className="text-[11px] font-mono text-red-300">
+                Misconception: {activeTrapNode.trapMetadata.misconceptionType}
+              </span>
+              <button
+                type="button"
+                onClick={() => onResolveTrap?.(activeTrapNode.id)}
+                className="rounded-lg bg-red-500 px-3.5 py-1.5 font-mono text-xs font-bold text-black hover:bg-red-400 transition cursor-pointer"
+              >
+                OVERCOME TRAP &amp; UNLOCK GRAPH →
+              </button>
+            </div>
           </div>
         )}
+
+        {/* Selected Node Follow-ups Quick Launcher */}
+        {selectedNode && selectedNode.followUps && selectedNode.followUps.length > 0 && !hasUnresolvedTrap && (
+          <div className="space-y-1.5">
+            <div className="flex items-center justify-between font-mono text-[10px] text-slate-500 uppercase">
+              <span>
+                Adaptive Follow-Ups from &ldquo;{selectedNode.userQuestion.slice(0, 36)}...&rdquo;
+              </span>
+              <span>PRD §3</span>
+            </div>
+
+            <div className="flex flex-wrap gap-2">
+              {selectedNode.followUps.map((followUp) => {
+                const isBranched = Boolean(followUp.isSelected || followUp.childNodeId);
+
+                return (
+                  <button
+                    key={followUp.id}
+                    type="button"
+                    disabled={isBranched}
+                    onClick={() => {
+                      onSubmitQuestion(
+                        followUp.questionText,
+                        selectedNode.id,
+                        followUp.id,
+                        researchMode,
+                      );
+                    }}
+                    className={`rounded-lg border px-3 py-1.5 text-xs font-sans transition flex items-center gap-2 ${
+                      isBranched
+                        ? 'border-[#a3e635]/30 bg-[#a3e635]/10 text-slate-400 opacity-70 cursor-default'
+                        : 'border-white/10 bg-[#13161b] text-slate-300 hover:border-[#c59a67] hover:text-white cursor-pointer'
+                    }`}
+                  >
+                    <span className="font-mono text-[10px] font-bold text-[#c59a67]">
+                      0{followUp.position}
+                    </span>
+                    <span>{followUp.questionText}</span>
+                    {isBranched && <CheckCircle2 className="w-3 h-3 text-[#a3e635]" />}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        )}
+
+        {/* Branching from indicator */}
+        {branchingFromId && (
+          <div className="flex items-center justify-between text-xs font-mono text-[#c59a67] bg-[#c59a67]/10 px-3 py-1.5 rounded-lg border border-[#c59a67]/30">
+            <span>Branching custom question from Node {branchingFromId}</span>
+            <button
+              type="button"
+              onClick={() => setBranchingFromId(null)}
+              className="text-slate-400 hover:text-white underline cursor-pointer"
+            >
+              Cancel
+            </button>
+          </div>
+        )}
+
+        {/* Question Composer Form */}
+        <form onSubmit={handleFormSubmit} className="flex items-center gap-2 pt-1">
+          <input
+            type="text"
+            disabled={hasUnresolvedTrap}
+            value={composerInput}
+            onChange={(e) => setComposerInput(e.target.value)}
+            placeholder={
+              hasUnresolvedTrap
+                ? 'Input locked: resolve the adversarial trap above to continue reasoning...'
+                : branchingFromId
+                ? 'Ask custom follow-up question to branch from selected node...'
+                : 'Ask a technical inquiry against the source material...'
+            }
+            className={`flex-1 rounded-xl border border-white/10 bg-[#13161b] px-4 py-2.5 text-xs text-white placeholder-slate-500 outline-none focus:border-[#c59a67] font-sans ${
+              hasUnresolvedTrap ? 'opacity-50 cursor-not-allowed' : ''
+            }`}
+          />
+          <button
+            type="submit"
+            disabled={hasUnresolvedTrap || !composerInput.trim()}
+            className={`inline-flex items-center gap-1.5 rounded-xl px-5 py-2.5 font-mono text-xs font-bold transition ${
+              hasUnresolvedTrap || !composerInput.trim()
+                ? 'bg-white/5 border border-white/10 text-slate-600 opacity-50 cursor-not-allowed'
+                : 'bg-[#c59a67] text-black hover:bg-[#d4a373] cursor-pointer shadow-md'
+            }`}
+          >
+            <span>SUBMIT INQUIRY</span>
+            <ArrowRight className="w-3.5 h-3.5" />
+          </button>
+        </form>
       </div>
     </div>
   );
 };
 
-export const InquiryWorkspace: React.FC<InquiryWorkspaceProps> = (props) => (
-  <ReactFlowProvider>
-    <WorkspaceInner {...props} />
-  </ReactFlowProvider>
-);
+export const InquiryWorkspace: React.FC<InquiryWorkspaceProps> = (props) => {
+  return (
+    <ReactFlowProvider>
+      <WorkspaceCanvas {...props} />
+    </ReactFlowProvider>
+  );
+};

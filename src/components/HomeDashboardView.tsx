@@ -1,316 +1,132 @@
-import React, { useMemo, useState } from 'react';
+import React from 'react';
 import {
   ArrowRight,
-  BookmarkPlus,
-  CheckCircle2,
   Clock,
-  Search,
+  GitBranch,
+  Plus,
+  Sparkles,
 } from 'lucide-react';
-import type {
-  AppView,
-  CuriosityTransaction,
-  EngineeringVideo,
-  InquirySession,
-  LearningObjectiveId,
-  ThinkForgeUser,
-} from '../types/thinkforge';
-import { ENGINEERING_VIDEOS } from '../data/engineeringVideos';
-import { TypographicJournalCover } from './TypographicJournalCover';
+import type { Inquiry } from '../types/tattva';
 
-interface HomeDashboardViewProps {
-  user: ThinkForgeUser;
-  inquiries: InquirySession[];
-  activeInquiryId: string;
-  curiosityCredits: number;
-  recentTransactions: CuriosityTransaction[];
-  totalNodesExplored: number;
-  peerContributionsCount: number;
-  onOpenInquiry: (inquiryId: string) => void;
-  onStartNewInquiry: (prefill?: {
-    subject?: string;
-    question?: string;
-    objective?: LearningObjectiveId;
-  }) => void;
-  onLaunchTopicDirectly: (payload: {
-    subject: string;
-    question: string;
-    objective: LearningObjectiveId;
-  }) => void;
-  onNavigate: (view: AppView) => void;
-  onSelectVideo?: (video: EngineeringVideo) => void;
-  onConvertVideoToInquiry?: (video: EngineeringVideo) => void;
-  onOpenSourceInStudio?: (sourceId: string) => void;
-  onEnrollSource?: (sourceId: string) => void;
+export interface HomeDashboardViewProps {
+  inquiries: Inquiry[];
+  onSelectInquiry: (inquiryId: string) => void;
+  onStartNewInquiry: () => void;
 }
 
+/**
+ * PRD-aligned Minimal Home Landing View (Part 3)
+ * Welcome/hero block + "Start a new inquiry" CTA + Learner's existing inquiries list.
+ */
 export const HomeDashboardView: React.FC<HomeDashboardViewProps> = ({
-  user: _user,
-  inquiries: _inquiries,
-  activeInquiryId: _activeInquiryId,
-  curiosityCredits: _curiosityCredits,
-  recentTransactions: _recentTransactions,
-  totalNodesExplored: _totalNodesExplored,
-  peerContributionsCount: _peerContributionsCount,
-  onOpenInquiry: _onOpenInquiry,
-  onStartNewInquiry: _onStartNewInquiry,
-  onLaunchTopicDirectly: _onLaunchTopicDirectly,
-  onNavigate,
-  onSelectVideo: _onSelectVideo,
-  onConvertVideoToInquiry: _onConvertVideoToInquiry,
-  onOpenSourceInStudio,
-  onEnrollSource,
+  inquiries,
+  onSelectInquiry,
+  onStartNewInquiry,
 }) => {
-  const [selectedCategory, setSelectedCategory] = useState<string>('All');
-  const [videoSearchQuery, setVideoSearchQuery] = useState<string>('');
-  const [enrolledNotice, setEnrolledNotice] = useState<string | null>(null);
-
-  const categories = [
-    { id: 'All', label: 'All Disciplines' },
-    { id: 'Computer Science', label: 'Computer Systems & OS' },
-    { id: 'Cybersecurity', label: 'Cybersecurity & Defense' },
-    { id: 'AIML', label: 'AI & Machine Learning' },
-    { id: 'AIDS', label: 'AI & Data Science' },
-  ];
-
-  const filteredVideos = useMemo(() => {
-    return ENGINEERING_VIDEOS.filter((video) => {
-      const matchCat = selectedCategory === 'All' || video.category === selectedCategory;
-      const matchQuery =
-        !videoSearchQuery.trim() ||
-        video.title.toLowerCase().includes(videoSearchQuery.toLowerCase()) ||
-        video.subtopic.toLowerCase().includes(videoSearchQuery.toLowerCase()) ||
-        video.keyConcepts.some((c) => c.toLowerCase().includes(videoSearchQuery.toLowerCase()));
-      return matchCat && matchQuery;
-    });
-  }, [selectedCategory, videoSearchQuery]);
-
-  const handleEnroll = (video: EngineeringVideo) => {
-    const targetSourceId =
-      video.category === 'AIML'
-        ? 'source-transformers'
-        : video.category === 'Cybersecurity'
-        ? 'source-rsa-crypto'
-        : video.category === 'AIDS'
-        ? 'source-pca'
-        : 'source-os-sync';
-
-    onEnrollSource?.(targetSourceId);
-    setEnrolledNotice(`Enrolled "${video.title.slice(0, 42)}..." into your Workspace.`);
-    setTimeout(() => setEnrolledNotice(null), 3500);
-  };
-
-  const handleLaunchCrucible = (video: EngineeringVideo) => {
-    const targetSourceId =
-      video.category === 'AIML'
-        ? 'source-transformers'
-        : video.category === 'Cybersecurity'
-        ? 'source-rsa-crypto'
-        : video.category === 'AIDS'
-        ? 'source-pca'
-        : 'source-os-sync';
-
-    if (onOpenSourceInStudio) {
-      onOpenSourceInStudio(targetSourceId);
-    } else {
-      onNavigate('workspace');
-    }
-  };
-
   return (
-    <div className="mx-auto max-w-7xl space-y-8 px-4 py-8 sm:px-6 lg:px-8 text-slate-200">
-      {/* 1. TOP EDITORIAL HERO (Simple, Focused Community Hub) */}
-      <div className="border-b border-white/10 pb-6 space-y-3">
-        <div className="flex flex-wrap items-center gap-2">
+    <div className="mx-auto max-w-4xl space-y-8 px-4 py-12 sm:px-6 lg:px-8 text-slate-200">
+      {/* 1. Hero Block: Serif + Gold Visual Identity */}
+      <div className="space-y-4 text-left border-b border-white/10 pb-8">
+        <div className="flex items-center gap-2">
           <span className="font-mono text-[10px] font-bold text-[#c59a67] uppercase tracking-wider bg-[#c59a67]/10 px-2.5 py-0.5 rounded border border-[#c59a67]/30">
-            PRD §2 · The 25-Minute Baseline Constraint
+            INTELLECTUAL EXECUTION PLATFORM
           </span>
           <span className="text-xs text-slate-500">·</span>
-          <span className="text-xs font-mono text-slate-400">
-            Community Knowledge Crucible
+          <span className="font-mono text-xs text-slate-400">
+            SYSTEM: ACTIVE
           </span>
         </div>
 
-        <h1 className="font-serif-tattva text-3xl sm:text-4xl text-white font-normal tracking-tight">
-          Where Engineering Rigor Meets First Principles.
+        <h1 className="font-serif-tattva text-4xl sm:text-5xl text-white font-normal tracking-tight leading-tight">
+          Your thinking leaves evidence.
         </h1>
 
-        <p className="text-xs sm:text-sm text-slate-400 max-w-3xl leading-relaxed">
-          Tattva strictly rejects 60-second shorts and superficial tutorials. Every lecture below meets our mandatory 25-minute chronological floor, designed for GATE aspirants, ISRO scholars, and elite systems engineers dissecting compilers, memory safety, and foundation models.
+        <p className="text-sm sm:text-base text-slate-400 max-w-2xl leading-relaxed font-sans">
+          Build deep technical understanding. Challenge your assumptions. Every inquiry you launch grows a persistent, branching knowledge graph tested against adversarial misconceptions.
         </p>
 
-        {/* Global telemetry invariant strip */}
-        <div className="flex flex-wrap items-center gap-4 pt-2 text-[11px] font-mono text-slate-400">
-          <span className="flex items-center gap-1.5">
-            <span className="w-2 h-2 rounded-full bg-[#a3e635]" />
-            <strong className="text-white">18+</strong> Verified Masterclasses
+        {/* Primary CTA */}
+        <div className="pt-2 flex items-center gap-4">
+          <button
+            type="button"
+            onClick={onStartNewInquiry}
+            className="inline-flex items-center gap-2 rounded-xl bg-[#c59a67] px-5 py-3 font-mono text-xs font-bold text-black hover:bg-[#d4a373] transition cursor-pointer shadow-lg shadow-black/40"
+          >
+            <Plus className="w-4 h-4 text-black" />
+            <span>START A NEW INQUIRY</span>
+            <ArrowRight className="w-4 h-4 text-black" />
+          </button>
+        </div>
+      </div>
+
+      {/* 2. Learner's Inquiries List */}
+      <div className="space-y-4">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <GitBranch className="w-4 h-4 text-[#c59a67]" />
+            <h2 className="font-mono text-xs font-bold text-white uppercase tracking-wider">
+              Your Active Knowledge Graphs ({inquiries.length})
+            </h2>
+          </div>
+          <span className="font-mono text-[11px] text-slate-500">
+            Select an inquiry to enter split-screen workspace
           </span>
-          <span>·</span>
-          <span>PRD §9 Standardized Academic Covers</span>
-          <span>·</span>
-          <span>Append-Only Telemetry Active</span>
-        </div>
-      </div>
-
-      {/* Enrolled toast notification */}
-      {enrolledNotice && (
-        <div className="rounded-xl border border-[#a3e635]/40 bg-[#a3e635]/10 px-4 py-3 text-xs font-mono text-[#a3e635] flex items-center justify-between animate-fadeIn">
-          <div className="flex items-center gap-2">
-            <CheckCircle2 className="w-4 h-4 text-[#a3e635]" />
-            <span>{enrolledNotice}</span>
-          </div>
-          <button
-            type="button"
-            onClick={() => onNavigate('workspace')}
-            className="underline font-bold hover:text-white cursor-pointer ml-4"
-          >
-            Go to My Workspace →
-          </button>
-        </div>
-      )}
-
-      {/* 2. CATEGORY FILTERS & BRACKETED SEARCH */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-        {/* Category Pills */}
-        <div className="flex flex-wrap gap-2">
-          {categories.map((cat) => (
-            <button
-              key={cat.id}
-              type="button"
-              onClick={() => setSelectedCategory(cat.id)}
-              className={`rounded-xl px-3.5 py-1.5 text-xs font-mono transition cursor-pointer border ${
-                selectedCategory === cat.id
-                  ? 'border-[#c59a67] bg-[#c59a67]/15 text-[#c59a67] font-bold shadow-xs'
-                  : 'border-white/10 bg-[#13161b] text-slate-400 hover:text-white hover:border-white/20'
-              }`}
-            >
-              {cat.label}
-            </button>
-          ))}
         </div>
 
-        {/* Search */}
-        <div className="relative w-full md:w-72">
-          <Search className="w-3.5 h-3.5 text-slate-500 absolute left-3 top-3 pointer-events-none" />
-          <input
-            type="text"
-            value={videoSearchQuery}
-            onChange={(e) => setVideoSearchQuery(e.target.value)}
-            placeholder="Search masterclasses, invariants..."
-            className="w-full rounded-xl border border-white/10 bg-[#13161b] pl-9 pr-3 py-2 text-xs text-white placeholder-slate-500 outline-none focus:border-[#c59a67] font-mono"
-          />
-        </div>
-      </div>
-
-      {/* 3. COMMUNITY MASTERCLASS GRID (Standardized Typographic Covers §9) */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {filteredVideos.map((video, idx) => (
-          <div
-            key={video.id}
-            className="rounded-2xl border border-white/10 bg-[#13161b] p-4 flex flex-col justify-between space-y-4 hover:border-white/20 transition shadow-xl group"
-          >
-            {/* PRD §9 CSS-Grid Typographic Journal Cover */}
-            <div
-              className="cursor-pointer"
-              onClick={() => handleLaunchCrucible(video)}
-              title="Click to enter split-screen crucible"
-            >
-              <TypographicJournalCover
-                title={video.title}
-                interlocutor={video.channelName}
-                subject={video.category}
-                durationMinutes={video.durationMinutes}
-                templateIndex={idx}
-                codeIndex={String(idx + 1).padStart(2, '0')}
-              />
+        {inquiries.length === 0 ? (
+          <div className="rounded-2xl border border-dashed border-white/10 bg-[#13161b]/50 p-10 text-center space-y-3">
+            <div className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-slate-400 mx-auto">
+              <Sparkles className="w-5 h-5 text-[#c59a67]" />
             </div>
-
-            {/* Content Details */}
-            <div className="space-y-2.5 flex-1">
-              <div className="flex items-center justify-between text-[11px] font-mono text-slate-400">
-                <span className="text-[#c59a67] font-semibold">{video.subtopic}</span>
-                <span className="flex items-center gap-1 text-slate-500">
-                  <Clock className="w-3 h-3" />
-                  {video.duration}
-                </span>
-              </div>
-
-              <h2
-                onClick={() => handleLaunchCrucible(video)}
-                className="font-serif-tattva text-lg text-white font-normal leading-snug line-clamp-2 cursor-pointer group-hover:text-[#c59a67] transition"
-              >
-                {video.title}
-              </h2>
-
-              <p className="text-xs text-slate-400 line-clamp-2 leading-relaxed font-sans">
-                {video.description}
-              </p>
-
-              {/* Invariants / Key Concepts */}
-              <div className="flex flex-wrap gap-1.5 pt-1">
-                {video.keyConcepts.slice(0, 3).map((concept, cIdx) => (
-                  <span
-                    key={cIdx}
-                    className="rounded bg-[#0e1115] border border-white/5 px-2 py-0.5 font-mono text-[10px] text-slate-300"
-                  >
-                    {concept}
-                  </span>
-                ))}
-              </div>
-            </div>
-
-            {/* CTAs */}
-            <div className="pt-3 border-t border-white/10 flex items-center justify-between gap-2">
-              <button
-                type="button"
-                onClick={() => handleEnroll(video)}
-                title="Enroll into your personal Workspace desk"
-                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-white/10 bg-[#181b22] text-xs font-mono text-slate-300 hover:text-white hover:border-[#c59a67]/60 transition cursor-pointer"
-              >
-                <BookmarkPlus className="w-3.5 h-3.5 text-[#c59a67]" />
-                <span>+ Workspace</span>
-              </button>
-
-              <button
-                type="button"
-                onClick={() => handleLaunchCrucible(video)}
-                className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-xl bg-[#c59a67] text-xs font-mono font-bold text-black hover:bg-[#d4a373] transition cursor-pointer shadow-sm"
-              >
-                <span>ENTER CRUCIBLE</span>
-                <ArrowRight className="w-3.5 h-3.5" />
-              </button>
-            </div>
+            <p className="text-sm text-slate-300 font-medium">No inquiries initiated yet.</p>
+            <p className="text-xs text-slate-500 max-w-md mx-auto">
+              Select &ldquo;Start a new inquiry&rdquo; above to ingest a technical learning source and begin your first-principles crucible.
+            </p>
           </div>
-        ))}
-      </div>
+        ) : (
+          <div className="space-y-3">
+            {inquiries.map((inquiry) => {
+              const formattedDate = new Date(inquiry.createdAt).toLocaleDateString('en-US', {
+                month: 'short',
+                day: 'numeric',
+                year: 'numeric',
+              });
 
-      {/* 4. THE ARENA COMMUNITY BOUNTY BANNER (PRD §8) */}
-      <div className="rounded-2xl border border-white/15 bg-gradient-to-r from-[#13161b] via-[#181b22] to-[#13161b] p-6 sm:p-8 flex flex-col md:flex-row md:items-center justify-between gap-6 shadow-2xl">
-        <div className="space-y-2 max-w-2xl">
-          <div className="flex items-center gap-2">
-            <span className="font-mono text-[10px] font-bold text-[#a3e635] bg-[#a3e635]/10 border border-[#a3e635]/30 px-2 py-0.5 rounded uppercase">
-              PRD §8 · Decentralized Bounties
-            </span>
-            <span className="text-xs font-mono text-slate-400">Weekly Challenge</span>
+              return (
+                <div
+                  key={inquiry.id}
+                  onClick={() => onSelectInquiry(inquiry.id)}
+                  className="rounded-2xl border border-white/10 bg-[#13161b] p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4 hover:border-[#c59a67]/60 transition-all duration-200 cursor-pointer shadow-md group"
+                >
+                  <div className="space-y-1">
+                    <div className="flex items-center gap-2">
+                      <span className="font-mono text-[10px] text-[#c59a67] uppercase bg-[#c59a67]/10 px-2 py-0.5 rounded border border-[#c59a67]/20">
+                        INQUIRY
+                      </span>
+                      <span className="font-mono text-xs text-slate-500 flex items-center gap-1">
+                        <Clock className="w-3 h-3" />
+                        {formattedDate}
+                      </span>
+                    </div>
+
+                    <h3 className="font-serif-tattva text-lg text-white font-normal group-hover:text-[#c59a67] transition">
+                      {inquiry.title || 'Untitled Technical Inquiry'}
+                    </h3>
+
+                    <div className="font-mono text-[11px] text-slate-500">
+                      Learning Source Ref: {inquiry.learningSourceId}
+                    </div>
+                  </div>
+
+                  <div className="shrink-0 flex items-center gap-2 font-mono text-xs font-semibold text-[#c59a67] group-hover:translate-x-1 transition-transform">
+                    <span>Open Workspace</span>
+                    <ArrowRight className="w-4 h-4" />
+                  </div>
+                </div>
+              );
+            })}
           </div>
-
-          <h3 className="font-serif-tattva text-2xl text-white font-normal">
-            The Arena: Crowdsource the Definitive Seed Graph
-          </h3>
-
-          <p className="text-xs sm:text-sm text-slate-400 leading-relaxed font-sans">
-            Current Challenge: <em>&ldquo;Explain the mathematical intuition behind Fourier Transforms in Signal Processing.&rdquo;</em> Submit your completed Knowledge Graph. Peer-reviewed votes from high-stamina scholars determine the official platform seed.
-          </p>
-        </div>
-
-        <div className="shrink-0 flex items-center gap-3">
-          <button
-            type="button"
-            onClick={() => onNavigate('community')}
-            className="rounded-xl border border-white/20 bg-[#1e222a] px-5 py-3 font-mono text-xs font-bold text-white hover:border-[#a3e635] transition cursor-pointer"
-          >
-            VIEW ARENA BOUNTIES →
-          </button>
-        </div>
+        )}
       </div>
     </div>
   );

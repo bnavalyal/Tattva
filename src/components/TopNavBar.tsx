@@ -1,44 +1,39 @@
 import React, { useEffect, useRef, useState } from 'react';
 import {
   ChevronDown,
-  LogOut,
-  Menu,
   Moon,
   PlusCircle,
-  Search,
-  Sparkles,
   Sun,
+  User,
 } from 'lucide-react';
-import type { AppView, ThinkForgeUser } from '../types/thinkforge';
 import { useTheme } from '../context/ThemeContext';
 
-interface TopNavBarProps {
-  onToggleSidebar: () => void;
-  sidebarCollapsed: boolean;
-  activeView?: AppView;
-  onChangeView: (view: AppView) => void;
-  curiosityCredits: number;
-  lastCreditDelta: number | null;
-  inquiryCount: number;
-  user: ThinkForgeUser;
-  onSignOut: () => void;
-  onGlobalSearch?: (query: string) => void;
+export type TopNavView = 'home' | 'workspace' | 'create';
+
+export interface TopNavBarProps {
+  activeView?: TopNavView;
+  onChangeView: (view: TopNavView) => void;
+  staminaScore?: number;
+  user?: {
+    id: string;
+    isAnonymous: boolean;
+  };
+  onStartNewInquiry?: () => void;
 }
 
+/**
+ * PRD §1-4: Streamlined Tattva Top Navigation Bar
+ * Only "Overview" and "My Knowledge Graphs".
+ * Integrated Cognitive Stamina Counter + Dark Obsidian / Light Sage theme toggle.
+ */
 export const TopNavBar: React.FC<TopNavBarProps> = ({
-  onToggleSidebar,
-  sidebarCollapsed,
   activeView = 'home',
   onChangeView,
-  curiosityCredits,
-  lastCreditDelta,
-  inquiryCount,
-  user,
-  onSignOut,
-  onGlobalSearch,
+  staminaScore = 448,
+  user = { id: 'usr-anon-reva-hack', isAnonymous: true },
+  onStartNewInquiry,
 }) => {
   const [accountMenuOpen, setAccountMenuOpen] = useState(false);
-  const [searchQuery, setSearchQuery] = useState('');
   const accountMenuRef = useRef<HTMLDivElement | null>(null);
   const { theme, toggleTheme } = useTheme();
 
@@ -66,11 +61,12 @@ export const TopNavBar: React.FC<TopNavBarProps> = ({
     };
   }, [accountMenuOpen]);
 
-  const handleSearchSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (searchQuery.trim()) {
-      onGlobalSearch?.(searchQuery.trim());
-      onChangeView('videos');
+  const handleStartInquiry = () => {
+    setAccountMenuOpen(false);
+    if (onStartNewInquiry) {
+      onStartNewInquiry();
+    } else {
+      onChangeView('create');
     }
   };
 
@@ -81,23 +77,19 @@ export const TopNavBar: React.FC<TopNavBarProps> = ({
         <div className="flex items-center gap-3 shrink-0">
           <button
             type="button"
-            onClick={onToggleSidebar}
-            aria-label={sidebarCollapsed ? 'Expand sidebar' : 'Collapse sidebar'}
-            title={sidebarCollapsed ? 'Expand sidebar' : 'Collapse sidebar'}
-            className="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-white/5 transition cursor-pointer lg:hidden"
-          >
-            <Menu className="w-5 h-5" />
-          </button>
-
-          <button
-            type="button"
             onClick={() => onChangeView('home')}
             title="TATTVA: Intellectual Execution Platform"
             className="flex items-center gap-2.5 text-left cursor-pointer group"
           >
             {/* Sacred Geometry Emblem */}
             <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-stone-800 to-stone-900 border border-white/15 flex items-center justify-center shadow-inner group-hover:border-[#c59a67]/60 transition">
-              <svg className="w-4.5 h-4.5 text-[#c59a67]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
+              <svg
+                className="w-4.5 h-4.5 text-[#c59a67]"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.6"
+              >
                 <polygon points="12 2 22 8.5 22 15.5 12 22 2 15.5 2 8.5" />
                 <line x1="12" y1="2" x2="12" y2="22" />
                 <line x1="2" y1="8.5" x2="22" y2="15.5" />
@@ -118,8 +110,8 @@ export const TopNavBar: React.FC<TopNavBarProps> = ({
           </button>
         </div>
 
-        {/* Center: Official Navigation Tabs */}
-        <nav className="hidden md:flex items-center gap-6 text-xs font-medium">
+        {/* Center: Official Navigation Tabs (Only Overview & My Knowledge Graphs) */}
+        <nav className="flex items-center gap-6 text-xs font-medium">
           <button
             type="button"
             onClick={() => onChangeView('home')}
@@ -134,18 +126,6 @@ export const TopNavBar: React.FC<TopNavBarProps> = ({
 
           <button
             type="button"
-            onClick={() => onChangeView('tattva200')}
-            className={`py-1 transition relative cursor-pointer ${
-              activeView === 'tattva200'
-                ? 'text-white font-semibold after:absolute after:bottom-[-18px] after:left-0 after:right-0 after:h-[2px] after:bg-[#c59a67]'
-                : 'text-slate-400 hover:text-slate-200'
-            }`}
-          >
-            Tattva 200
-          </button>
-
-          <button
-            type="button"
             onClick={() => onChangeView('workspace')}
             className={`py-1 transition relative cursor-pointer ${
               activeView === 'workspace'
@@ -155,70 +135,23 @@ export const TopNavBar: React.FC<TopNavBarProps> = ({
           >
             My Knowledge Graphs
           </button>
-
-          <button
-            type="button"
-            onClick={() => onChangeView('videos')}
-            className={`py-1 transition relative cursor-pointer ${
-              activeView === 'videos'
-                ? 'text-white font-semibold after:absolute after:bottom-[-18px] after:left-0 after:right-0 after:h-[2px] after:bg-[#c59a67]'
-                : 'text-slate-400 hover:text-slate-200'
-            }`}
-          >
-            Lectures
-          </button>
-
-          <button
-            type="button"
-            onClick={() => onChangeView('community')}
-            className={`py-1 transition relative cursor-pointer ${
-              activeView === 'community'
-                ? 'text-white font-semibold after:absolute after:bottom-[-18px] after:left-0 after:right-0 after:h-[2px] after:bg-[#c59a67]'
-                : 'text-slate-400 hover:text-slate-200'
-            }`}
-          >
-            Community
-          </button>
         </nav>
 
-        {/* Right: Search [ Ctrl+K ], Stamina & Avatar */}
+        {/* Right: Cognitive Stamina, Theme Toggle & User Capsule */}
         <div className="flex items-center gap-3 shrink-0">
-          {/* Monospace Search Bracket */}
-          <form onSubmit={handleSearchSubmit} className="hidden sm:flex items-center">
-            <div className="flex items-center h-8.5 rounded-lg border border-white/10 bg-[#13161b] px-3 font-mono text-xs text-slate-400 focus-within:border-[#c59a67]/60 focus-within:text-slate-200 transition w-56 lg:w-64">
-              <span className="text-slate-500 mr-1.5">[</span>
-              <Search className="w-3.5 h-3.5 text-slate-400 mr-1.5" />
-              <input
-                type="text"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Search dashboard / Ctrl+K"
-                className="w-full bg-transparent text-xs text-slate-200 placeholder-slate-500 outline-none font-mono"
-              />
-              <span className="text-slate-500 ml-1.5">]</span>
-            </div>
-          </form>
-
           {/* Cognitive Stamina Badge */}
-          <button
-            type="button"
-            onClick={() => onChangeView('profile')}
-            title="Cognitive Stamina & Execution Ledger"
-            className="flex items-center gap-2 px-2.5 py-1.5 rounded-lg border border-white/10 bg-[#13161b] hover:border-white/20 transition cursor-pointer"
+          <div
+            title="Cognitive Stamina: Verified intellectual activity"
+            className="flex items-center gap-2 px-2.5 py-1.5 rounded-lg border border-white/10 bg-[#13161b]"
           >
             <div className="w-1.5 h-1.5 rounded-full bg-[#a3e635] shadow-[0_0_8px_#a3e635]" />
             <span className="font-mono text-xs font-bold text-white tabular-nums">
-              {(348 + curiosityCredits).toLocaleString()}
+              {staminaScore.toLocaleString()}
             </span>
             <span className="text-[10px] font-mono tracking-wider text-slate-400 uppercase hidden sm:inline">
               STAMINA
             </span>
-            {lastCreditDelta !== null && (
-              <span className="font-mono text-[10px] font-bold text-[#a3e635]">
-                +{lastCreditDelta}
-              </span>
-            )}
-          </button>
+          </div>
 
           {/* Theme Toggle Button (Dark Obsidian <-> Light Sage Mode) */}
           <button
@@ -241,18 +174,18 @@ export const TopNavBar: React.FC<TopNavBarProps> = ({
             )}
           </button>
 
-          {/* Account Profile Avatar */}
+          {/* Account Profile / Session Capsule */}
           <div ref={accountMenuRef} className="relative">
             <button
               type="button"
               onClick={() => setAccountMenuOpen((prev) => !prev)}
               aria-expanded={accountMenuOpen}
               aria-haspopup="menu"
-              title={`${user.name} (${user.email})`}
-              className="flex items-center gap-1.5 p-0.5 rounded-full border border-white/15 bg-[#181b22] hover:border-[#c59a67]/60 cursor-pointer transition"
+              title={`Identity: ${user.id} (${user.isAnonymous ? 'Anonymous' : 'Authenticated'})`}
+              className="flex items-center gap-1.5 p-1 rounded-full border border-white/15 bg-[#181b22] hover:border-[#c59a67]/60 cursor-pointer transition"
             >
-              <div className="w-7 h-7 rounded-full bg-stone-800 text-stone-200 flex items-center justify-center text-xs font-bold font-mono border border-white/10">
-                {user.name.split(' ').map((p) => p[0]).join('').slice(0, 2).toUpperCase() || 'VK'}
+              <div className="w-6 h-6 rounded-full bg-stone-800 text-stone-200 flex items-center justify-center text-[10px] font-bold font-mono border border-white/10">
+                <User className="w-3.5 h-3.5 text-slate-300" />
               </div>
               <ChevronDown
                 className={`w-3 h-3 text-slate-400 mr-1 transition-transform ${
@@ -264,43 +197,28 @@ export const TopNavBar: React.FC<TopNavBarProps> = ({
             {accountMenuOpen && (
               <div
                 role="menu"
-                className="absolute right-0 mt-2 w-72 rounded-xl bg-[#13161b] border border-white/10 shadow-2xl p-3 z-50 space-y-2.5 animate-fadeIn"
+                className="absolute right-0 mt-2 w-64 rounded-xl bg-[#13161b] border border-white/10 shadow-2xl p-3 z-50 space-y-2.5 animate-fadeIn"
               >
                 <div className="pb-2.5 border-b border-white/10">
-                  <div className="text-xs font-bold text-white truncate">
-                    {user.name}
+                  <div className="text-xs font-bold text-white truncate font-mono">
+                    {user.id}
                   </div>
-                  <div className="font-mono text-[11px] text-[#c59a67] truncate">
-                    {user.handle}
+                  <div className="font-mono text-[10px] text-[#c59a67] truncate mt-0.5">
+                    {user.isAnonymous ? 'Anonymous Session' : 'Verified Learner'}
                   </div>
                   <div className="text-[10px] text-slate-400 truncate mt-0.5 font-mono">
-                    System: Active • {inquiryCount} Inquiries
+                    System: Active &middot; {staminaScore} Stamina
                   </div>
                 </div>
 
                 <div className="space-y-1 text-xs">
                   <button
                     type="button"
-                    onClick={() => {
-                      setAccountMenuOpen(false);
-                      onChangeView('create');
-                    }}
+                    onClick={handleStartInquiry}
                     className="w-full flex items-center gap-2 px-2.5 py-1.5 font-medium text-slate-300 hover:text-white hover:bg-white/5 rounded-lg text-left cursor-pointer"
                   >
                     <PlusCircle className="w-3.5 h-3.5 text-[#c59a67]" />
                     <span>Launch New Inquiry</span>
-                  </button>
-
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setAccountMenuOpen(false);
-                      onChangeView('profile');
-                    }}
-                    className="w-full flex items-center gap-2 px-2.5 py-1.5 font-medium text-slate-300 hover:text-white hover:bg-white/5 rounded-lg text-left cursor-pointer"
-                  >
-                    <Sparkles className="w-3.5 h-3.5 text-[#a3e635]" />
-                    <span>View Stamina Ledger</span>
                   </button>
 
                   <button
@@ -322,20 +240,6 @@ export const TopNavBar: React.FC<TopNavBarProps> = ({
                       {theme === 'dark' ? 'Dark Mode' : 'Light Mode'}
                     </span>
                   </button>
-
-                  <div className="pt-1.5 border-t border-white/10">
-                    <button
-                      type="button"
-                      onClick={() => {
-                        setAccountMenuOpen(false);
-                        onSignOut();
-                      }}
-                      className="w-full flex items-center gap-2 px-2.5 py-1.5 text-red-400 hover:bg-red-950/30 rounded-lg text-left cursor-pointer"
-                    >
-                      <LogOut className="w-3.5 h-3.5" />
-                      <span>Sign Out</span>
-                    </button>
-                  </div>
                 </div>
               </div>
             )}

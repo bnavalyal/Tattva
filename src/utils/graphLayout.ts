@@ -1,17 +1,17 @@
 import type { Edge, Node } from '@xyflow/react';
-import type { InquiryNodeData } from '../types/thinkforge';
+import type { KnowledgeFlowNodeData } from '../components/KnowledgeFlowNode';
 
-const NODE_WIDTH_STEP = 410;
-const NODE_HEIGHT_STEP = 390;
+const NODE_WIDTH_STEP = 420;
+const NODE_HEIGHT_STEP = 380;
 
 /**
  * Computes a clean top-down hierarchical tree layout for inquiry nodes
- * without requiring an external graph layout library.
+ * without requiring an external heavy graph layout library.
  */
 export function layoutInquiryTree(
-  nodes: Node<InquiryNodeData>[],
+  nodes: Node<KnowledgeFlowNodeData>[],
   edges: Edge[],
-): Node<InquiryNodeData>[] {
+): Node<KnowledgeFlowNodeData>[] {
   if (nodes.length === 0) return nodes;
 
   const nodeById = new Map(nodes.map((n) => [n.id, n]));
@@ -28,9 +28,9 @@ export function layoutInquiryTree(
     hasParent.add(edge.target);
   }
 
-  // Fallback to parentId metadata if an edge was missing
+  // Fallback to parentNodeId if edge was not yet created
   for (const node of nodes) {
-    const pid = node.data.parentId;
+    const pid = node.data.parentNodeId;
     if (pid && nodeById.has(pid)) {
       const list = childrenMap.get(pid) ?? [];
       if (!list.includes(node.id)) {
@@ -119,7 +119,7 @@ export function layoutInquiryTree(
  */
 export function getActivePathIds(
   selectedNodeId: string | null,
-  nodes: Node<InquiryNodeData>[],
+  nodes: Node<KnowledgeFlowNodeData>[],
 ): string[] {
   if (!selectedNodeId) return [];
   const map = new Map(nodes.map((n) => [n.id, n]));
@@ -130,14 +130,14 @@ export function getActivePathIds(
   while (currentId && map.has(currentId) && !seen.has(currentId)) {
     seen.add(currentId);
     chain.unshift(currentId);
-    currentId = map.get(currentId)?.data.parentId ?? null;
+    currentId = map.get(currentId)?.data.parentNodeId ?? null;
   }
 
   return chain;
 }
 
 /**
- * Creates a styled ThinkForge graph edge connecting parent -> child question node.
+ * Creates a styled TATTVA graph edge connecting parent -> child question node.
  */
 export function createInquiryEdge(source: string, target: string, label?: string): Edge {
   return {
@@ -147,10 +147,10 @@ export function createInquiryEdge(source: string, target: string, label?: string
     type: 'smoothstep',
     label,
     animated: false,
-    style: { stroke: '#52796f', strokeWidth: 2 },
-    labelStyle: { fontSize: 11, fontWeight: 600, fill: '#2f3e46' },
-    labelBgStyle: { fill: '#ffffff', fillOpacity: 0.92 },
+    style: { stroke: '#c59a67', strokeWidth: 1.8 },
+    labelStyle: { fontSize: 10, fontWeight: 700, fill: '#c59a67', fontFamily: 'monospace' },
+    labelBgStyle: { fill: '#13161b', stroke: '#c59a67', strokeWidth: 0.8 },
     labelBgPadding: [6, 3],
-    labelBgBorderRadius: 6,
+    labelBgBorderRadius: 4,
   };
 }
