@@ -1,0 +1,302 @@
+@import 'tailwindcss';
+@import '@xyflow/react/dist/style.css';
+
+@theme {
+  --color-tattva-void: #0b0d0f;
+  --color-tattva-canvas: #0e1115;
+  --color-tattva-card: #13161b;
+  --color-tattva-elevated: #181b22;
+  --color-tattva-border: rgba(255, 255, 255, 0.08);
+  --color-tattva-border-strong: rgba(255, 255, 255, 0.15);
+  --color-tattva-gold: #c59a67;
+  --color-tattva-gold-hover: #d4a373;
+  --color-tattva-gold-subtle: rgba(197, 154, 103, 0.12);
+  --color-tattva-lime: #a3e635;
+  --color-tattva-lime-hover: #bef264;
+  --color-tattva-lime-subtle: rgba(163, 230, 53, 0.12);
+}
+
+:root,
+[data-theme='dark'] {
+  --bg-canvas: #0b0d0f;
+  --bg-surface: #13161b;
+  --bg-elevated: #181b22;
+  --bg-muted: #1e222a;
+  --bg-subtle: #15181f;
+  --text-primary: #f3f4f6;
+  --text-secondary: #94a3b8;
+  --text-muted: #64748b;
+  --border-primary: rgba(255, 255, 255, 0.08);
+  --border-strong: rgba(255, 255, 255, 0.14);
+  --accent-gold: #c59a67;
+  --accent-gold-hover: #d4a373;
+  --accent-gold-soft: rgba(197, 154, 103, 0.12);
+  --accent-lime: #a3e635;
+  --accent-lime-hover: #bef264;
+  --accent-lime-soft: rgba(163, 230, 53, 0.12);
+  --card-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.5), 0 1px 3px rgba(0, 0, 0, 0.4);
+}
+
+[data-theme='light'] {
+  --bg-canvas: #f4f6f4;
+  --bg-surface: #ffffff;
+  --bg-elevated: #ffffff;
+  --bg-muted: #eaf0e8;
+  --bg-subtle: #f0f4ef;
+  --text-primary: #2f3e46;
+  --text-secondary: #354f52;
+  --text-muted: #52796f;
+  --border-primary: #cad2c5;
+  --border-strong: #84a98c;
+  --accent-gold: #354f52;
+  --accent-gold-hover: #2f3e46;
+  --accent-gold-soft: rgba(82, 121, 111, 0.12);
+  --accent-lime: #2d5a4c;
+  --accent-lime-hover: #1d4d3e;
+  --accent-lime-soft: rgba(45, 90, 76, 0.12);
+  --card-shadow: 0 1px 3px rgba(47, 62, 70, 0.05), 0 10px 25px -5px rgba(47, 62, 70, 0.08);
+  --node-shadow: 0 4px 16px -2px rgba(47, 62, 70, 0.1), 0 1px 3px rgba(47, 62, 70, 0.05);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  background-color: var(--bg-canvas);
+}
+
+body {
+  background-color: var(--bg-canvas);
+  color: var(--text-primary);
+  font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+.font-serif-tattva {
+  font-family: 'Newsreader', 'Instrument Serif', Georgia, serif;
+}
+
+.font-mono-telemetry {
+  font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
+}
+
+/* Subtle UI surface transitions */
+button,
+a,
+input,
+select,
+textarea {
+  transition-property: color, background-color, border-color, box-shadow, opacity, transform;
+  transition-duration: 180ms;
+  transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* React Flow Dark Styling */
+.react-flow__controls {
+  border: 1px solid var(--border-primary) !important;
+  background: var(--bg-elevated) !important;
+  box-shadow: var(--card-shadow) !important;
+  border-radius: 12px !important;
+  overflow: hidden;
+}
+
+.react-flow__controls-button {
+  background: var(--bg-elevated) !important;
+  border-bottom: 1px solid var(--border-primary) !important;
+  color: var(--text-primary) !important;
+  fill: var(--text-primary) !important;
+  width: 30px !important;
+  height: 30px !important;
+}
+
+.react-flow__controls-button:hover {
+  background: var(--bg-muted) !important;
+}
+
+.react-flow__minimap {
+  background: var(--bg-elevated) !important;
+  border: 1px solid var(--border-strong) !important;
+  border-radius: 12px !important;
+  box-shadow: var(--card-shadow) !important;
+  overflow: hidden;
+}
+
+/* Scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-canvas);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border-strong);
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-muted);
+}
+
+/* =========================================================================
+   LIGHT MODE OVERRIDES: Seamlessly Restores Previous Sage/Paper Aesthetic
+   ========================================================================= */
+[data-theme='light'] body,
+[data-theme='light'] #root {
+  background-color: #f4f6f4 !important;
+  color: #2f3e46 !important;
+}
+
+/* Dark utility mapping to light sage/white */
+[data-theme='light'] .bg-\[\#0b0d0f\] {
+  background-color: #f4f6f4 !important;
+}
+[data-theme='light'] .bg-\[\#0e1115\] {
+  background-color: #edf2ed !important;
+}
+[data-theme='light'] .bg-\[\#13161b\] {
+  background-color: #ffffff !important;
+  box-shadow: 0 1px 3px rgba(47, 62, 70, 0.05), 0 4px 14px -3px rgba(47, 62, 70, 0.07) !important;
+}
+[data-theme='light'] .bg-\[\#181b22\] {
+  background-color: #f0f4ef !important;
+}
+[data-theme='light'] .bg-\[\#1e222a\] {
+  background-color: #eaf0e8 !important;
+}
+
+/* Header & Sidebar Specifics */
+[data-theme='light'] header {
+  background-color: #ffffff !important;
+  border-bottom: 1px solid #cad2c5 !important;
+}
+[data-theme='light'] aside {
+  background-color: #ffffff !important;
+  border-right: 1px solid #cad2c5 !important;
+}
+[data-theme='light'] aside .bg-\[\#181b22\] {
+  background-color: #354f52 !important;
+  color: #ffffff !important;
+  border-color: #354f52 !important;
+}
+[data-theme='light'] aside .bg-\[\#181b22\] span,
+[data-theme='light'] aside .bg-\[\#181b22\] svg {
+  color: #ffffff !important;
+}
+[data-theme='light'] aside button:hover:not(.bg-\[\#181b22\]) {
+  background-color: #eaf0e8 !important;
+  color: #2f3e46 !important;
+}
+
+/* Borders */
+[data-theme='light'] .border-white\/10,
+[data-theme='light'] .border-white\/15,
+[data-theme='light'] .border-white\/20,
+[data-theme='light'] .border-white\/5 {
+  border-color: #cad2c5 !important;
+}
+
+/* Typography Colors */
+[data-theme='light'] .text-white {
+  color: #2f3e46 !important;
+}
+[data-theme='light'] .text-slate-100,
+[data-theme='light'] .text-slate-200 {
+  color: #2f3e46 !important;
+}
+[data-theme='light'] .text-slate-300 {
+  color: #354f52 !important;
+}
+[data-theme='light'] .text-slate-400 {
+  color: #52796f !important;
+}
+[data-theme='light'] .text-slate-500 {
+  color: #668e7d !important;
+}
+
+/* Gold / Tan Accent mappings in light mode -> Rich Forest Teal */
+[data-theme='light'] .text-\[\#c59a67\] {
+  color: #354f52 !important;
+}
+[data-theme='light'] .bg-\[\#c59a67\] {
+  background-color: #354f52 !important;
+  color: #ffffff !important;
+}
+[data-theme='light'] .border-\[\#c59a67\],
+[data-theme='light'] .border-\[\#c59a67\]\/40,
+[data-theme='light'] .border-\[\#c59a67\]\/30,
+[data-theme='light'] .border-\[\#c59a67\]\/20 {
+  border-color: #84a98c !important;
+}
+[data-theme='light'] .bg-\[\#c59a67\]\/10,
+[data-theme='light'] .bg-\[\#c59a67\]\/15,
+[data-theme='light'] .bg-\[\#c59a67\]\/20 {
+  background-color: rgba(82, 121, 111, 0.12) !important;
+}
+
+/* Lime Matrix mappings in light mode -> Emerald Sage */
+[data-theme='light'] .text-\[\#a3e635\] {
+  color: #2d5a4c !important;
+}
+[data-theme='light'] .bg-\[\#a3e635\] {
+  background-color: #2d5a4c !important;
+}
+[data-theme='light'] .bg-\[\#a3e635\]\/10,
+[data-theme='light'] .bg-\[\#a3e635\]\/15,
+[data-theme='light'] .bg-\[\#a3e635\]\/20 {
+  background-color: rgba(45, 90, 76, 0.12) !important;
+}
+[data-theme='light'] .border-\[\#a3e635\]\/30,
+[data-theme='light'] .border-\[\#a3e635\]\/40 {
+  border-color: #84a98c !important;
+}
+[data-theme='light'] .shadow-\[0_0_8px_\#a3e635\] {
+  box-shadow: 0 0 6px rgba(45, 90, 76, 0.4) !important;
+}
+
+/* Active Nav Underline in Light Mode */
+[data-theme='light'] after\:bg-\[\#c59a67\]::after {
+  background-color: #354f52 !important;
+}
+
+/* Inputs & Form controls in Light Mode */
+[data-theme='light'] input,
+[data-theme='light'] textarea,
+[data-theme='light'] select {
+  background-color: #ffffff !important;
+  color: #2f3e46 !important;
+  border-color: #cad2c5 !important;
+}
+[data-theme='light'] input::placeholder,
+[data-theme='light'] textarea::placeholder {
+  color: #84a98c !important;
+}
+
+/* Hovers */
+[data-theme='light'] .hover\:bg-white\/5:hover {
+  background-color: #eaf0e8 !important;
+}
+[data-theme='light'] .hover\:bg-white\/10:hover {
+  background-color: #e4eae2 !important;
+}
+[data-theme='light'] .hover\:text-white:hover {
+  color: #161e22 !important;
+}
+
+/* Resume Inquiry and CTA Buttons retain crisp white text in Light Mode */
+[data-theme='light'] button.bg-\[\#c59a67\] {
+  color: #ffffff !important;
+}
+
+/* Knowledge Graph Radial Dots in Light Mode */
+[data-theme='light'] .select-none.min-h-\[420px\] > div.absolute.opacity-20 {
+  background-image: radial-gradient(rgba(47, 62, 70, 0.3) 1px, transparent 1px) !important;
+}
