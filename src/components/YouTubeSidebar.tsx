@@ -5,6 +5,7 @@ import {
   Cpu,
   Database,
   Home,
+  Layers,
   Network,
   PlaySquare,
   PlusCircle,
@@ -44,6 +45,12 @@ export const YouTubeSidebar: React.FC<YouTubeSidebarProps> = ({
       id: 'home',
       label: 'Overview',
       icon: <Home className="w-4 h-4 shrink-0" />,
+    },
+    {
+      id: 'tattva200',
+      label: 'Tattva 200',
+      icon: <Layers className="w-4 h-4 shrink-0 text-[#c59a67]" />,
+      badge: '200',
     },
     {
       id: 'create',

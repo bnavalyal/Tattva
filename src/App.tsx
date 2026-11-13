@@ -31,6 +31,7 @@ import { EngineeringVideosView } from './components/EngineeringVideosView';
 import { HomeDashboardView } from './components/HomeDashboardView';
 import { ProfileRewardsView } from './components/ProfileRewardsView';
 import { SourceWorkspaceView } from './components/SourceWorkspaceView';
+import { Tattva200GauntletView } from './components/Tattva200GauntletView';
 import { TopNavBar } from './components/TopNavBar';
 import { VideoPlayerModal } from './components/VideoPlayerModal';
 import { YouTubeSidebar } from './components/YouTubeSidebar';
@@ -769,6 +770,19 @@ export function App() {
                 setActiveStudioSourceId(sourceId);
                 setActiveView('workspace');
               }}
+              onEnrollSource={(sourceId) => {
+                setActiveStudioSourceId(sourceId);
+              }}
+            />
+          )}
+
+          {activeView === 'tattva200' && (
+            <Tattva200GauntletView
+              onOpenSourceInStudio={(sourceId) => {
+                setActiveStudioSourceId(sourceId);
+                setActiveView('workspace');
+              }}
+              onNavigateToHome={() => setActiveView('home')}
             />
           )}
 
@@ -799,6 +813,7 @@ export function App() {
             <SourceWorkspaceView
               sources={studySources}
               activeSourceId={activeStudioSourceId}
+              onNavigateToHome={() => setActiveView('home')}
               onUpdateSource={(updated) => {
                 setStudySources((prev) =>
                   prev.map((s) => (s.id === updated.id ? updated : s)),

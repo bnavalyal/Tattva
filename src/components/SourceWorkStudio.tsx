@@ -12,6 +12,7 @@ import {
   X,
   Layers,
   Award,
+  ShieldAlert,
   ZoomIn,
   ZoomOut,
   Sparkles,
@@ -43,6 +44,11 @@ export const SourceWorkStudio: React.FC<SourceWorkStudioProps> = ({
   const [newNoteCategory, setNewNoteCategory] = useState<SourceNote['category']>('Custom Note');
   const [newNoteContent, setNewNoteContent] = useState('');
   const [socraticInput, setSocraticInput] = useState('');
+  const [researchMode, setResearchMode] = useState<boolean>(true);
+  const [activeTrap, setActiveTrap] = useState<{
+    scenario: string;
+    resolution: string;
+  } | null>(null);
 
   // Selected node details
   const selectedNode = useMemo(() => {
@@ -257,41 +263,62 @@ export const SourceWorkStudio: React.FC<SourceWorkStudioProps> = ({
             </div>
           </div>
 
-          {/* Mastery Indicator Box */}
-          <div className="flex items-center gap-4 bg-[#13161b] border border-white/10 rounded-xl px-4 py-2 shadow-sm">
-            <div>
-              <div className="flex items-center justify-between gap-4">
-                <span className="text-[10px] font-mono tracking-widest text-slate-400 uppercase">
-                  TOPIC IN-AND-OUT MASTERY
-                </span>
-                <span className="font-mono text-xs font-bold text-[#c59a67]">
-                  {masteryStats.compositeScore}% · {masteryStats.level}
-                </span>
-              </div>
-              <div className="w-48 bg-white/10 rounded-full h-1.5 mt-1.5 overflow-hidden">
-                <div
-                  className="bg-[#c59a67] h-full rounded-full transition-all duration-500 ease-out"
-                  style={{ width: `${masteryStats.compositeScore}%` }}
-                />
-              </div>
-            </div>
+          <div className="flex items-center gap-3">
+            {/* PRD §7: Physical [Research Mode] Switch */}
+            <button
+              type="button"
+              onClick={() => setResearchMode((prev) => !prev)}
+              title="PRD §7: The Training Weights. Direct answers forbidden; awards 3x Cognitive Stamina."
+              className={`flex items-center gap-2 rounded-xl border px-3 py-2 font-mono text-xs font-bold transition cursor-pointer ${
+                researchMode
+                  ? 'border-[#a3e635]/60 bg-[#a3e635]/15 text-[#a3e635] shadow-[0_0_12px_rgba(163,230,53,0.2)]'
+                  : 'border-white/10 bg-[#13161b] text-slate-400 hover:text-white'
+              }`}
+            >
+              <div
+                className={`w-2 h-2 rounded-full ${
+                  researchMode ? 'bg-[#a3e635] animate-pulse' : 'bg-slate-600'
+                }`}
+              />
+              <span>RESEARCH MODE: {researchMode ? 'ACTIVE (3x)' : 'OFF'}</span>
+            </button>
 
-            <div className="h-7 w-px bg-white/10" />
-
-            <div className="flex items-center gap-3 text-xs font-mono">
-              <div className="text-center">
-                <div className="font-bold text-[#a3e635]">{masteryStats.masteredNodes}</div>
-                <div className="text-[9px] text-slate-400">Mastered</div>
-              </div>
-              <div className="text-center">
-                <div className="font-bold text-[#c59a67]">{masteryStats.inProgressNodes}</div>
-                <div className="text-[9px] text-slate-400">In Progress</div>
-              </div>
-              <div className="text-center">
-                <div className="font-bold text-white">
-                  {masteryStats.passedQuizzes}/{masteryStats.totalQuizzes}
+            {/* Mastery Indicator Box */}
+            <div className="flex items-center gap-4 bg-[#13161b] border border-white/10 rounded-xl px-4 py-2 shadow-sm">
+              <div>
+                <div className="flex items-center justify-between gap-4">
+                  <span className="text-[10px] font-mono tracking-widest text-slate-400 uppercase">
+                    TOPIC IN-AND-OUT MASTERY
+                  </span>
+                  <span className="font-mono text-xs font-bold text-[#c59a67]">
+                    {masteryStats.compositeScore}% · {masteryStats.level}
+                  </span>
                 </div>
-                <div className="text-[9px] text-slate-400">Quiz Passed</div>
+                <div className="w-48 bg-white/10 rounded-full h-1.5 mt-1.5 overflow-hidden">
+                  <div
+                    className="bg-[#c59a67] h-full rounded-full transition-all duration-500 ease-out"
+                    style={{ width: `${masteryStats.compositeScore}%` }}
+                  />
+                </div>
+              </div>
+
+              <div className="h-7 w-px bg-white/10" />
+
+              <div className="flex items-center gap-3 text-xs font-mono">
+                <div className="text-center">
+                  <div className="font-bold text-[#a3e635]">{masteryStats.masteredNodes}</div>
+                  <div className="text-[9px] text-slate-400">Mastered</div>
+                </div>
+                <div className="text-center">
+                  <div className="font-bold text-[#c59a67]">{masteryStats.inProgressNodes}</div>
+                  <div className="text-[9px] text-slate-400">In Progress</div>
+                </div>
+                <div className="text-center">
+                  <div className="font-bold text-white">
+                    {masteryStats.passedQuizzes}/{masteryStats.totalQuizzes}
+                  </div>
+                  <div className="text-[9px] text-slate-400">Quiz Passed</div>
+                </div>
               </div>
             </div>
           </div>
@@ -1000,26 +1027,78 @@ export const SourceWorkStudio: React.FC<SourceWorkStudioProps> = ({
             )}
           </div>
 
-          {/* BOTTOM SOCRATIC INQUIRY BAR (Mirroring Screenshot 2) */}
+          {/* BOTTOM SOCRATIC INQUIRY BAR (PRD §3 & §5) */}
           <div className="border-t border-white/10 bg-[#0b0d0f] p-4 space-y-3 shrink-0">
+            {/* PRD §5: High-Visibility Adversarial AI Trap Alert */}
+            {activeTrap && (
+              <div className="rounded-xl border border-red-500/60 bg-red-950/60 p-4 space-y-3 animate-fadeIn shadow-2xl">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <ShieldAlert className="w-4 h-4 text-red-400" />
+                    <span className="font-mono text-xs font-bold text-red-300 uppercase tracking-wider">
+                      BE CAREFUL HERE!! (PRD §5 Adversarial Trap)
+                    </span>
+                  </div>
+                  <span className="font-mono text-[9px] font-bold uppercase text-red-200 bg-red-900/60 px-2 py-0.5 rounded border border-red-500/40">
+                    Input Locked
+                  </span>
+                </div>
+
+                <p className="text-xs text-red-200 leading-relaxed font-sans">
+                  {activeTrap.scenario}
+                </p>
+
+                <div className="pt-2 border-t border-red-500/30 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                  <span className="text-[11px] font-mono text-red-300">
+                    Invariant: {activeTrap.resolution}
+                  </span>
+                  <button
+                    type="button"
+                    onClick={() => setActiveTrap(null)}
+                    className="rounded-lg bg-red-500 px-3.5 py-1.5 font-mono text-xs font-bold text-black hover:bg-red-400 transition cursor-pointer shrink-0"
+                  >
+                    OVERCOME TRAP &amp; UNLOCK →
+                  </button>
+                </div>
+              </div>
+            )}
+
             {/* Socratic Dialogue Prompt Text */}
             <div className="text-xs text-slate-300 leading-relaxed font-sans">
-              prove about an allocation for it to be arena-eligible without programmer annotation? Compare against jemalloc&apos;s size-class design docs and derive the trade-off yourself before checking the citation.
+              {researchMode ? (
+                <span className="text-[#a3e635] font-mono text-[11px] block mb-1">
+                  [ RESEARCH MODE ENGAGED: Socratic Scaffolding &bull; Direct Answers Forbidden ]
+                </span>
+              ) : null}
+              What would escape analysis need to prove about an allocation for it to be arena-eligible without programmer annotation? Compare against jemalloc&apos;s size-class design docs and derive the trade-off yourself before checking the citation.
             </div>
 
-            {/* Socratic Follow-up Chips */}
+            {/* Socratic Follow-up Chips (§3: Exactly three adaptive meta-questions) */}
             <div className="space-y-1">
-              <span className="font-mono text-[9px] tracking-widest text-slate-500 uppercase">FOLLOW-UPS</span>
+              <span className="font-mono text-[9px] tracking-widest text-slate-500 uppercase">
+                ADAPTIVE FOLLOW-UPS (PRD §3)
+              </span>
               <div className="flex flex-wrap gap-2">
                 {[
                   'What would escape analysis need to prove here?',
                   'Where does jemalloc document its size classes?',
-                  'What is the Socratic counter-question for a wrong guess?',
+                  'What if the client tries to individually free an allocation in the arena?',
                 ].map((chip, i) => (
                   <button
                     key={i}
                     type="button"
-                    onClick={() => setSocraticInput(chip)}
+                    onClick={() => {
+                      if (chip.includes('free')) {
+                        setActiveTrap({
+                          scenario:
+                            'Potential Memory Invariant Violation: Arena allocators do not track per-object metadata. Attempting to free an individual allocation mid-stream invalidates all subsequent arena allocations.',
+                          resolution:
+                            'In an arena allocator, all deallocations are batched into a reset (bump_ptr = 0). Per-object lifetime tracking belongs in a free-list or jemalloc size class.',
+                        });
+                      } else {
+                        setSocraticInput(chip);
+                      }
+                    }}
                     className="rounded border border-white/10 bg-[#13161b] px-2.5 py-1 text-[11px] font-mono text-slate-300 hover:border-[#c59a67]/60 hover:text-white transition cursor-pointer"
                   >
                     {chip}
@@ -1032,20 +1111,48 @@ export const SourceWorkStudio: React.FC<SourceWorkStudioProps> = ({
             <form
               onSubmit={(e) => {
                 e.preventDefault();
+                if (!socraticInput.trim()) return;
+
+                const lower = socraticInput.toLowerCase();
+                if (
+                  lower.includes('free') ||
+                  lower.includes('delete') ||
+                  lower.includes('individual') ||
+                  lower.includes('deadlock')
+                ) {
+                  setActiveTrap({
+                    scenario:
+                      'Potential Memory Invariant Violation: Arena allocators do not track per-object metadata. Attempting to free an individual allocation mid-stream invalidates all subsequent arena allocations.',
+                    resolution:
+                      'In an arena allocator, all deallocations are batched into a reset (bump_ptr = 0). Per-object lifetime tracking belongs in a free-list or jemalloc size class.',
+                  });
+                }
                 setSocraticInput('');
               }}
               className="flex items-center gap-2 pt-1"
             >
               <input
                 type="text"
+                disabled={Boolean(activeTrap)}
                 value={socraticInput}
                 onChange={(e) => setSocraticInput(e.target.value)}
-                placeholder="Ask a technical question about the source material..."
-                className="flex-1 rounded-xl border border-white/10 bg-[#13161b] px-4 py-2 text-xs text-white placeholder-slate-500 outline-none focus:border-[#c59a67]/60 font-sans"
+                placeholder={
+                  activeTrap
+                    ? 'Input locked: resolve the adversarial trap above to continue...'
+                    : 'Ask a technical question about the source material...'
+                }
+                className={`flex-1 rounded-xl border border-white/10 bg-[#13161b] px-4 py-2 text-xs text-white placeholder-slate-500 outline-none focus:border-[#c59a67]/60 font-sans ${
+                  activeTrap ? 'opacity-50 cursor-not-allowed' : ''
+                }`}
               />
               <button
                 type="submit"
-                className="rounded-xl border border-white/15 bg-[#181b22] px-4 py-2 font-mono text-xs font-bold text-slate-200 hover:text-white hover:border-[#c59a67] transition cursor-pointer"
+                disabled={Boolean(activeTrap)}
+                className={`rounded-xl border border-white/15 bg-[#181b22] px-4 py-2 font-mono text-xs font-bold text-slate-200 transition ${
+                  activeTrap
+                    ? 'opacity-50 cursor-not-allowed'
+                    : 'hover:text-white hover:border-[#c59a67] cursor-pointer'
+                }`}
               >
                 ASK
               </button>

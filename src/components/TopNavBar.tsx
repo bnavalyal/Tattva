@@ -134,8 +134,12 @@ export const TopNavBar: React.FC<TopNavBarProps> = ({
 
           <button
             type="button"
-            onClick={() => onChangeView('home')}
-            className="text-slate-400 hover:text-slate-200 transition cursor-pointer"
+            onClick={() => onChangeView('tattva200')}
+            className={`py-1 transition relative cursor-pointer ${
+              activeView === 'tattva200'
+                ? 'text-white font-semibold after:absolute after:bottom-[-18px] after:left-0 after:right-0 after:h-[2px] after:bg-[#c59a67]'
+                : 'text-slate-400 hover:text-slate-200'
+            }`}
           >
             Tattva 200
           </button>

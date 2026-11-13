@@ -2,16 +2,15 @@ import React, { useMemo, useState } from 'react';
 import {
   ArrowRight,
   Award,
-  BookOpen,
   CheckCircle2,
+  Clock,
   Code2,
   Edit3,
-  HelpCircle,
   History,
-  Layers,
   Moon,
   Save,
   Search,
+  ShieldAlert,
   Sun,
 } from 'lucide-react';
 import type {
@@ -205,8 +204,12 @@ export const ProfileRewardsView: React.FC<ProfileRewardsViewProps> = ({
 
           <div className="flex items-center gap-3">
             <div className="rounded-xl border border-white/10 bg-[#181b22] px-3.5 py-1.5 text-right font-mono">
-              <span className="block text-[10px] uppercase text-slate-500">COGNITIVE STAMINA</span>
-              <span className="text-sm font-bold text-[#a3e635]">{(348 + curiosityCredits).toLocaleString()}</span>
+              <span className="block text-[9px] uppercase tracking-wider text-slate-500">B2B COGNITIVE STAMINA</span>
+              <div className="flex items-center justify-end gap-1.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#a3e635]" />
+                <span className="text-sm font-bold text-[#a3e635]">{(348 + curiosityCredits).toLocaleString()}</span>
+                <span className="text-[10px] text-slate-400">PTS</span>
+              </div>
             </div>
 
             <button
@@ -221,7 +224,7 @@ export const ProfileRewardsView: React.FC<ProfileRewardsViewProps> = ({
               className="inline-flex items-center gap-1.5 rounded-xl border border-white/10 bg-[#181b22] px-3.5 py-2 text-xs font-semibold text-slate-300 hover:text-white hover:border-[#c59a67]/60 transition cursor-pointer"
             >
               <Edit3 className="h-3.5 w-3.5" />
-              <span>{isEditingProfile ? 'Cancel' : 'Edit Profile'}</span>
+              <span>{isEditingProfile ? 'Cancel' : 'Edit Dossier'}</span>
             </button>
           </div>
         </div>
@@ -334,49 +337,49 @@ export const ProfileRewardsView: React.FC<ProfileRewardsViewProps> = ({
         </div>
       </div>
 
-      {/* 2. PERFORMANCE METRIC CARDS */}
+      {/* 2. B2B ENTERPRISE TELEMETRY METRIC CARDS (PRD §10) */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
         <div className="rounded-2xl border border-white/10 bg-[#13161b] p-5 shadow-xl space-y-1">
           <div className="flex items-center justify-between text-slate-400 font-mono">
-            <span className="text-[10px] uppercase tracking-wider">Topic Mastery</span>
+            <span className="text-[10px] uppercase tracking-wider">Total Cognitive Labor</span>
+            <Clock className="w-4 h-4 text-[#c59a67]" />
+          </div>
+          <div className="font-mono text-2xl sm:text-3xl font-extrabold text-white">42.5 hrs</div>
+          <div className="text-[10px] font-mono text-[#a3e635]">
+            ● Verified in &ge;25m Crucibles
+          </div>
+        </div>
+
+        <div className="rounded-2xl border border-white/10 bg-[#13161b] p-5 shadow-xl space-y-1">
+          <div className="flex items-center justify-between text-slate-400 font-mono">
+            <span className="text-[10px] uppercase tracking-wider">Research Mode Rigor</span>
             <Award className="w-4 h-4 text-[#c59a67]" />
           </div>
-          <div className="font-mono text-2xl sm:text-3xl font-extrabold text-white">86%</div>
+          <div className="font-mono text-2xl sm:text-3xl font-extrabold text-white">84%</div>
           <div className="text-[10px] font-mono text-[#a3e635]">
-            ● Verified across 6 sources
+            3x Multiplier Active Sessions
           </div>
         </div>
 
         <div className="rounded-2xl border border-white/10 bg-[#13161b] p-5 shadow-xl space-y-1">
           <div className="flex items-center justify-between text-slate-400 font-mono">
-            <span className="text-[10px] uppercase tracking-wider">Active Quizzes</span>
-            <HelpCircle className="w-4 h-4 text-[#c59a67]" />
+            <span className="text-[10px] uppercase tracking-wider">Attested Invariants</span>
+            <CheckCircle2 className="w-4 h-4 text-[#a3e635]" />
           </div>
-          <div className="font-mono text-2xl sm:text-3xl font-extrabold text-white">18 / 22</div>
+          <div className="font-mono text-2xl sm:text-3xl font-extrabold text-white">16 Proven</div>
+          <div className="text-[10px] font-mono text-slate-400">
+            Append-Only Hashes
+          </div>
+        </div>
+
+        <div className="rounded-2xl border border-white/10 bg-[#13161b] p-5 shadow-xl space-y-1">
+          <div className="flex items-center justify-between text-slate-400 font-mono">
+            <span className="text-[10px] uppercase tracking-wider">Adversarial Traps</span>
+            <ShieldAlert className="w-4 h-4 text-[#c59a67]" />
+          </div>
+          <div className="font-mono text-2xl sm:text-3xl font-extrabold text-white">7 / 7</div>
           <div className="text-[10px] font-mono text-[#a3e635]">
-            82% First-attempt accuracy
-          </div>
-        </div>
-
-        <div className="rounded-2xl border border-white/10 bg-[#13161b] p-5 shadow-xl space-y-1">
-          <div className="flex items-center justify-between text-slate-400 font-mono">
-            <span className="text-[10px] uppercase tracking-wider">Knowledge Nodes</span>
-            <Layers className="w-4 h-4 text-[#c59a67]" />
-          </div>
-          <div className="font-mono text-2xl sm:text-3xl font-extrabold text-white">28 Verified</div>
-          <div className="text-[10px] font-mono text-slate-400">
-            Mastered in Knowledge Graphs
-          </div>
-        </div>
-
-        <div className="rounded-2xl border border-white/10 bg-[#13161b] p-5 shadow-xl space-y-1">
-          <div className="flex items-center justify-between text-slate-400 font-mono">
-            <span className="text-[10px] uppercase tracking-wider">Research Items</span>
-            <BookOpen className="w-4 h-4 text-[#c59a67]" />
-          </div>
-          <div className="font-mono text-2xl sm:text-3xl font-extrabold text-white">18 Items</div>
-          <div className="text-[10px] font-mono text-slate-400">
-            4 Papers · 14 Study Notes
+            100% Trap Survival Rate
           </div>
         </div>
       </div>
@@ -505,14 +508,19 @@ export const ProfileRewardsView: React.FC<ProfileRewardsViewProps> = ({
         </div>
       </div>
 
-      {/* 5. STUDY LEDGER & INQUIRIES */}
+      {/* 5. IMMUTABLE B2B AUDIT LEDGER (PRD §10) */}
       <div className="rounded-2xl border border-white/10 bg-[#13161b] p-6 shadow-2xl space-y-5">
         <div className="flex flex-wrap items-center justify-between gap-3 border-b border-white/10 pb-4">
-          <div className="flex items-center gap-2">
-            <History className="h-4 w-4 text-[#c59a67]" />
-            <h2 className="text-base sm:text-lg font-bold text-white uppercase tracking-wider font-sans">
-              Study Milestone Ledger
-            </h2>
+          <div>
+            <div className="flex items-center gap-2">
+              <History className="h-4 w-4 text-[#c59a67]" />
+              <h2 className="text-base sm:text-lg font-bold text-white uppercase tracking-wider font-sans">
+                WalletTransactions: Append-Only Telemetry Ledger
+              </h2>
+            </div>
+            <p className="text-xs text-slate-400 mt-0.5 font-mono">
+              PRD §10: Cryptographically un-fakeable hours of deep execution queried by enterprise recruiters.
+            </p>
           </div>
 
           <div className="inline-flex rounded-lg border border-white/10 bg-[#0e1115] p-0.5 text-xs font-mono">
@@ -525,7 +533,7 @@ export const ProfileRewardsView: React.FC<ProfileRewardsViewProps> = ({
                   : 'text-slate-400 hover:text-white'
               }`}
             >
-              All Milestones ({transactions.length})
+              All Audit Entries ({transactions.length})
             </button>
             <button
               type="button"

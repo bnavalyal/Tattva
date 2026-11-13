@@ -1,6 +1,13 @@
 import { Edge, Node } from '@xyflow/react';
 
-export type AppView = 'home' | 'create' | 'workspace' | 'videos' | 'community' | 'profile';
+export type AppView =
+  | 'home'
+  | 'create'
+  | 'workspace'
+  | 'videos'
+  | 'community'
+  | 'profile'
+  | 'tattva200';
 
 export interface EngineeringVideo {
   id: string;
